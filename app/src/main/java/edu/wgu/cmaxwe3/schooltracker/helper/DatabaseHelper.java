@@ -1,0 +1,171 @@
+package edu.wgu.cmaxwe3.schooltracker.helper;
+
+import android.content.ContentValues;
+import android.content.Context;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
+
+import edu.wgu.cmaxwe3.schooltracker.model.Mentor;
+
+public class DatabaseHelper extends SQLiteOpenHelper {
+
+    // logcat tag
+    private static final String LOG = "DatabaseHelper";
+
+    // database version
+    private static final int VERSION = 1;
+
+    // database name
+    private static final String DATABASE_NAME = "SchoolTracker";
+
+    // table names
+    private static final String TABLE_ASSESSMENT = "assessment";
+    private static final String TABLE_COURSE = "course";
+    private static final String TABLE_MENTOR = "mentor";
+    private static final String TABLE_TERM = "term";
+
+
+//    // common column names
+//    private static final String KEY_ID = "id";
+//    private static final String KEY_CREATED_AT = "created_at"; // i'm not sure my implementation needs this
+
+    // Assessment table - column names
+
+    // Assessment table - column names
+    public static final String KEY_ASSESSMENT_ID = "id";
+    public static final String KEY_ASSESSMENT_TYPE = "type";
+    public static final String KEY_ASSESSMENT_TITLE = "title";
+    public static final String KEY_ASSESSMENT_DUE_DATE = "due_date";
+    public static final String KEY_ASSESSMENT_GOAL_DATE = "goal_date";
+    public static final String KEY_ASSESSMENT_GOAL_DATE_ALERT = "goal_date_alert";
+    public static final String KEY_ASSESSMENT_COURSE_ID = "course_id";
+
+    // course table - column names
+    public static final String KEY_COURSE_ID = "id";
+    public static final String KEY_COURSE_TITLE = "title";
+    public static final String KEY_COURSE_STATUS = "status";
+    public static final String KEY_COURSE_START_DATE = "start_date";
+    public static final String KEY_COURSE_START_DATE_ALERT = "start_date_alert";
+    public static final String KEY_COURSE_END_DATE = "end_date";
+    public static final String KEY_COURSE_END_DATE_ALERT = "end_date_alert";
+    public static final String KEY_COURSE_NOTES = "notes";
+    public static final String KEY_COURSE_TERM_ID = "term_id";
+
+    // Mentor table - column names
+    public static final String KEY_MENTOR_ID = "id";
+    public static final String KEY_MENTOR_NAME = "name";
+    public static final String KEY_MENTOR_PHONE = "phone";
+    public static final String KEY_MENTOR_EMAIL = "email";
+    public static final String KEY_MENTOR_COURSE_ID = "course_id";
+
+    // Term table - column names
+    public static final String KEY_TERM_ID = "id";
+    public static final String KEY_TERM_TITLE = "title";
+    public static final String KEY_TERM_START_DATE = "start_date";
+    public static final String KEY_TERM_END_DATE = "end_date";
+
+
+    // SQL to create tables
+
+    // STEP 1
+    private static final String CREATE_TABLE_TERM =
+            "CREATE TABLE " + TABLE_TERM + " (" +
+//                    KEY_TERM_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                    KEY_TERM_ID + " INTEGER PRIMARY KEY, " +
+                    KEY_TERM_TITLE + " TEXT, " +
+                    KEY_TERM_START_DATE + " DATETIME, " +
+                    KEY_TERM_END_DATE + " DATETIME" +
+                    ")";
+
+    // STEP 2
+    private static final String CREATE_TABLE_COURSE =
+            "CREATE TABLE " + TABLE_COURSE + " (" +
+//                    KEY_COURSE_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                    KEY_COURSE_ID + " INTEGER PRIMARY KEY, " +
+                    KEY_COURSE_TITLE + " TEXT, " +
+                    KEY_COURSE_STATUS + " TEXT, " +
+                    KEY_COURSE_START_DATE + " DATETIME, " +
+                    KEY_COURSE_START_DATE_ALERT + " INTEGER, " +
+                    KEY_COURSE_END_DATE + " DATETIME, " +
+                    KEY_COURSE_END_DATE_ALERT + " INTEGER, " +
+                    KEY_COURSE_NOTES + " TEXT, " +
+                    KEY_COURSE_TERM_ID + " INTEGER, " +
+                    "FOREIGN KEY (" + KEY_COURSE_TERM_ID + " ) REFERENCES "
+                    + TABLE_TERM + "(" + KEY_TERM_ID + ")" +
+                    ")";
+
+    // STEP 3
+    private static final String CREATE_TABLE_ASSESSMENT =
+            "CREATE TABLE " + TABLE_ASSESSMENT + " (" +
+//                    KEY_ASSESSMENT_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                    KEY_ASSESSMENT_ID + " INTEGER PRIMARY KEY, " +
+                    KEY_ASSESSMENT_TYPE + " INTEGER, " +
+                    KEY_ASSESSMENT_TITLE + " TEXT, " +
+                    KEY_ASSESSMENT_DUE_DATE + " DATETIME, " +
+                    KEY_ASSESSMENT_GOAL_DATE + " DATETIME, " +
+                    KEY_ASSESSMENT_GOAL_DATE_ALERT + " INTEGER, " +
+                    KEY_ASSESSMENT_COURSE_ID + " INTEGER, " +
+                    "FOREIGN KEY (" + KEY_ASSESSMENT_COURSE_ID + " ) REFERENCES "
+                    + TABLE_COURSE + "(" + KEY_COURSE_ID +  ")" +
+                    ")";
+
+    // STEP 4
+    private static final String CREATE_TABLE_MENTOR =
+            "CREATE TABLE " + TABLE_MENTOR + " (" +
+//                    KEY_MENTOR_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                    KEY_MENTOR_ID + " INTEGER PRIMARY KEY, " +
+                    KEY_MENTOR_NAME + " TEXT, " +
+                    KEY_MENTOR_PHONE + " TEXT, " +
+                    KEY_MENTOR_EMAIL + " TEXT, " +
+                    KEY_MENTOR_COURSE_ID + " INTEGER, " +
+                    "FOREIGN KEY (" + KEY_MENTOR_COURSE_ID + ") REFERENCES "
+                    + TABLE_COURSE + "(" + KEY_COURSE_ID +  ")" +
+                    ")";
+
+
+    // constructor
+    public DatabaseHelper(Context context) {
+        super(context, DATABASE_NAME, null, VERSION);
+    }
+
+
+    @Override
+    public void onCreate(SQLiteDatabase db) {
+        db.execSQL(CREATE_TABLE_TERM);
+        db.execSQL(CREATE_TABLE_COURSE);
+        db.execSQL(CREATE_TABLE_ASSESSMENT);
+        db.execSQL(CREATE_TABLE_MENTOR);
+    }
+
+    @Override
+    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        // drop all tables
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_MENTOR);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_ASSESSMENT);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_COURSE);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_TERM);
+
+        // create new tables
+        onCreate(db);
+
+    }
+
+    public long createMentor(Mentor mentor){
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(KEY_MENTOR_NAME, mentor.getName());
+        values.put(KEY_MENTOR_EMAIL, mentor.getEmail());
+        values.put(KEY_MENTOR_PHONE, mentor.getPhone());
+
+        // insert row
+        long mentor_id = db.insert(TABLE_MENTOR, null, values);
+
+        Log.d("createMentor", "mentor added at id: " + mentor_id);
+
+        return mentor_id;
+    }
+
+
+}
