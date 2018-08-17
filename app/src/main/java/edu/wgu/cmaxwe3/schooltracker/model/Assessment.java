@@ -4,15 +4,6 @@ import java.time.LocalDateTime;
 
 public class Assessment {
 
-//    public static final String TABLE_ASSESSMENT = "Assessment";
-//    public static final String ASSESSMENT_ID = "_id";
-//    public static final String ASSESSMENT_TYPE = "type";
-//    public static final String ASSESSMENT_TITLE = "title";
-//    public static final String ASSESSMENT_DUE_DATE = "due_date";
-//    public static final String ASSESSMENT_GOAL_DATE = "goal_date";
-//    public static final String ASSESSMENT_GOAL_DATE_ALERT = "goal_date_alert";
-//    public static final String ASSESSMENT_COURSE_ID = "course_id";
-
     private int id;
     private String type;
     private String title;

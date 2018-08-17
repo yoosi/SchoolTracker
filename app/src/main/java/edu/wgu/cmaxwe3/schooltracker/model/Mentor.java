@@ -1,12 +1,6 @@
 package edu.wgu.cmaxwe3.schooltracker.model;
 
 public class Mentor {
-//    public static final String TABLE_MENTOR = "Mentor";
-//    public static final String MENTOR_ID = "_id";
-//    public static final String MENTOR_NAME = "name";
-//    public static final String MENTOR_PHONE = "phone";
-//    public static final String MENTOR_EMAIL = "email";
-//    public static final String MENTOR_COURSE_ID = "course_id";
 
     private int id;
     private String name;

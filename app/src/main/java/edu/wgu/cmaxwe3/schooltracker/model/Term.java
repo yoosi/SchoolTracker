@@ -3,11 +3,6 @@ package edu.wgu.cmaxwe3.schooltracker.model;
 import java.time.LocalDateTime;
 
 public class Term {
-//    public static final String TABLE_TERM = "Term";
-//    public static final String TERM_ID = "_id";
-//    public static final String TERM_TITLE = "title";
-//    public static final String TERM_START_DATE = "start_date";
-//    public static final String TERM_END_DATE = "end_date";
 
     private int id;
     private String title;
