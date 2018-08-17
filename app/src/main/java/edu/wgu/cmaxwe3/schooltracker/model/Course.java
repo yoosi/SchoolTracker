@@ -2,7 +2,7 @@ package edu.wgu.cmaxwe3.schooltracker.model;
 
 import java.time.LocalDateTime;
 
-public class course {
+public class Course {
 //    public static final String TABLE_COURSE = "course";
 //    public static final String COURSE_ID = "_id";
 //    public static final String COURSE_TITLE = "title";
