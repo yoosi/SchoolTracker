@@ -10,6 +10,26 @@ public class Term {
     private String endDate;
 
 
+
+    public Term(){
+
+    }
+
+    // construct with all parameters
+    public Term(int id, String title, String startDate, String endDate){
+        this.id = id;
+        this.title = title;
+        this.startDate = startDate;
+        this.endDate = endDate;
+    }
+
+    // construct with all parameters except id
+    public Term(String title, String startDate, String endDate){
+        this.title = title;
+        this.startDate = startDate;
+        this.endDate = endDate;
+    }
+
     // getters and setters
 
     public int getId() {

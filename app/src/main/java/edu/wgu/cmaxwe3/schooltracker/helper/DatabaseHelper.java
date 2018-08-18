@@ -16,6 +16,7 @@ import java.util.Locale;
 import edu.wgu.cmaxwe3.schooltracker.model.Assessment;
 import edu.wgu.cmaxwe3.schooltracker.model.Course;
 import edu.wgu.cmaxwe3.schooltracker.model.Mentor;
+import edu.wgu.cmaxwe3.schooltracker.model.Term;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
 
@@ -307,6 +308,49 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         return courses;
     }
+
+    public long createTerm(Term term){
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(KEY_TERM_TITLE, term.getTitle());
+        values.put(KEY_TERM_START_DATE, term.getStartDate());
+        values.put(KEY_TERM_END_DATE, term.getEndDate());
+
+        // insert row
+        long term_id = db.insert(TABLE_TERM, null, values);
+
+        Log.d("createTerm", "term added at id: " + term_id);
+
+        return term_id;
+    }
+
+    public List<Term> getAllTerms(){
+        List<Term> terms = new ArrayList<Term>();
+        String selectQuery = "SELECT * FROM " + TABLE_TERM;
+
+        Log.e(LOG, selectQuery);
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor c = db.rawQuery(selectQuery, null);
+
+        // looping through all rows and adding to list
+        if (c.moveToFirst()) {
+            do {
+                Term term = new Term();
+                term.setId(c.getInt(c.getColumnIndex(KEY_TERM_ID)));
+                term.setTitle(c.getString(c.getColumnIndex(KEY_TERM_TITLE)));
+                term.setStartDate(c.getString(c.getColumnIndex(KEY_TERM_START_DATE)));
+                term.setEndDate(c.getString(c.getColumnIndex(KEY_TERM_END_DATE)));
+
+                // adding term to list
+                terms.add(term);
+            } while (c.moveToNext());
+        }
+
+        return terms;
+    }
+
 
 
     // closing database
