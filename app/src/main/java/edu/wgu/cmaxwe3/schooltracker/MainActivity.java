@@ -10,6 +10,8 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import java.util.List;
+
 import edu.wgu.cmaxwe3.schooltracker.helper.DatabaseHelper;
 import edu.wgu.cmaxwe3.schooltracker.model.Mentor;
 
@@ -46,12 +48,21 @@ public class MainActivity extends AppCompatActivity {
         m.setEmail("j.hendrix@school.edu");
         m.setPhone("2065551234");
 
-        //insert mentor
-        long mentor_id = db.createMentor(m);
-        long mentor_id2 = db.createMentor(m);
+        Mentor m2 = new Mentor("Jim Halpert", "206-555-4321", "j.halpert@dundermifflin.com", 0);
+        Mentor m3 = new Mentor("Pam Beasley", "206-555-6789", "p.beasley@dundermifflin.com");
 
-        Log.d("Mentor Count", "mentor_id");
-        Log.d("Mentor Count", "mentor_id2");
+        //insert mentor
+//        long mentor_id = db.createMentor(m);
+        long mentor_id2 = db.createMentor(m3);
+
+//        Log.d("Mentor Count", "mentor_id");
+//        Log.d("Mentor Count", "mentor_id2");
+
+        List<Mentor> mentors = db.getAllMentors();
+        for (Mentor mentor: mentors) {
+            System.out.println("MENTOR ID: " + mentor.getId());
+            System.out.println("Mentor name: " + mentor.getName());
+        }
 
 
 

@@ -11,6 +11,30 @@ public class Mentor {
     public Mentor(){
     }
 
+    // construct w/ all parameters
+    public Mentor(int id, String name, String phone, String email, int courseId){
+        this.id = id;
+        this.name = name;
+        this.phone = phone;
+        this.email = email;
+        this.courseId = courseId;
+    }
+
+    // construct w/ all parameters except ID
+    public Mentor(String name, String phone, String email, int courseId){
+        this.name = name;
+        this.phone = phone;
+        this.email = email;
+        this.courseId = courseId;
+    }
+
+    // construct w/ all parameters except ID and courseID
+    public Mentor(String name, String phone, String email){
+        this.name = name;
+        this.phone = phone;
+        this.email = email;
+    }
+
     // getters and setters
 
     public int getId() {

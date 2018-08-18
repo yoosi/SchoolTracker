@@ -2,10 +2,18 @@ package edu.wgu.cmaxwe3.schooltracker.helper;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Locale;
+
+import edu.wgu.cmaxwe3.schooltracker.model.Assessment;
 import edu.wgu.cmaxwe3.schooltracker.model.Mentor;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
@@ -165,6 +173,80 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         Log.d("createMentor", "mentor added at id: " + mentor_id);
 
         return mentor_id;
+    }
+
+    public List<Mentor> getAllMentors() {
+        List<Mentor> mentors = new ArrayList<Mentor>();
+        String selectQuery = "SELECT  * FROM " + TABLE_MENTOR;
+
+        Log.e(LOG, selectQuery);
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor c = db.rawQuery(selectQuery, null);
+
+        // looping through all rows and adding to list
+        if (c.moveToFirst()) {
+            do {
+                Mentor mentor = new Mentor();
+                mentor.setId(c.getInt((c.getColumnIndex(KEY_MENTOR_ID))));
+                mentor.setName((c.getString(c.getColumnIndex(KEY_MENTOR_NAME))));
+                mentor.setPhone(c.getString(c.getColumnIndex(KEY_MENTOR_PHONE)));
+                mentor.setEmail(c.getString(c.getColumnIndex(KEY_MENTOR_EMAIL)));
+                mentor.setCourseId(c.getInt(c.getColumnIndex(KEY_MENTOR_COURSE_ID)));
+
+
+                // adding to mentors list
+                mentors.add(mentor);
+            } while (c.moveToNext());
+        }
+
+        return mentors;
+    }
+
+    public long createAssessment(Assessment assessment){
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(KEY_ASSESSMENT_TYPE, assessment.getType());
+        values.put(KEY_ASSESSMENT_TITLE, assessment.getTitle());
+        values.put(KEY_ASSESSMENT_DUE_DATE, assessment.getDueDate().toString());   // todo should this be stored like this?
+        values.put(KEY_ASSESSMENT_GOAL_DATE, assessment.getGoalDate().toString()); // todo should this be stored like this?
+        values.put(KEY_ASSESSMENT_GOAL_DATE_ALERT, assessment.getGoalDateAlert());
+        values.put(KEY_ASSESSMENT_COURSE_ID, assessment.getCourseId());
+
+
+        // insert row
+        long assessment_id = db.insert(TABLE_MENTOR, null, values);
+
+        Log.d("createAssessment", "assessment added at id: " + assessment_id);
+
+        return assessment_id;
+    }
+
+
+
+//    public long createAssessment(Assessment assessment){
+//        SQLiteDatabase db = this.getWritableDatabase();
+//
+//        ContentValues values = new ContentValues();
+//        values.put(KEY_ASSESSMENT_DUE_DATE, );
+//    }
+
+
+
+    // closing database
+    public void closeDB() {
+        SQLiteDatabase db = this.getReadableDatabase();
+        if (db != null && db.isOpen())
+            db.close();
+    }
+
+    // get datetime
+    private String getDateTime() {
+        SimpleDateFormat dateFormat = new SimpleDateFormat(
+                "yyyy-MM-dd HH:mm:ss", Locale.getDefault());
+        Date date = new Date();
+        return dateFormat.format(date);
     }
 
 

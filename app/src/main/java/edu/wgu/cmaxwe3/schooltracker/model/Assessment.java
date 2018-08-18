@@ -13,6 +13,23 @@ public class Assessment {
     private int courseId;
 
 
+    public Assessment(){
+
+    }
+
+    public Assessment(int id, String type, String title, LocalDateTime dueDate,
+                      LocalDateTime goalDate, int goalDateAlert, int courseId){
+
+        this.id = id;
+        this.type = type;
+        this.title = title;
+        this.dueDate = dueDate;
+        this.goalDate = goalDate;
+        this.goalDateAlert = goalDateAlert;
+        this.courseId = courseId;
+    }
+
+
     // getters and setters
 
     public int getId() {
