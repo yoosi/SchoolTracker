@@ -209,8 +209,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         ContentValues values = new ContentValues();
         values.put(KEY_ASSESSMENT_TYPE, assessment.getType());
         values.put(KEY_ASSESSMENT_TITLE, assessment.getTitle());
-        values.put(KEY_ASSESSMENT_DUE_DATE, assessment.getDueDate().toString());   // todo should this be stored like this?
-        values.put(KEY_ASSESSMENT_GOAL_DATE, assessment.getGoalDate().toString()); // todo should this be stored like this?
+        values.put(KEY_ASSESSMENT_DUE_DATE, assessment.getDueDate());
+        values.put(KEY_ASSESSMENT_GOAL_DATE, assessment.getGoalDate());
         values.put(KEY_ASSESSMENT_GOAL_DATE_ALERT, assessment.getGoalDateAlert());
         values.put(KEY_ASSESSMENT_COURSE_ID, assessment.getCourseId());
 
@@ -224,13 +224,34 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
 
+    public List<Assessment> getAllAssessments() {
+        List<Assessment> assessments = new ArrayList<Assessment>();
+        String selectQuery = "SELECT  * FROM " + TABLE_ASSESSMENT;
 
-//    public long createAssessment(Assessment assessment){
-//        SQLiteDatabase db = this.getWritableDatabase();
-//
-//        ContentValues values = new ContentValues();
-//        values.put(KEY_ASSESSMENT_DUE_DATE, );
-//    }
+        Log.e(LOG, selectQuery);
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor c = db.rawQuery(selectQuery, null);
+
+        // looping through all rows and adding to list
+        if (c.moveToFirst()) {
+            do {
+                Assessment assessment = new Assessment();
+                assessment.setId(c.getInt((c.getColumnIndex(KEY_ASSESSMENT_ID))));
+                assessment.setType((c.getString(c.getColumnIndex(KEY_ASSESSMENT_TYPE))));
+                assessment.setTitle(c.getString(c.getColumnIndex(KEY_ASSESSMENT_TITLE)));
+                assessment.setDueDate(c.getString(c.getColumnIndex(KEY_ASSESSMENT_DUE_DATE)));
+                assessment.setGoalDate(c.getString(c.getColumnIndex(KEY_ASSESSMENT_COURSE_ID)));
+                assessment.setGoalDateAlert(c.getInt(c.getColumnIndex(KEY_ASSESSMENT_COURSE_ID)));
+                assessment.setCourseId(c.getInt(c.getColumnIndex(KEY_ASSESSMENT_COURSE_ID)));
+
+                // adding to mentors list
+                assessments.add(assessment);
+            } while (c.moveToNext());
+        }
+
+        return assessments;
+    }
 
 
 

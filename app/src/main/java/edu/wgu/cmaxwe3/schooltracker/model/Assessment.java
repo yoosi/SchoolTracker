@@ -1,14 +1,13 @@
 package edu.wgu.cmaxwe3.schooltracker.model;
 
-import java.time.LocalDateTime;
 
 public class Assessment {
 
     private int id;
     private String type;
     private String title;
-    private LocalDateTime dueDate;
-    private LocalDateTime goalDate;
+    private String dueDate;
+    private String goalDate;
     private int goalDateAlert;
     private int courseId;
 
@@ -17,8 +16,8 @@ public class Assessment {
 
     }
 
-    public Assessment(int id, String type, String title, LocalDateTime dueDate,
-                      LocalDateTime goalDate, int goalDateAlert, int courseId){
+    public Assessment(int id, String type, String title, String dueDate,
+                      String goalDate, int goalDateAlert, int courseId){
 
         this.id = id;
         this.type = type;
@@ -56,19 +55,19 @@ public class Assessment {
         this.title = title;
     }
 
-    public LocalDateTime getDueDate() {
+    public String getDueDate() {
         return dueDate;
     }
 
-    public void setDueDate(LocalDateTime dueDate) {
+    public void setDueDate(String dueDate) {
         this.dueDate = dueDate;
     }
 
-    public LocalDateTime getGoalDate() {
+    public String getGoalDate() {
         return goalDate;
     }
 
-    public void setGoalDate(LocalDateTime goalDate) {
+    public void setGoalDate(String goalDate) {
         this.goalDate = goalDate;
     }
 
