@@ -96,6 +96,13 @@ public class MainActivity extends AppCompatActivity {
         Log.d("Course Count", String.valueOf(course_id));
 
 
+        // get all courses and print
+        List<Course> courses = db.getAllCourses();
+        for (Course course: courses) {
+            System.out.println("COURSE ID: " + course.getId());
+            System.out.println("Course title: " + course.getTitle());
+        }
+
     }
 
     @Override
