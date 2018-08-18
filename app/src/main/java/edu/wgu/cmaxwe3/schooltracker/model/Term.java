@@ -6,8 +6,8 @@ public class Term {
 
     private int id;
     private String title;
-    private LocalDateTime startDate; // this might be a different type
-    private LocalDateTime endDate;   // this might be a different type
+    private String startDate;
+    private String endDate;
 
 
     // getters and setters
@@ -28,19 +28,19 @@ public class Term {
         this.title = title;
     }
 
-    public LocalDateTime getStartDate() {
+    public String getStartDate() {
         return startDate;
     }
 
-    public void setStartDate(LocalDateTime startDate) {
+    public void setStartDate(String startDate) {
         this.startDate = startDate;
     }
 
-    public LocalDateTime getEndDate() {
+    public String getEndDate() {
         return endDate;
     }
 
-    public void setEndDate(LocalDateTime endDate) {
+    public void setEndDate(String endDate) {
         this.endDate = endDate;
     }
 
