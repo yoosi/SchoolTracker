@@ -105,7 +105,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         // create term
-        Term t1 = new Term("my term", "2018-09-01", "2018-12-31");
+        Term t1 = new Term("another term", "2018-09-01", "2018-12-31");
 
         // insert term
         long term_id = db.createTerm(t1);
