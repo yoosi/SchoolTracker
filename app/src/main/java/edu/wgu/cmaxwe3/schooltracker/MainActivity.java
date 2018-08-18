@@ -19,6 +19,7 @@ import edu.wgu.cmaxwe3.schooltracker.helper.Tools;
 import edu.wgu.cmaxwe3.schooltracker.model.Assessment;
 import edu.wgu.cmaxwe3.schooltracker.model.Course;
 import edu.wgu.cmaxwe3.schooltracker.model.Mentor;
+import edu.wgu.cmaxwe3.schooltracker.model.Term;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -101,6 +102,20 @@ public class MainActivity extends AppCompatActivity {
         for (Course course: courses) {
             System.out.println("COURSE ID: " + course.getId());
             System.out.println("Course title: " + course.getTitle());
+        }
+
+        // create term
+        Term t1 = new Term("my term", "2018-09-01", "2018-12-31");
+
+        // insert term
+        long term_id = db.createTerm(t1);
+        Log.d("Term Count", String.valueOf(term_id));
+
+        // get terms from db and print
+        List<Term> terms = db.getAllTerms();
+        for (Term term: terms) {
+            System.out.println("TERM ID: " + term.getId());
+            System.out.println("Term title: " + term.getTitle());
         }
 
     }
