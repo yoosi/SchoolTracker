@@ -1,6 +1,8 @@
 package edu.wgu.cmaxwe3.schooltracker;
 
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.RequiresApi;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -13,6 +15,7 @@ import android.view.MenuItem;
 import java.util.List;
 
 import edu.wgu.cmaxwe3.schooltracker.helper.DatabaseHelper;
+import edu.wgu.cmaxwe3.schooltracker.helper.Tools;
 import edu.wgu.cmaxwe3.schooltracker.model.Mentor;
 
 public class MainActivity extends AppCompatActivity {
@@ -21,6 +24,7 @@ public class MainActivity extends AppCompatActivity {
     DatabaseHelper db;
 
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,6 +68,8 @@ public class MainActivity extends AppCompatActivity {
             System.out.println("Mentor name: " + mentor.getName());
         }
 
+        String birthday = Tools.buildDateString(1993, 3, 9);
+        System.out.println("BIRTHDAY: " + birthday);
 
 
     }

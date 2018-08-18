@@ -7,9 +7,9 @@ public class Course {
     private int id;
     private String title;
     private String status;
-    private LocalDateTime startDate;
+    private String startDate;
     private int startAlert;
-    private LocalDateTime endDate;
+    private String endDate;
     private int endAlert;
     private String notes;
     private int termId;
@@ -41,11 +41,11 @@ public class Course {
         this.status = status;
     }
 
-    public LocalDateTime getStartDate() {
+    public String getStartDate() {
         return startDate;
     }
 
-    public void setStartDate(LocalDateTime startDate) {
+    public void setStartDate(String startDate) {
         this.startDate = startDate;
     }
 
@@ -57,11 +57,11 @@ public class Course {
         this.startAlert = startAlert;
     }
 
-    public LocalDateTime getEndDate() {
+    public String getEndDate() {
         return endDate;
     }
 
-    public void setEndDate(LocalDateTime endDate) {
+    public void setEndDate(String endDate) {
         this.endDate = endDate;
     }
 
