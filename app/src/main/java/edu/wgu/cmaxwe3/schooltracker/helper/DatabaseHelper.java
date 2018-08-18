@@ -216,7 +216,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
 
         // insert row
-        long assessment_id = db.insert(TABLE_MENTOR, null, values);
+        long assessment_id = db.insert(TABLE_ASSESSMENT, null, values);
 
         Log.d("createAssessment", "assessment added at id: " + assessment_id);
 
@@ -262,6 +262,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             db.close();
     }
 
+    // probably not going to use this
     // get datetime
     private String getDateTime() {
         SimpleDateFormat dateFormat = new SimpleDateFormat(

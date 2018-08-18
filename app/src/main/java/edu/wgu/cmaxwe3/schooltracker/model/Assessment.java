@@ -16,6 +16,7 @@ public class Assessment {
 
     }
 
+    // create with all parameters
     public Assessment(int id, String type, String title, String dueDate,
                       String goalDate, int goalDateAlert, int courseId){
 
@@ -28,6 +29,30 @@ public class Assessment {
         this.courseId = courseId;
     }
 
+    // create with all parameters except id
+    public Assessment(String type, String title, String dueDate,
+                      String goalDate, int goalDateAlert, int courseId){
+
+        this.type = type;
+        this.title = title;
+        this.dueDate = dueDate;
+        this.goalDate = goalDate;
+        this.goalDateAlert = goalDateAlert;
+        this.courseId = courseId;
+    }
+
+
+    // create with all parameters except id and courseId
+    public Assessment(String type, String title, String dueDate,
+                      String goalDate, int goalDateAlert){
+
+        this.type = type;
+        this.title = title;
+        this.dueDate = dueDate;
+        this.goalDate = goalDate;
+        this.goalDateAlert = goalDateAlert;
+
+    }
 
     // getters and setters
 
