@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.Locale;
 
 import edu.wgu.cmaxwe3.schooltracker.model.Assessment;
+import edu.wgu.cmaxwe3.schooltracker.model.Course;
 import edu.wgu.cmaxwe3.schooltracker.model.Mentor;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
@@ -224,9 +225,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
 
-    public List<Assessment> getAllAssessments() {
+    public List<Assessment> getAllAssessments(){
         List<Assessment> assessments = new ArrayList<Assessment>();
-        String selectQuery = "SELECT  * FROM " + TABLE_ASSESSMENT;
+        String selectQuery = "SELECT * FROM " + TABLE_ASSESSMENT;
 
         Log.e(LOG, selectQuery);
 
@@ -253,6 +254,59 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return assessments;
     }
 
+
+    public long createCourse(Course course){
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(KEY_COURSE_TITLE, course.getTitle());
+        values.put(KEY_COURSE_STATUS, course.getStatus());
+        values.put(KEY_COURSE_START_DATE, course.getStartDate());
+        values.put(KEY_COURSE_START_DATE_ALERT, course.getStartAlert());
+        values.put(KEY_COURSE_END_DATE, course.getEndDate());
+        values.put(KEY_COURSE_END_DATE_ALERT, course.getEndAlert());
+        values.put(KEY_COURSE_NOTES, course.getNotes());
+        values.put(KEY_COURSE_TERM_ID, course.getTermId());
+
+
+        // insert row
+        long mentor_id = db.insert(TABLE_COURSE, null, values);
+
+        Log.d("createCourse", "course added at id: " + mentor_id);
+
+        return mentor_id;
+    }
+
+    public List<Course> getAllCourses(){
+        List<Course> courses = new ArrayList<Course>();
+        String selectQuery = "SELECT * FROM " + TABLE_COURSE;
+
+        Log.e(LOG, selectQuery);
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor c = db.rawQuery(selectQuery, null);
+
+        // looping through all rows and adding to list
+        if (c.moveToFirst()) {
+            do {
+                Course course = new Course();
+                course.setId(c.getInt(c.getColumnIndex(KEY_COURSE_ID)));
+                course.setTitle(c.getString(c.getColumnIndex(KEY_COURSE_ID)));
+                course.setStatus(c.getString(c.getColumnIndex(KEY_COURSE_ID)));
+                course.setStartDate(c.getString(c.getColumnIndex(KEY_COURSE_ID)));
+                course.setStartAlert(c.getInt(c.getColumnIndex(KEY_COURSE_ID)));
+                course.setEndDate(c.getString(c.getColumnIndex(KEY_COURSE_ID)));
+                course.setEndAlert(c.getInt(c.getColumnIndex(KEY_COURSE_ID)));
+                course.setNotes(c.getString(c.getColumnIndex(KEY_COURSE_ID)));
+                course.setTermId(c.getInt(c.getColumnIndex(KEY_COURSE_ID)));
+
+                // adding course to list
+                courses.add(course);
+            } while (c.moveToNext());
+        }
+
+        return courses;
+    }
 
 
     // closing database

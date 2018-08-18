@@ -17,6 +17,7 @@ import java.util.List;
 import edu.wgu.cmaxwe3.schooltracker.helper.DatabaseHelper;
 import edu.wgu.cmaxwe3.schooltracker.helper.Tools;
 import edu.wgu.cmaxwe3.schooltracker.model.Assessment;
+import edu.wgu.cmaxwe3.schooltracker.model.Course;
 import edu.wgu.cmaxwe3.schooltracker.model.Mentor;
 
 public class MainActivity extends AppCompatActivity {
@@ -85,6 +86,15 @@ public class MainActivity extends AppCompatActivity {
             System.out.println("ASSESSMENT ID: " + assessment.getId());
             System.out.println("Assessment title: " + assessment.getTitle());
         }
+
+        // create course
+        Course c1 = new Course("intro to programming", "in progress", "2018-09-01", 1,
+                "2018-10-31", 1,  "fun class!");
+
+        // insert course
+        long course_id = db.createCourse(c1);
+        Log.d("Course Count", String.valueOf(course_id));
+
 
     }
 

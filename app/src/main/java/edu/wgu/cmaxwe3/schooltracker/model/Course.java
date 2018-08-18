@@ -15,6 +15,53 @@ public class Course {
     private int termId;
 
 
+    public Course(){
+
+    }
+
+    // construct with all parameters
+    public Course(int id, String title, String status, String startDate, int startAlert,
+                  String endDate, int endAlert, String notes, int termId) {
+        this.setTermId(id);
+        this.setTitle(title);
+        this.setStatus(status);
+        this.setStartDate(startDate);
+        this.setStartAlert(startAlert);
+        this.setEndDate(endDate);
+        this.setEndAlert(endAlert);
+        this.setNotes(notes);
+        this.setTermId(termId);
+
+    }
+
+    // construct with all parameters except id
+    public Course(String title, String status, String startDate, int startAlert,
+                  String endDate, int endAlert, String notes, int termId) {
+        this.setTitle(title);
+        this.setStatus(status);
+        this.setStartDate(startDate);
+        this.setStartAlert(startAlert);
+        this.setEndDate(endDate);
+        this.setEndAlert(endAlert);
+        this.setNotes(notes);
+        this.setTermId(termId);
+
+    }
+
+
+    // construct with all parameters except id and termId
+    public Course(String title, String status, String startDate, int startAlert,
+                  String endDate, int endAlert, String notes) {
+        this.setTitle(title);
+        this.setStatus(status);
+        this.setStartDate(startDate);
+        this.setStartAlert(startAlert);
+        this.setEndDate(endDate);
+        this.setEndAlert(endAlert);
+        this.setNotes(notes);
+
+    }
+
     // getters and setters
 
     public int getId() {
