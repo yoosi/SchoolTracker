@@ -35,12 +35,14 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        // button
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                        .setAction("Action",  null).show();
+                System.out.println("YOU PUSHED THE BUTTON");
             }
         });
 
@@ -49,6 +51,10 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+
+    private void printSomething(){
+        System.out.println("the button was pressed");
+    }
 
     private void testStuff(){
 
