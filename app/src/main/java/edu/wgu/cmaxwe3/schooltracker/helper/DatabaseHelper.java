@@ -226,6 +226,28 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
 
+
+    public long createAssessment(Assessment assessment, int id){
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(KEY_ASSESSMENT_ID, id);
+        values.put(KEY_ASSESSMENT_TYPE, assessment.getType());
+        values.put(KEY_ASSESSMENT_TITLE, assessment.getTitle());
+        values.put(KEY_ASSESSMENT_DUE_DATE, assessment.getDueDate());
+        values.put(KEY_ASSESSMENT_GOAL_DATE, assessment.getGoalDate());
+        values.put(KEY_ASSESSMENT_GOAL_DATE_ALERT, assessment.getGoalDateAlert());
+        values.put(KEY_ASSESSMENT_COURSE_ID, assessment.getCourseId());
+
+
+        // insert row
+        long assessment_id = db.insert(TABLE_ASSESSMENT, null, values);
+
+        Log.d("createAssessment", "assessment added at id: " + assessment_id);
+
+        return assessment_id;
+    }
+
     public List<Assessment> getAllAssessments(){
         List<Assessment> assessments = new ArrayList<Assessment>();
         String selectQuery = "SELECT * FROM " + TABLE_ASSESSMENT;
