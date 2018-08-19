@@ -15,7 +15,7 @@ public class Course {
     private int termId;
 
 
-    public Course(){
+    public Course() {
 
     }
 

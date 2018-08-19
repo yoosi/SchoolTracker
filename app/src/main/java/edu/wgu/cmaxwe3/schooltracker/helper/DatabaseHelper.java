@@ -117,7 +117,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     KEY_ASSESSMENT_GOAL_DATE_ALERT + " INTEGER, " +
                     KEY_ASSESSMENT_COURSE_ID + " INTEGER, " +
                     "FOREIGN KEY (" + KEY_ASSESSMENT_COURSE_ID + " ) REFERENCES "
-                    + TABLE_COURSE + "(" + KEY_COURSE_ID +  ")" +
+                    + TABLE_COURSE + "(" + KEY_COURSE_ID + ")" +
                     ")";
 
     // STEP 4
@@ -130,7 +130,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     KEY_MENTOR_EMAIL + " TEXT, " +
                     KEY_MENTOR_COURSE_ID + " INTEGER, " +
                     "FOREIGN KEY (" + KEY_MENTOR_COURSE_ID + ") REFERENCES "
-                    + TABLE_COURSE + "(" + KEY_COURSE_ID +  ")" +
+                    + TABLE_COURSE + "(" + KEY_COURSE_ID + ")" +
                     ")";
 
 
@@ -161,7 +161,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     }
 
-    public long createMentor(Mentor mentor){
+    public long createMentor(Mentor mentor) {
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
@@ -177,10 +177,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return mentor_id;
     }
 
-    public void deleteMentor(long id){
+    public void deleteMentor(long id) {
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(TABLE_MENTOR, KEY_MENTOR_ID + " = ?",
-                new String[] { String.valueOf(id)});
+                new String[]{String.valueOf(id)});
     }
 
     public List<Mentor> getAllMentors() {
@@ -211,7 +211,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return mentors;
     }
 
-    public long createAssessment(Assessment assessment){
+    public long createAssessment(Assessment assessment) {
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
@@ -232,8 +232,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
 
-
-    public long createAssessment(Assessment assessment, int id){
+    public long createAssessment(Assessment assessment, int id) {
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
@@ -255,13 +254,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
 
-    public void deleteAssessment(long id){
+    public void deleteAssessment(long id) {
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(TABLE_ASSESSMENT, KEY_ASSESSMENT_ID + " = ?",
-                new String[] { String.valueOf(id)});
+                new String[]{String.valueOf(id)});
     }
 
-    public List<Assessment> getAllAssessments(){
+    public List<Assessment> getAllAssessments() {
         List<Assessment> assessments = new ArrayList<Assessment>();
         String selectQuery = "SELECT * FROM " + TABLE_ASSESSMENT;
 
@@ -291,7 +290,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
 
-    public long createCourse(Course course){
+    public long createCourse(Course course) {
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
@@ -313,14 +312,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return mentor_id;
     }
 
-    public void deleteCourse(long id){
+    public void deleteCourse(long id) {
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(TABLE_COURSE, KEY_ASSESSMENT_ID + " = ?",
-                new String[] { String.valueOf(id)});
+                new String[]{String.valueOf(id)});
     }
 
 
-    public List<Course> getAllCourses(){
+    public List<Course> getAllCourses() {
         List<Course> courses = new ArrayList<Course>();
         String selectQuery = "SELECT * FROM " + TABLE_COURSE;
 
@@ -351,7 +350,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return courses;
     }
 
-    public long createTerm(Term term){
+    public long createTerm(Term term) {
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
@@ -367,13 +366,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return term_id;
     }
 
-    public void deleteTerm(long id){
+    public void deleteTerm(long id) {
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(TABLE_TERM, KEY_ASSESSMENT_ID + " = ?",
-                new String[] { String.valueOf(id)});
+                new String[]{String.valueOf(id)});
     }
 
-    public List<Term> getAllTerms(){
+    public List<Term> getAllTerms() {
         List<Term> terms = new ArrayList<Term>();
         String selectQuery = "SELECT * FROM " + TABLE_TERM;
 
@@ -400,7 +399,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
 
-
     // closing database
     public void closeDB() {
         SQLiteDatabase db = this.getReadableDatabase();
@@ -416,6 +414,5 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         Date date = new Date();
         return dateFormat.format(date);
     }
-
 
 }

@@ -12,13 +12,13 @@ public class Assessment {
     private int courseId;
 
 
-    public Assessment(){
+    public Assessment() {
 
     }
 
     // create with all parameters
     public Assessment(int id, String type, String title, String dueDate,
-                      String goalDate, int goalDateAlert, int courseId){
+                      String goalDate, int goalDateAlert, int courseId) {
 
         this.id = id;
         this.type = type;
@@ -31,7 +31,7 @@ public class Assessment {
 
     // create with all parameters except id
     public Assessment(String type, String title, String dueDate,
-                      String goalDate, int goalDateAlert, int courseId){
+                      String goalDate, int goalDateAlert, int courseId) {
 
         this.type = type;
         this.title = title;
@@ -44,7 +44,7 @@ public class Assessment {
 
     // create with all parameters except id and courseId
     public Assessment(String type, String title, String dueDate,
-                      String goalDate, int goalDateAlert){
+                      String goalDate, int goalDateAlert) {
 
         this.type = type;
         this.title = title;

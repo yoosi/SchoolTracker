@@ -41,22 +41,22 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action",  null).show();
+                        .setAction("Action", null).show();
                 System.out.println("YOU PUSHED THE BUTTON");
             }
         });
 
 
-
+        testStuff();
 
     }
 
 
-    private void printSomething(){
+    private void printSomething() {
         System.out.println("the button was pressed");
     }
 
-    private void testStuff(){
+    private void testStuff() {
 
         db = new DatabaseHelper(getApplicationContext());
 
@@ -79,8 +79,8 @@ public class MainActivity extends AppCompatActivity {
 
         // get mentors from db and print
         List<Mentor> mentors = db.getAllMentors();
-        for (Mentor mentor: mentors) {
-            System.out.println("MENTOR ID: " + mentor.getId());
+        for (Mentor mentor : mentors) {
+            System.out.println("Mentor ID: " + mentor.getId());
             System.out.println("Mentor name: " + mentor.getName());
         }
 
@@ -90,19 +90,22 @@ public class MainActivity extends AppCompatActivity {
 
 
         // insert assessment
-        long assessment_id = db.createAssessment(a1, 69);
+        long assessment_id = db.createAssessment(a1);
         Log.d("Assessment Count", String.valueOf(assessment_id));
+
+        // remove assessment
+
 
         // get assessments from db and print
         List<Assessment> assessments = db.getAllAssessments();
-        for (Assessment assessment: assessments) {
-            System.out.println("ASSESSMENT ID: " + assessment.getId());
+        for (Assessment assessment : assessments) {
+            System.out.println("Assessment ID: " + assessment.getId());
             System.out.println("Assessment title: " + assessment.getTitle());
         }
 
         // create course
         Course c1 = new Course("intro to programming", "in progress", "2018-09-01", 1,
-                "2018-10-31", 1,  "fun class!");
+                "2018-10-31", 1, "fun class!");
 
         // insert course
         long course_id = db.createCourse(c1);
@@ -111,22 +114,26 @@ public class MainActivity extends AppCompatActivity {
 
         // get all courses and print
         List<Course> courses = db.getAllCourses();
-        for (Course course: courses) {
-            System.out.println("COURSE ID: " + course.getId());
+        for (Course course : courses) {
+            System.out.println("Course ID: " + course.getId());
             System.out.println("Course title: " + course.getTitle());
         }
 
         // create term
-        Term t1 = new Term("another term", "2018-09-01", "2018-12-31");
+        Term t1 = new Term("possibly the first term", "2018-09-01",
+                "2018-12-31");
 
         // insert term
         long term_id = db.createTerm(t1);
         Log.d("Term Count", String.valueOf(term_id));
 
+        // delete a term
+//        db.deleteTerm(1);
+
         // get terms from db and print
         List<Term> terms = db.getAllTerms();
-        for (Term term: terms) {
-            System.out.println("TERM ID: " + term.getId());
+        for (Term term : terms) {
+            System.out.println("Term ID: " + term.getId());
             System.out.println("Term title: " + term.getTitle());
         }
 
