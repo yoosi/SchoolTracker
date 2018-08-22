@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Button;
 
 import java.util.List;
 
@@ -43,6 +44,52 @@ public class MainActivity extends AppCompatActivity {
                 Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
                 System.out.println("YOU PUSHED THE BUTTON");
+            }
+        });
+
+
+        // button view mentors
+        Button buttonViewMentors = (Button) findViewById(R.id.buttonViewMentors);
+        buttonViewMentors.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                // Do something in response to button click
+                System.out.println("pressed mentors");
+            }
+        });
+
+        // button view assessments
+        Button buttonViewAssessments = (Button) findViewById(R.id.buttonViewAssessments);
+        buttonViewAssessments.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                // Do something in response to button click
+                System.out.println("pressed view assignments");
+            }
+        });
+
+        // button view courses
+        Button buttonViewCourses = (Button) findViewById(R.id.buttonViewCourses);
+        buttonViewCourses.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                // Do something in response to button click
+                System.out.println("pressed view courses");
+            }
+        });
+
+        // button view terms
+        Button buttonViewTerms = (Button) findViewById(R.id.buttonViewTerms);
+        buttonViewTerms.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                // Do something in response to button click
+                System.out.println("pressed view terms");
+            }
+        });
+
+        // button view about
+        Button buttonViewAbout = (Button) findViewById(R.id.buttonViewAbout);
+        buttonViewAbout.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                // Do something in response to button click
+                System.out.println("pressed the view about");
             }
         });
 

@@ -23,7 +23,7 @@
     <!--commented out default layout that has the hello world-->
     <!--(the one that was auto-generated when i created the project)-->
     <!--<include layout="@layout/content_main" />-->
-    <include layout="@layout/home_layout" />
+    <include layout="@layout/content_main" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"
