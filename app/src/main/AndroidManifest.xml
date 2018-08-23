@@ -28,6 +28,15 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="edu.wgu.cmaxwe3.schooltracker.MainActivity" />
         </activity>
+        <activity
+            android:name=".AddTermActivity"
+            android:label="@string/title_activity_add_term"
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="edu.wgu.cmaxwe3.schooltracker.MainActivity" />
+        </activity>
     </application>
 
 </manifest>
