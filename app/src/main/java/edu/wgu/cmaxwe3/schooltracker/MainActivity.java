@@ -35,6 +35,15 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    public void openAddTerm(){
+        Intent intent = new Intent(this, AddTermActivity.class);
+        startActivity(intent);
+    }
+
+    public void openAddMentor(){
+        Intent intent = new Intent(this, AddMentorActivity.class);
+        startActivity(intent);
+    }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
@@ -63,6 +72,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 // Do something in response to button click
                 System.out.println("pressed mentors");
+                openAddMentor();
             }
         });
 
@@ -90,6 +100,8 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 // Do something in response to button click
                 System.out.println("pressed view terms");
+
+                openAddTerm();
             }
         });
 
