@@ -7,7 +7,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 
+import java.util.List;
+
+import edu.wgu.cmaxwe3.schooltracker.helper.DatabaseHelper;
+import edu.wgu.cmaxwe3.schooltracker.model.Term;
+
 public class AboutActivity extends AppCompatActivity {
+
+    DatabaseHelper db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,6 +32,20 @@ public class AboutActivity extends AppCompatActivity {
             }
         });
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        otherTest();
+
     }
 
+
+
+    private void otherTest(){
+        db = new DatabaseHelper(getApplicationContext());
+
+        List<Term> terms = db.getAllTerms();
+        for (Term term: terms
+                ) {
+            System.out.println("term title: " + term.getTitle());
+        }
+    }
 }

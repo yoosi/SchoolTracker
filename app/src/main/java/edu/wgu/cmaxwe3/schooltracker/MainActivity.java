@@ -1,5 +1,6 @@
 package edu.wgu.cmaxwe3.schooltracker;
 
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
@@ -28,9 +29,17 @@ public class MainActivity extends AppCompatActivity {
     DatabaseHelper db;
 
 
+
+    public void openAbout(){
+        Intent intent = new Intent(this, AboutActivity.class);
+        startActivity(intent);
+    }
+
+
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -90,11 +99,12 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 // Do something in response to button click
                 System.out.println("pressed the view about");
+                openAbout();
             }
         });
 
 
-        testStuff();
+
 
     }
 
@@ -102,6 +112,8 @@ public class MainActivity extends AppCompatActivity {
     private void printSomething() {
         System.out.println("the button was pressed");
     }
+
+
 
     private void testStuff() {
 
