@@ -6,6 +6,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.TextView;
 
 import java.util.List;
 
@@ -33,19 +34,24 @@ public class AboutActivity extends AppCompatActivity {
         });
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        otherTest();
+        StringBuilder text;
+
+        TextView textView = (TextView) findViewById(R.id.textView);
+
+
+
+        textView.setText(getTopTerm().getTitle());
 
     }
 
 
 
-    private void otherTest(){
+    private Term getTopTerm(){
         db = new DatabaseHelper(getApplicationContext());
 
         List<Term> terms = db.getAllTerms();
-        for (Term term: terms
-                ) {
-            System.out.println("term title: " + term.getTitle());
-        }
+
+        Term term = terms.get(0);
+        return term;
     }
 }
