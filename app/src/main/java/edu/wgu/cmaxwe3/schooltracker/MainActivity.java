@@ -41,8 +41,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void openAddMentor(){
-//        Intent intent = new Intent(this, AddMentorActivity.class);
-//        startActivity(intent);
+        Intent intent = new Intent(this, ViewMentorsActivity.class);
+        startActivity(intent);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)

@@ -35,6 +35,10 @@ public class Mentor {
         this.email = email;
     }
 
+    public String toString(){
+        return this.name;
+    }
+
     // getters and setters
 
     public int getId() {

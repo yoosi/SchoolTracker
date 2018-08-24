@@ -28,6 +28,32 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="edu.wgu.cmaxwe3.schooltracker.MainActivity" />
         </activity>
+        <activity
+            android:name=".AddTermActivity"
+            android:label="Add Term"
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="edu.wgu.cmaxwe3.schooltracker.MainActivity" />
+        </activity>
+        <activity
+            android:name=".ViewMentorsActivity"
+            android:label="@string/title_activity_view_mentors"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="edu.wgu.cmaxwe3.schooltracker.MainActivity" />
+        </activity>
+        <activity
+            android:name=".AddMentorActivity"
+            android:label="@string/title_activity_add_mentor"
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="edu.wgu.cmaxwe3.schooltracker.MainActivity" />
+        </activity>
     </application>
 
 </manifest>
