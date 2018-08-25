@@ -16,6 +16,7 @@ public class Assessment {
 
     }
 
+
     // create with all parameters
     public Assessment(int id, String type, String title, String dueDate,
                       String goalDate, int goalDateAlert, int courseId) {
@@ -52,6 +53,11 @@ public class Assessment {
         this.goalDate = goalDate;
         this.goalDateAlert = goalDateAlert;
 
+    }
+
+    @Override
+    public String toString() {
+        return this.title;
     }
 
     // getters and setters

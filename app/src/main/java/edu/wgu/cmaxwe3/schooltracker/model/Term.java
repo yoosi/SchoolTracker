@@ -29,6 +29,11 @@ public class Term {
         this.endDate = endDate;
     }
 
+    @Override
+    public String toString() {
+        return this.title;
+    }
+
     // getters and setters
 
     public int getId() {

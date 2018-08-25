@@ -62,6 +62,11 @@ public class Course {
 
     }
 
+    @Override
+    public String toString() {
+        return this.title;
+    }
+
     // getters and setters
 
     public int getId() {
