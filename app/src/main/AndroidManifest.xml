@@ -47,7 +47,7 @@
         <activity
             android:name=".AddMentorActivity"
             android:label="@string/title_activity_add_mentor"
-            android:parentActivityName=".MainActivity"
+            android:parentActivityName=".ViewMentorsActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

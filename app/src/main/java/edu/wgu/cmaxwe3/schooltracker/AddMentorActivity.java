@@ -1,11 +1,13 @@
 package edu.wgu.cmaxwe3.schooltracker;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 
 import edu.wgu.cmaxwe3.schooltracker.helper.DatabaseHelper;
@@ -14,6 +16,10 @@ import edu.wgu.cmaxwe3.schooltracker.model.Mentor;
 public class AddMentorActivity extends AppCompatActivity {
     DatabaseHelper db;
 
+    public void openViewMentors(){
+        Intent intent = new Intent(this, ViewMentorsActivity.class);
+        startActivity(intent);
+    }
 
     private Mentor getMentor(){
         EditText nameInput = findViewById(R.id.editTextName);
@@ -41,23 +47,17 @@ public class AddMentorActivity extends AppCompatActivity {
 
 
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
+        Button saveButton = (Button) findViewById(R.id.buttonSave);
+        saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//
-//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
-
                 db = new DatabaseHelper(getApplicationContext());
                 Mentor newMentor = getMentor();
-
                 //insert mentor
                 long mentor_id = db.createMentor(newMentor);
-
-
-                Snackbar.make(view, "Mentor created with name: " + newMentor.getName(), Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+//                Snackbar.make(view, "Mentor created with name: " + newMentor.getName(), Snackbar.LENGTH_LONG)
+//                        .setAction("Action", null).show();
+                finish();
             }
         });
 

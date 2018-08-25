@@ -80,6 +80,8 @@ public class MainActivity extends AppCompatActivity {
         buttonViewAssessments.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 // Do something in response to button click
+                db = new DatabaseHelper(getApplicationContext());
+                db.deleteAllMentors();
                 System.out.println("pressed view assignments");
             }
         });

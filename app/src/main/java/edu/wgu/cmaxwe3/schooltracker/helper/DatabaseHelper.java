@@ -181,6 +181,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(TABLE_MENTOR, KEY_MENTOR_ID + " = ?",
                 new String[]{String.valueOf(id)});
+
+    }
+
+    public void deleteAllMentors() {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.execSQL("delete from " + TABLE_MENTOR);
     }
 
     public List<Mentor> getAllMentors() {
@@ -260,6 +266,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 new String[]{String.valueOf(id)});
     }
 
+    public void deleteAllAssessments() {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.execSQL("delete from " + TABLE_ASSESSMENT);
+    }
+
     public List<Assessment> getAllAssessments() {
         List<Assessment> assessments = new ArrayList<Assessment>();
         String selectQuery = "SELECT * FROM " + TABLE_ASSESSMENT;
@@ -318,6 +329,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 new String[]{String.valueOf(id)});
     }
 
+    public void deleteAllCourses() {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.execSQL("delete from " + TABLE_COURSE);
+    }
 
     public List<Course> getAllCourses() {
         List<Course> courses = new ArrayList<Course>();
@@ -370,6 +385,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(TABLE_TERM, KEY_ASSESSMENT_ID + " = ?",
                 new String[]{String.valueOf(id)});
+    }
+
+    public void deleteAllTerms() {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.execSQL("delete from " + TABLE_TERM);
     }
 
     public List<Term> getAllTerms() {

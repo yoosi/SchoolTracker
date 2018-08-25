@@ -44,7 +44,10 @@ public class ViewMentorsActivity extends AppCompatActivity {
         });
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+    }
 
+    @Override
+    protected void onResume() {
         List<Mentor> mentors = getMentors();
 
         ArrayAdapter<Mentor> adapter = new ArrayAdapter<Mentor>(this,
@@ -53,7 +56,7 @@ public class ViewMentorsActivity extends AppCompatActivity {
 
         ListView lv = (ListView) findViewById(R.id.listView);
         lv.setAdapter(adapter);
-
+        super.onResume();
     }
 
     private List<Mentor> getMentors(){
