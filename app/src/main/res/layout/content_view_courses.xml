@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context=".ViewMentorsActivity"
-    tools:showIn="@layout/activity_view_mentors">
-
+    tools:context=".ViewCoursesActivity"
+    tools:showIn="@layout/activity_view_courses">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -17,7 +16,7 @@
             android:id="@+id/textView4"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Tip: Tap a mentor to modify or delete it. Tap the add icon in the top right to add a new mentor." />
+            android:text="Tip: Tap a course to modify or delete it. Tap the add icon in the top right to add a new course." />
 
         <ListView
             android:id="@+id/listView"
@@ -26,4 +25,4 @@
             tools:layout_editor_absoluteX="8dp"
             tools:layout_editor_absoluteY="8dp" />
     </LinearLayout>
-</android.support.design.widget.CoordinatorLayout>
+</android.support.constraint.ConstraintLayout>

@@ -5,4 +5,7 @@
     <string name="title_activity_add_term">Add Term</string>
     <string name="title_activity_add_mentor">Add Mentor</string>
     <string name="title_activity_view_mentors">Mentors</string>
+    <string name="title_activity_view_assessments">Assessments</string>
+    <string name="title_activity_view_courses">Courses</string>
+    <string name="title_activity_view_terms">Terms</string>
 </resources>

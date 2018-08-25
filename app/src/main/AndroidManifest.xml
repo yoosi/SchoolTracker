@@ -15,6 +15,7 @@
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -52,6 +53,33 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="edu.wgu.cmaxwe3.schooltracker.ViewMentorsActivity" />
+        </activity>
+        <activity
+            android:name=".ViewAssessmentsActivity"
+            android:label="@string/title_activity_view_assessments"
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="edu.wgu.cmaxwe3.schooltracker.MainActivity" />
+        </activity>
+        <activity
+            android:name=".ViewCoursesActivity"
+            android:label="@string/title_activity_view_courses"
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="edu.wgu.cmaxwe3.schooltracker.MainActivity" />
+        </activity>
+        <activity
+            android:name=".ViewTermsActivity"
+            android:label="@string/title_activity_view_terms"
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="edu.wgu.cmaxwe3.schooltracker.MainActivity" />
         </activity>
     </application>
 

@@ -28,19 +28,28 @@ public class MainActivity extends AppCompatActivity {
     DatabaseHelper db;
 
 
-
-    public void openAbout(){
+    public void openAbout() {
         Intent intent = new Intent(this, AboutActivity.class);
         startActivity(intent);
     }
 
-    public void openAddTerm(){
+    public void openAddTerm() {
         Intent intent = new Intent(this, AddTermActivity.class);
         startActivity(intent);
     }
 
-    public void openViewMentors(){
+    public void openViewMentors() {
         Intent intent = new Intent(this, ViewMentorsActivity.class);
+        startActivity(intent);
+    }
+
+    public void openViewAssessments() {
+        Intent intent = new Intent(this, ViewAssessmentsActivity.class);
+        startActivity(intent);
+    }
+
+    public void openViewCourses() {
+        Intent intent = new Intent(this, ViewCoursesActivity.class);
         startActivity(intent);
     }
 
@@ -80,9 +89,8 @@ public class MainActivity extends AppCompatActivity {
         buttonViewAssessments.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 // Do something in response to button click
-                db = new DatabaseHelper(getApplicationContext());
-                db.deleteAllMentors();
                 System.out.println("pressed view assignments");
+                openViewAssessments();
             }
         });
 
@@ -92,6 +100,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 // Do something in response to button click
                 System.out.println("pressed view courses");
+                openViewCourses();
             }
         });
 
@@ -117,15 +126,12 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-
-
     }
 
 
     private void printSomething() {
         System.out.println("the button was pressed");
     }
-
 
 
     private void testStuff() {
