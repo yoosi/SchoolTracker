@@ -17,7 +17,6 @@ import android.widget.Button;
 import java.util.List;
 
 import edu.wgu.cmaxwe3.schooltracker.helper.DatabaseHelper;
-import edu.wgu.cmaxwe3.schooltracker.helper.Tools;
 import edu.wgu.cmaxwe3.schooltracker.model.Assessment;
 import edu.wgu.cmaxwe3.schooltracker.model.Course;
 import edu.wgu.cmaxwe3.schooltracker.model.Mentor;
@@ -40,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void openAddMentor(){
+    public void openViewMentors(){
         Intent intent = new Intent(this, ViewMentorsActivity.class);
         startActivity(intent);
     }
@@ -72,7 +71,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 // Do something in response to button click
                 System.out.println("pressed mentors");
-                openAddMentor();
+                openViewMentors();
             }
         });
 

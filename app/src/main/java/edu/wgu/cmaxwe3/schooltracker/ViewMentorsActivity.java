@@ -1,5 +1,6 @@
 package edu.wgu.cmaxwe3.schooltracker;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -19,6 +20,12 @@ public class ViewMentorsActivity extends AppCompatActivity {
 
     DatabaseHelper db;
 
+
+    public void openAddMentor(){
+        Intent intent = new Intent(this, AddMentorActivity.class);
+        startActivity(intent);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,6 +39,7 @@ public class ViewMentorsActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
+                openAddMentor();
             }
         });
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
