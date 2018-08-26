@@ -33,11 +33,6 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void openAddTerm() {
-        Intent intent = new Intent(this, AddTermActivity.class);
-        startActivity(intent);
-    }
-
     public void openViewMentors() {
         Intent intent = new Intent(this, ViewMentorsActivity.class);
         startActivity(intent);
@@ -50,6 +45,11 @@ public class MainActivity extends AppCompatActivity {
 
     public void openViewCourses() {
         Intent intent = new Intent(this, ViewCoursesActivity.class);
+        startActivity(intent);
+    }
+
+    public void openViewTerms() {
+        Intent intent = new Intent(this, ViewTermsActivity.class);
         startActivity(intent);
     }
 
@@ -110,8 +110,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 // Do something in response to button click
                 System.out.println("pressed view terms");
-
-                openAddTerm();
+                openViewTerms();
             }
         });
 
