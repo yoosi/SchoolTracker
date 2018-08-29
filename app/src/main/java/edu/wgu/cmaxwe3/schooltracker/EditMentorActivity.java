@@ -6,25 +6,39 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.CheckedTextView;
-import android.widget.ListView;
-
-import java.util.List;
+import android.widget.EditText;
+import android.widget.TextView;
 
 import edu.wgu.cmaxwe3.schooltracker.helper.DatabaseHelper;
-import edu.wgu.cmaxwe3.schooltracker.model.Course;
-import edu.wgu.cmaxwe3.schooltracker.model.Term;
+import edu.wgu.cmaxwe3.schooltracker.model.Mentor;
 
-public class AddTermActivity extends AppCompatActivity {
+public class EditMentorActivity extends AppCompatActivity {
+
     DatabaseHelper db;
+    String mentorID;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_term);
-        Toolbar toolbar = ( Toolbar) findViewById(R.id.toolbar);
+        setContentView(R.layout.activity_edit_mentor);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        mentorID = getIntent().getStringExtra(ViewMentorsActivity.MENTOR_ID);
+        EditText nameInput = findViewById(R.id.editTextName);
+        EditText phoneInput = findViewById(R.id.editTextPhone);
+        EditText emailInput = findViewById(R.id.editTextEmail);
+
+        System.out.println("**** MENTOR ID: " + mentorID);
+
+        db = new DatabaseHelper(getApplicationContext());
+        Mentor mentor = db.getMentor(Integer.valueOf(mentorID));
+
+        nameInput.setText(mentor.getName());
+        phoneInput.setText(mentor.getPhone());
+        emailInput.setText(mentor.getEmail());
+
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -35,30 +49,14 @@ public class AddTermActivity extends AppCompatActivity {
             }
         });
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-    }
 
+    }
 
     @Override
     protected void onResume() {
-        List<Course> courses = getCourses();
-
-        ArrayAdapter<Course> adapter = new ArrayAdapter<Course>(this,
-                android.R.layout.simple_list_item_checked, android.R.id.text1, courses);
-
-
-        ListView lv = (ListView) findViewById(R.id.listViewCourses);
-//        CheckedTextView ctv = findViewById(R.id.checkedTextViewCourses);
-
-        lv.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
-        lv.setAdapter(adapter);
-
         super.onResume();
+
     }
 
-    private List<Course> getCourses() {
-        db = new DatabaseHelper(getApplicationContext());
-        List<Course> courses = db.getAllCourses();
-        return courses;
-    }
 
 }

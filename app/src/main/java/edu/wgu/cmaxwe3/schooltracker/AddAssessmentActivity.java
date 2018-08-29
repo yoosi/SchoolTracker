@@ -8,6 +8,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Switch;
 import android.widget.ToggleButton;
 
 import edu.wgu.cmaxwe3.schooltracker.helper.DatabaseHelper;
@@ -18,40 +19,44 @@ public class AddAssessmentActivity extends AppCompatActivity {
     DatabaseHelper db;
 
 
-    private String getAssessmentType(){
-        // todo implement this
-        return "Objective";
+    private String getAssessmentType() {
+        Switch typeInput = findViewById(R.id.switchType);
+        if (typeInput.isChecked()) {
+            return "PERFORMANCE";
+        } else {
+            return "OBJECTIVE";
+        }
     }
 
-    private String getAssessmentTitle(){
-        EditText titleInput = (EditText) findViewById(R.id.editTextTitle);
+    private String getAssessmentTitle() {
+        EditText titleInput = findViewById(R.id.editTextTitle);
         return titleInput.getText().toString();
     }
 
-    private String getDueDate(){
+    private String getDueDate() {
         EditText dueDateInputYear = findViewById(R.id.editTextDueDateYear);
         EditText dueDateInputMonth = findViewById(R.id.editTextDueDateMonth);
         EditText dueDateInputDay = findViewById(R.id.editTextDueDateDay);
         return dueDateInputYear + "-" + dueDateInputMonth + "-" + dueDateInputDay;
     }
 
-     private String getGoalDate(){
+    private String getGoalDate() {
         EditText goalDateInputYear = findViewById(R.id.editTextGoalDateYear);
         EditText goalDateInputMonth = findViewById(R.id.editTextGoalDateMonth);
         EditText goalDateInputDay = findViewById(R.id.editTextGoalDateDay);
         return goalDateInputYear + "-" + goalDateInputMonth + "-" + goalDateInputDay;
     }
 
-    private int getGoalDateAlert(){
+    private int getGoalDateAlert() {
         ToggleButton goalDateAlertInput = findViewById(R.id.toggleButtonGoalDateAlert);
-        if(goalDateAlertInput.isChecked()){
+        if (goalDateAlertInput.isChecked()) {
             return 1;
-        } else{
+        } else {
             return 0;
         }
     }
 
-    private Assessment getAssessment(){
+    private Assessment getAssessment() {
 
         Assessment assessment = new Assessment(getAssessmentType(), getAssessmentTitle(),
                 getDueDate(), getGoalDate(), getGoalDateAlert());
@@ -60,17 +65,16 @@ public class AddAssessmentActivity extends AppCompatActivity {
     }
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_assessment);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        Button saveButton = (Button) findViewById(R.id.buttonSave);
+        Button saveButton = findViewById(R.id.buttonSave);
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -78,11 +82,12 @@ public class AddAssessmentActivity extends AppCompatActivity {
                 Assessment newAssessment = getAssessment();
                 // insert assessment
                 long assessment_id = db.createAssessment(newAssessment);
+                System.out.println("**** ASSESSMENT CREATED at ID: " + assessment_id);
+                System.out.println("**** ASSESSMENT TYPE: " + newAssessment.getType());
+                System.out.println("**** ASSESSMENT ALERT: " + newAssessment.getGoalDateAlert());
                 finish();
             }
         });
-
-
 
 
     }

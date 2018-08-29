@@ -217,6 +217,29 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return mentors;
     }
 
+    public Mentor getMentor(long mentor_id) {
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        String selectQuery = "SELECT  * FROM " + TABLE_MENTOR + " WHERE "
+                + KEY_MENTOR_ID + " = " + mentor_id;
+
+        Log.e(LOG, selectQuery);
+
+        Cursor c = db.rawQuery(selectQuery, null);
+
+        if (c != null)
+            c.moveToFirst();
+
+        Mentor mentor = new Mentor();
+
+        mentor.setId(c.getInt(c.getColumnIndex(KEY_MENTOR_ID)));
+        mentor.setName(c.getString(c.getColumnIndex(KEY_MENTOR_NAME)));
+        mentor.setPhone(c.getString(c.getColumnIndex(KEY_MENTOR_PHONE)));
+        mentor.setEmail(c.getString(c.getColumnIndex(KEY_MENTOR_EMAIL)));
+
+        return mentor;
+    }
+
     public long createAssessment(Assessment assessment) {
         SQLiteDatabase db = this.getWritableDatabase();
 

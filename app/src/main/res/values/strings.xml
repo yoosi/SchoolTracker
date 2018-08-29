@@ -9,4 +9,5 @@
     <string name="title_activity_view_courses">Courses</string>
     <string name="title_activity_view_terms">Terms</string>
     <string name="title_activity_add_assessment">Add Assessment</string>
+    <string name="title_activity_edit_mentor">Edit Mentor</string>
 </resources>

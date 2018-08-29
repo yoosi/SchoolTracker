@@ -61,7 +61,7 @@
         android:layout_height="match_parent"
         android:gravity="bottom|center_vertical|center"
         android:paddingTop="20dp"
-        android:text="v1.0" />
+        android:text="v1.0 - cmaxwe3@wgu.edu" />
 
 
 </LinearLayout>
