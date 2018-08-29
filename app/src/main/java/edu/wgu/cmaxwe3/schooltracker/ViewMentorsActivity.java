@@ -36,7 +36,7 @@ public class ViewMentorsActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -56,7 +56,7 @@ public class ViewMentorsActivity extends AppCompatActivity {
         final List<Mentor> mentors = getMentors();
         ArrayAdapter<Mentor> adapter = new ArrayAdapter<Mentor>(this,
                 android.R.layout.simple_list_item_1, android.R.id.text1, mentors);
-        ListView lv = (ListView) findViewById(R.id.listView);
+        ListView lv = findViewById(R.id.listView);
         lv.setAdapter(adapter);
 
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -76,10 +76,7 @@ public class ViewMentorsActivity extends AppCompatActivity {
 
     private List<Mentor> getMentors(){
         db = new DatabaseHelper(getApplicationContext());
-
-        List<Mentor> mentors = db.getAllMentors();
-
-        return mentors;
+        return db.getAllMentors();
     }
 
 }

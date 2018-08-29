@@ -28,10 +28,10 @@ public class ViewAssessmentsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_assessments);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -50,16 +50,13 @@ public class ViewAssessmentsActivity extends AppCompatActivity {
                 android.R.layout.simple_list_item_1, android.R.id.text1, assessments);
 
 
-        ListView lv = (ListView) findViewById(R.id.listView);
+        ListView lv = findViewById(R.id.listView);
         lv.setAdapter(adapter);
         super.onResume();
     }
 
-    private List<Assessment> getAssessments(){
+    private List<Assessment> getAssessments() {
         db = new DatabaseHelper(getApplicationContext());
-
-        List<Assessment> assessments = db.getAllAssessments();
-
-        return assessments;
+        return db.getAllAssessments();
     }
 }

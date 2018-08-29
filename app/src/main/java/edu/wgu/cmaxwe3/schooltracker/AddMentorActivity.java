@@ -16,12 +16,12 @@ import edu.wgu.cmaxwe3.schooltracker.model.Mentor;
 public class AddMentorActivity extends AppCompatActivity {
     DatabaseHelper db;
 
-    public void openViewMentors(){
+    public void openViewMentors() {
         Intent intent = new Intent(this, ViewMentorsActivity.class);
         startActivity(intent);
     }
 
-    private Mentor getMentor(){
+    private Mentor getMentor() {
         EditText nameInput = findViewById(R.id.editTextName);
         EditText phoneInput = findViewById(R.id.editTextPhone);
         EditText emailInput = findViewById(R.id.editTextEmail);
@@ -32,22 +32,18 @@ public class AddMentorActivity extends AppCompatActivity {
 
         System.out.println("Name length is: " + name.length());
 
-        Mentor mentor = new Mentor(name, phone, email);
-
-        return mentor;
+        return new Mentor(name, phone, email);
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_mentor);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
 
-
-
-        Button saveButton = (Button) findViewById(R.id.buttonSave);
+        Button saveButton = findViewById(R.id.buttonSave);
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

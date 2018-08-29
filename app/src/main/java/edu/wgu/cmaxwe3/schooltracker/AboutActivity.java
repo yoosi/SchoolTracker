@@ -21,10 +21,10 @@ public class AboutActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_about);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -36,8 +36,7 @@ public class AboutActivity extends AppCompatActivity {
 
         StringBuilder text;
 
-        TextView textView = (TextView) findViewById(R.id.textView);
-
+        TextView textView = findViewById(R.id.textView);
 
 
         textView.setText(getTopTerm().getTitle());
@@ -45,13 +44,11 @@ public class AboutActivity extends AppCompatActivity {
     }
 
 
-
-    private Term getTopTerm(){
+    private Term getTopTerm() {
         db = new DatabaseHelper(getApplicationContext());
 
         List<Term> terms = db.getAllTerms();
 
-        Term term = terms.get(0);
-        return term;
+        return terms.get(0);
     }
 }

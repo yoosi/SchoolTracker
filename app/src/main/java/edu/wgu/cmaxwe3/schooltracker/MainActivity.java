@@ -59,11 +59,11 @@ public class MainActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         // button
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -75,7 +75,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         // button view mentors
-        Button buttonViewMentors = (Button) findViewById(R.id.buttonViewMentors);
+        Button buttonViewMentors = findViewById(R.id.buttonViewMentors);
         buttonViewMentors.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 // Do something in response to button click
@@ -85,7 +85,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         // button view assessments
-        Button buttonViewAssessments = (Button) findViewById(R.id.buttonViewAssessments);
+        Button buttonViewAssessments = findViewById(R.id.buttonViewAssessments);
         buttonViewAssessments.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 // Do something in response to button click
@@ -95,7 +95,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         // button view courses
-        Button buttonViewCourses = (Button) findViewById(R.id.buttonViewCourses);
+        Button buttonViewCourses = findViewById(R.id.buttonViewCourses);
         buttonViewCourses.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 // Do something in response to button click
@@ -105,7 +105,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         // button view terms
-        Button buttonViewTerms = (Button) findViewById(R.id.buttonViewTerms);
+        Button buttonViewTerms = findViewById(R.id.buttonViewTerms);
         buttonViewTerms.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 // Do something in response to button click
@@ -115,7 +115,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         // button view about
-        Button buttonViewAbout = (Button) findViewById(R.id.buttonViewAbout);
+        Button buttonViewAbout = findViewById(R.id.buttonViewAbout);
         buttonViewAbout.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 // Do something in response to button click

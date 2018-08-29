@@ -23,10 +23,10 @@ public class AddTermActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_term);
-        Toolbar toolbar = ( Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -46,7 +46,7 @@ public class AddTermActivity extends AppCompatActivity {
                 android.R.layout.simple_list_item_checked, android.R.id.text1, courses);
 
 
-        ListView lv = (ListView) findViewById(R.id.listViewCourses);
+        ListView lv = findViewById(R.id.listViewCourses);
 //        CheckedTextView ctv = findViewById(R.id.checkedTextViewCourses);
 
         lv.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
@@ -57,8 +57,7 @@ public class AddTermActivity extends AppCompatActivity {
 
     private List<Course> getCourses() {
         db = new DatabaseHelper(getApplicationContext());
-        List<Course> courses = db.getAllCourses();
-        return courses;
+        return db.getAllCourses();
     }
 
 }
