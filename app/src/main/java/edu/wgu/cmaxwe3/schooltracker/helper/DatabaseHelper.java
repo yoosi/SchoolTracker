@@ -184,6 +184,29 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     }
 
+    public long updateMentor(int id, Mentor mentor){
+
+
+        deleteMentor(id);
+        Log.d("updateMentor", "mentor removed at id: " + id);
+
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(KEY_MENTOR_ID, id);
+        values.put(KEY_MENTOR_NAME, mentor.getName());
+        values.put(KEY_MENTOR_EMAIL, mentor.getEmail());
+        values.put(KEY_MENTOR_PHONE, mentor.getPhone());
+
+        // insert row
+        long mentor_id = db.insert(TABLE_MENTOR, null, values);
+
+        Log.d("updateMentor", "mentor added at id: " + mentor_id);
+
+        return mentor_id;
+
+    }
+
     public void deleteAllMentors() {
         SQLiteDatabase db = this.getWritableDatabase();
         db.execSQL("delete from " + TABLE_MENTOR);
@@ -240,6 +263,69 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return mentor;
     }
 
+
+    public Assessment getAssessment(long assessment_id) {
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        String selectQuery = "SELECT  * FROM " + TABLE_ASSESSMENT + " WHERE "
+                + KEY_ASSESSMENT_ID+ " = " + assessment_id;
+
+        Log.e(LOG, selectQuery);
+
+        Cursor c = db.rawQuery(selectQuery, null);
+
+        if (c != null)
+            c.moveToFirst();
+
+        String[] columnNames = c.getColumnNames();
+        for (String columnName: columnNames
+             ) {
+            System.out.println("*** COLUMN NAME: " + columnName);
+        }
+
+
+        Assessment assessment = new Assessment();
+        assessment.setId(c.getInt(c.getColumnIndex(KEY_ASSESSMENT_ID)));
+        assessment.setTitle(c.getString(c.getColumnIndex(KEY_ASSESSMENT_TITLE)));
+        assessment.setType(c.getString(c.getColumnIndex(KEY_ASSESSMENT_TYPE)));
+        assessment.setDueDate(c.getString(c.getColumnIndex(KEY_ASSESSMENT_DUE_DATE)));
+        assessment.setGoalDate(c.getString(c.getColumnIndex(KEY_ASSESSMENT_GOAL_DATE)));
+        assessment.setGoalDateAlert(c.getInt(c.getColumnIndex(KEY_ASSESSMENT_GOAL_DATE_ALERT)));
+        assessment.setCourseId(c.getInt(c.getColumnIndex(KEY_ASSESSMENT_COURSE_ID)));
+
+        return assessment;
+
+
+    }
+
+
+
+//    public Assessment getAssessment(long assessment_id) {
+//        SQLiteDatabase db = this.getReadableDatabase();
+//
+//        String selectQuery = "SELECT  * FROM " + TABLE_MENTOR + " WHERE "
+//                + KEY_ASSESSMENT_ID + " = " + assessment_id;
+//
+//        Log.e(LOG, selectQuery);
+//
+//        Cursor c = db.rawQuery(selectQuery, null);
+//
+//        if (c != null)
+//            c.moveToFirst();
+//
+//        Assessment assessment = new Assessment();
+//        assessment.setId(c.getInt((c.getColumnIndex(KEY_ASSESSMENT_ID))));
+//        assessment.setType((c.getString(c.getColumnIndex(KEY_ASSESSMENT_TYPE))));
+//        assessment.setTitle(c.getString(c.getColumnIndex(KEY_ASSESSMENT_TITLE)));
+//        assessment.setDueDate(c.getString(c.getColumnIndex(KEY_ASSESSMENT_DUE_DATE)));
+//        assessment.setGoalDate(c.getString(c.getColumnIndex(KEY_ASSESSMENT_COURSE_ID)));
+//        assessment.setGoalDateAlert(c.getInt(c.getColumnIndex(KEY_ASSESSMENT_COURSE_ID)));
+//        assessment.setCourseId(c.getInt(c.getColumnIndex(KEY_ASSESSMENT_COURSE_ID)));
+//
+//        return assessment;
+//    }
+
+
     public long createAssessment(Assessment assessment) {
         SQLiteDatabase db = this.getWritableDatabase();
 
@@ -280,6 +366,16 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         Log.d("createAssessment", "assessment added at id: " + assessment_id);
 
         return assessment_id;
+    }
+
+    public long updateAssessment(Assessment assessment, int id) {
+        deleteAssessment(id);
+        Log.d("updateAssessment", "assessment removed at id: " + id);
+
+        long assessmentId = createAssessment(assessment, id);
+        Log.d("updateAssessment", "assessment added at id: " + assessmentId);
+
+        return assessmentId;
     }
 
 
@@ -457,5 +553,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         Date date = new Date();
         return dateFormat.format(date);
     }
+
 
 }

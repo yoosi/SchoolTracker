@@ -38,17 +38,6 @@ public class AboutActivity extends AppCompatActivity {
 
         TextView textView = findViewById(R.id.textView);
 
-
-        textView.setText(getTopTerm().getTitle());
-
     }
 
-
-    private Term getTopTerm() {
-        db = new DatabaseHelper(getApplicationContext());
-
-        List<Term> terms = db.getAllTerms();
-
-        return terms.get(0);
-    }
 }

@@ -6,6 +6,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -17,6 +18,19 @@ public class EditMentorActivity extends AppCompatActivity {
     DatabaseHelper db;
     String mentorID;
 
+
+    private Mentor getMentor() {
+
+        EditText nameInput = findViewById(R.id.editTextName);
+        EditText phoneInput = findViewById(R.id.editTextPhone);
+        EditText emailInput = findViewById(R.id.editTextEmail);
+
+        String name = nameInput.getText().toString();
+        String phone = phoneInput.getText().toString();
+        String email = emailInput.getText().toString();
+
+        return new Mentor(name, phone, email);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +63,19 @@ public class EditMentorActivity extends AppCompatActivity {
             }
         });
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        Button saveButton = findViewById(R.id.buttonSave);
+        saveButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                db = new DatabaseHelper(getApplicationContext());
+                Mentor newMentor = getMentor();
+                System.out.println("*** MENTOR ID IS: " + mentorID);
+                //insert mentor
+                long mentor_id = db.updateMentor(Integer.valueOf(mentorID), newMentor);
+                finish();
+            }
+        });
 
     }
 

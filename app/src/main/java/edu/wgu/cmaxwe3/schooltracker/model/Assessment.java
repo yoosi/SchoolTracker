@@ -89,6 +89,10 @@ public class Assessment {
     public String getDueDate() {
         return dueDate;
     }
+    public String getDueDateYear(){
+        String year = dueDate.substring(0, Math.min(dueDate.length(), 4));
+        return year;
+    }
 
     public void setDueDate(String dueDate) {
         this.dueDate = dueDate;
@@ -117,4 +121,6 @@ public class Assessment {
     public void setCourseId(int courseId) {
         this.courseId = courseId;
     }
+
+
 }

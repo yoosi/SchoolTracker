@@ -7,6 +7,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
@@ -17,7 +18,9 @@ import edu.wgu.cmaxwe3.schooltracker.model.Assessment;
 import edu.wgu.cmaxwe3.schooltracker.model.Mentor;
 
 public class ViewAssessmentsActivity extends AppCompatActivity {
+
     DatabaseHelper db;
+    public static String ASSESSMENT_ID = "ASSESSMENT_ID";
 
     public void openAddAssessment() {
         Intent intent = new Intent(this, AddAssessmentActivity.class);
@@ -44,7 +47,8 @@ public class ViewAssessmentsActivity extends AppCompatActivity {
 
     @Override
     protected void onResume() {
-        List<Assessment> assessments = getAssessments();
+        final List<Assessment> assessments = getAssessments();
+        System.out.println("*** ASSESSMENTS LENGTH: " + assessments.size());
 
         ArrayAdapter<Assessment> adapter = new ArrayAdapter<Assessment>(this,
                 android.R.layout.simple_list_item_1, android.R.id.text1, assessments);
@@ -52,6 +56,23 @@ public class ViewAssessmentsActivity extends AppCompatActivity {
 
         ListView lv = findViewById(R.id.listView);
         lv.setAdapter(adapter);
+
+
+        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+                Intent intent = new Intent(ViewAssessmentsActivity.this, EditAssessmentActivity.class);
+
+                Assessment assessment = assessments.get(position);
+                System.out.println("*** PUTTING ASSESSMENT ID: " + assessment.getId());
+                intent.putExtra(ASSESSMENT_ID, String.valueOf(assessment.getId()));
+                startActivity(intent);
+            }
+        });
+
+
+
+
         super.onResume();
     }
 

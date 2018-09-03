@@ -57,6 +57,9 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
+        db = new DatabaseHelper(getApplicationContext());
+//        db.deleteAllAssessments();
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -123,10 +126,6 @@ public class MainActivity extends AppCompatActivity {
                 openAbout();
             }
         });
-
-        db = new DatabaseHelper(getApplicationContext());
-        db.deleteAllAssessments();
-        db.deleteAllTerms();
 
     }
 

@@ -99,6 +99,15 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="edu.wgu.cmaxwe3.schooltracker.ViewMentorsActivity" />
         </activity>
+        <activity
+            android:name=".EditAssessmentActivity"
+            android:label="@string/title_activity_edit_assessment"
+            android:parentActivityName=".ViewAssessmentsActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="edu.wgu.cmaxwe3.schooltracker.ViewAssessmentsActivity" />
+        </activity>
     </application>
 
 </manifest>
