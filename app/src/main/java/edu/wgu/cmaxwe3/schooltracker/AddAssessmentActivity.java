@@ -1,22 +1,36 @@
 package edu.wgu.cmaxwe3.schooltracker;
 
+import android.app.DatePickerDialog;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Switch;
+import android.widget.TextView;
 import android.widget.ToggleButton;
+
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Locale;
 
 import edu.wgu.cmaxwe3.schooltracker.helper.DatabaseHelper;
 import edu.wgu.cmaxwe3.schooltracker.model.Assessment;
-import edu.wgu.cmaxwe3.schooltracker.model.Mentor;
 
-public class AddAssessmentActivity extends AppCompatActivity {
-    DatabaseHelper db;
+
+public class AddAssessmentActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener{
+    private DatabaseHelper db;
+
+    private String dueDate;
+    private String goalDate;
+    private boolean pickingDueDate;
 
 
     private String getAssessmentType() {
@@ -34,17 +48,11 @@ public class AddAssessmentActivity extends AppCompatActivity {
     }
 
     private String getDueDate() {
-        EditText dueDateInputYear = findViewById(R.id.editTextDueDateYear);
-        EditText dueDateInputMonth = findViewById(R.id.editTextDueDateMonth);
-        EditText dueDateInputDay = findViewById(R.id.editTextDueDateDay);
-        return dueDateInputYear + "-" + dueDateInputMonth + "-" + dueDateInputDay;
+        return String.valueOf(dueDate);
     }
 
     private String getGoalDate() {
-        EditText goalDateInputYear = findViewById(R.id.editTextGoalDateYear);
-        EditText goalDateInputMonth = findViewById(R.id.editTextGoalDateMonth);
-        EditText goalDateInputDay = findViewById(R.id.editTextGoalDateDay);
-        return goalDateInputYear + "-" + goalDateInputMonth + "-" + goalDateInputDay;
+        return String.valueOf(goalDate);
     }
 
     private int getGoalDateAlert() {
@@ -74,6 +82,34 @@ public class AddAssessmentActivity extends AppCompatActivity {
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+
+        Button pickDueDateButton = findViewById(R.id.buttonDueDate);
+        pickDueDateButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                DialogFragment datePicker = new DatePickerFragment();
+                pickingDueDate = true;
+                datePicker.show(getSupportFragmentManager(), "date picker");
+
+
+            }
+        });
+
+        Button pickGoalDateButton = findViewById(R.id.buttonGoalDate);
+        pickGoalDateButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                DialogFragment datePicker = new DatePickerFragment();
+                pickingDueDate = false;
+                datePicker.show(getSupportFragmentManager(), "date picker");
+
+
+            }
+        });
+
+
+
+
         Button saveButton = findViewById(R.id.buttonSave);
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -85,9 +121,42 @@ public class AddAssessmentActivity extends AppCompatActivity {
                 System.out.println("**** ASSESSMENT CREATED at ID: " + assessment_id);
                 System.out.println("**** ASSESSMENT TYPE: " + newAssessment.getType());
                 System.out.println("**** ASSESSMENT ALERT: " + newAssessment.getGoalDateAlert());
+                System.out.println("**** ASSESSMENT DUE DATE: " + newAssessment.getGoalDate());
                 finish();
             }
         });
+
+
+    }
+
+
+    @Override
+    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+        Calendar c = Calendar.getInstance();
+        c.set(Calendar.YEAR, year);
+        c.set(Calendar.MONTH, month);
+        c.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+
+
+        System.out.println("*** YEAR:  " + year);
+        System.out.println("*** MONTH: " + month);
+        System.out.println("*** DAY:   " + dayOfMonth);
+
+        String currentDateStringPretty = DateFormat.getDateInstance().format(c.getTime());
+
+
+
+        if (pickingDueDate) {
+            TextView textView = findViewById(R.id.textViewDueDate);
+            textView.setText(currentDateStringPretty);
+            dueDate = currentDateStringPretty;
+        } else {
+            TextView textView = findViewById(R.id.textViewGoalDate);
+            textView.setText(currentDateStringPretty);
+            goalDate = currentDateStringPretty;
+    }
+
+
 
 
     }

@@ -1,6 +1,8 @@
 package edu.wgu.cmaxwe3.schooltracker.model;
 
 
+import edu.wgu.cmaxwe3.schooltracker.helper.Tools;
+
 public class Assessment {
 
     private int id;
@@ -90,8 +92,27 @@ public class Assessment {
         return dueDate;
     }
     public String getDueDateYear(){
-        String year = dueDate.substring(0, Math.min(dueDate.length(), 4));
-        return year;
+        return Tools.getYear(dueDate);
+    }
+
+    public String getDueDateMonth(){
+        return Tools.getMonth(dueDate);
+    }
+
+    public String getDueDateDay(){
+        return Tools.getDay(dueDate);
+    }
+
+    public String getGoalDateYear(){
+        return Tools.getYear(goalDate);
+    }
+
+    public String getGoalDateMonth(){
+        return Tools.getMonth(goalDate);
+    }
+
+    public String getGoalDateDay(){
+        return Tools.getDay(goalDate);
     }
 
     public void setDueDate(String dueDate) {

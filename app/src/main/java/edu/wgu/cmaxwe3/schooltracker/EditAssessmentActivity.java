@@ -5,34 +5,24 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Switch;
+import android.widget.TextView;
 import android.widget.ToggleButton;
 
 import java.util.List;
 
 import edu.wgu.cmaxwe3.schooltracker.helper.DatabaseHelper;
+import edu.wgu.cmaxwe3.schooltracker.helper.Tools;
 import edu.wgu.cmaxwe3.schooltracker.model.Assessment;
 
 public class EditAssessmentActivity extends AppCompatActivity {
     DatabaseHelper db;
     String assessmentID;
-
-//    EditText titleInput = findViewById(R.id.editTextTitle);
-
-//    EditText dueDateInputYear = findViewById(R.id.editTextDueDateYear);
-//    EditText dueDateInputMonth = findViewById(R.id.editTextDueDateMonth);
-//    EditText dueDateInputDay = findViewById(R.id.editTextDueDateDay);
-
-//    EditText goalDateInputYear = findViewById(R.id.editTextGoalDateYear);
-//    EditText goalDateInputMonth = findViewById(R.id.editTextGoalDateMonth);
-//    EditText goalDateInputDay = findViewById(R.id.editTextGoalDateDay);
-
-//    ToggleButton goalDateAlertInput = findViewById(R.id.toggleButtonGoalDateAlert);
-
-//    Switch typeInput = findViewById(R.id.switchType);
 
 
     private String getAssessmentType() {
@@ -50,17 +40,21 @@ public class EditAssessmentActivity extends AppCompatActivity {
     }
 
     private String getDueDate() {
-        EditText dueDateInputYear = findViewById(R.id.editTextDueDateYear);
-        EditText dueDateInputMonth = findViewById(R.id.editTextDueDateMonth);
-        EditText dueDateInputDay = findViewById(R.id.editTextDueDateDay);
-        return dueDateInputYear + "-" + dueDateInputMonth + "-" + dueDateInputDay;
+//        EditText dueDateInputYear = findViewById(R.id.editTextDueDateYear);
+//        EditText dueDateInputMonth = findViewById(R.id.editTextDueDateMonth);
+//        EditText dueDateInputDay = findViewById(R.id.editTextDueDateDay);
+//        return dueDateInputYear.getText() + "-" + dueDateInputMonth.getText() + "-"
+//                + dueDateInputDay.getText();
+        return "foo"; // todo this
     }
 
     private String getGoalDate() {
-        EditText goalDateInputYear = findViewById(R.id.editTextGoalDateYear);
-        EditText goalDateInputMonth = findViewById(R.id.editTextGoalDateMonth);
-        EditText goalDateInputDay = findViewById(R.id.editTextGoalDateDay);
-        return goalDateInputYear + "-" + goalDateInputMonth + "-" + goalDateInputDay;
+//        EditText goalDateInputYear = findViewById(R.id.editTextGoalDateYear);
+//        EditText goalDateInputMonth = findViewById(R.id.editTextGoalDateMonth);
+//        EditText goalDateInputDay = findViewById(R.id.editTextGoalDateDay);
+//        return goalDateInputYear.getText() + "-" + goalDateInputMonth.getText() + "-"
+//                + goalDateInputDay.getText();
+        return "foo"; // todo this
     }
 
     private int getGoalDateAlert() {
@@ -87,21 +81,21 @@ public class EditAssessmentActivity extends AppCompatActivity {
     }
 
     private void setDueDate(String year, String month, String day) {
-        EditText dueDateInputYear = findViewById(R.id.editTextDueDateYear);
-        EditText dueDateInputMonth = findViewById(R.id.editTextDueDateMonth);
-        EditText dueDateInputDay = findViewById(R.id.editTextDueDateDay);
-        dueDateInputYear.setText(year);
-        dueDateInputMonth.setText(month);
-        dueDateInputDay.setText(day);
+//        EditText dueDateInputYear = findViewById(R.id.editTextDueDateYear);
+//        EditText dueDateInputMonth = findViewById(R.id.editTextDueDateMonth);
+//        EditText dueDateInputDay = findViewById(R.id.editTextDueDateDay);
+//        dueDateInputYear.setText(year);
+//        dueDateInputMonth.setText(month);
+//        dueDateInputDay.setText(day);
     }
 
     private void setGoalDate(String year, String month, String day) {
-        EditText goalDateInputYear = findViewById(R.id.editTextGoalDateYear);
-        EditText goalDateInputMonth = findViewById(R.id.editTextGoalDateMonth);
-        EditText goalDateInputDay = findViewById(R.id.editTextGoalDateDay);
-        goalDateInputYear.setText(year);
-        goalDateInputMonth.setText(month);
-        goalDateInputDay.setText(day);
+//        EditText goalDateInputYear = findViewById(R.id.editTextGoalDateYear);
+//        EditText goalDateInputMonth = findViewById(R.id.editTextGoalDateMonth);
+//        EditText goalDateInputDay = findViewById(R.id.editTextGoalDateDay);
+//        goalDateInputYear.setText(year);
+//        goalDateInputMonth.setText(month);
+//        goalDateInputDay.setText(day);
     }
 
     private void setGoalDateAlert(int alert) {
@@ -136,8 +130,8 @@ public class EditAssessmentActivity extends AppCompatActivity {
 
         System.out.println("**** ASSESSMENT ID: " + assessmentID);
         List<Assessment> assessmentList = db.getAllAssessments();
-        for (Assessment assessment: assessmentList
-             ) {
+        for (Assessment assessment : assessmentList
+                ) {
             System.out.println("*** ASSESSMENT ID: " + assessment.getId());
             System.out.println("*** ASSESSMENT TITLE: " + assessment.getTitle());
         }
@@ -146,29 +140,35 @@ public class EditAssessmentActivity extends AppCompatActivity {
         System.out.println(assessment.getTitle());
         Switch typeInput = findViewById(R.id.switchType);
         EditText titleInput = findViewById(R.id.editTextTitle);
-        EditText dueDateYearInput = findViewById(R.id.editTextDueDateYear);
-        EditText dueDateMonthInput = findViewById(R.id.editTextDueDateMonth);
-        EditText dueDateDayInput = findViewById(R.id.editTextDueDateDay);
-        EditText goalDateYearInput = findViewById(R.id.editTextGoalDateYear);
-        EditText goalDateMonthInput = findViewById(R.id.editTextGoalDateMonth);
-        EditText goalDateDayInput = findViewById(R.id.editTextGoalDateDay);
-
-
+        TextView dueDate = findViewById(R.id.textViewDueDate);
+        TextView goalDate = findViewById(R.id.textViewGoalDate);
+        ToggleButton toggleButtonGoalDateAlert = findViewById(R.id.toggleButtonGoalDateAlert);
 
 
         // set inputs to assessment's values
 
         // type
-        if (assessment.getType().equals("PERFORMANCE")){
+        if (assessment.getType().equals("PERFORMANCE")) {
             typeInput.setChecked(true);
         } else {
             typeInput.setChecked(false);
         }
 
+        // title
         titleInput.setText(assessment.getTitle());
-//        dueDateYearInput.setText(assessment.getDueDateYear());
-        dueDateYearInput.setText(assessment.getDueDate());
-        goalDateYearInput.setText(assessment.getGoalDate());
+
+        // due date
+        dueDate.setText(assessment.getDueDate());
+
+        // goal date
+        goalDate.setText(assessment.getGoalDate());
+
+        // alert
+        if (assessment.getGoalDateAlert() == 1) {
+            toggleButtonGoalDateAlert.setChecked(true);
+        } else {
+            toggleButtonGoalDateAlert.setChecked(false);
+        }
 
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -181,6 +181,8 @@ public class EditAssessmentActivity extends AppCompatActivity {
         });
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+
+        // save button
         Button saveButton = findViewById(R.id.buttonSave);
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -188,13 +190,39 @@ public class EditAssessmentActivity extends AppCompatActivity {
                 db = new DatabaseHelper(getApplicationContext());
                 Assessment newAssessment = getAssessment();
                 // insert assessment
-                long assessment_id = db.createAssessment(newAssessment);
-                System.out.println("**** ASSESSMENT CREATED at ID: " + assessment_id);
-                System.out.println("**** ASSESSMENT TYPE: " + newAssessment.getType());
-                System.out.println("**** ASSESSMENT ALERT: " + newAssessment.getGoalDateAlert());
+                long assessment_id = db.updateAssessment(Integer.valueOf(assessmentID), newAssessment);
                 finish();
             }
         });
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_edit_assessment, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        switch (id) {
+
+            case R.id.delete:
+                System.out.println("*** YOU CLICKED DELETE");
+                db = new DatabaseHelper(getApplicationContext());
+                db.deleteAssessment(Integer.valueOf(assessmentID));
+                finish();
+                return true;
+        }
+
+
+        return super.onOptionsItemSelected(item);
+    }
+
 
 }

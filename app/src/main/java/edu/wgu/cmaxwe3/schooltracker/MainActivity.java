@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -73,6 +74,9 @@ public class MainActivity extends AppCompatActivity {
                 Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
                 System.out.println("YOU PUSHED THE BUTTON");
+
+                db.deleteAllAssessments();
+
             }
         });
 
@@ -126,6 +130,9 @@ public class MainActivity extends AppCompatActivity {
                 openAbout();
             }
         });
+
+        db = new DatabaseHelper(getApplicationContext());
+        db.deleteAllAssessments();
 
     }
 
@@ -232,10 +239,18 @@ public class MainActivity extends AppCompatActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        switch (id) {
+            case R.id.action_settings:
+                System.out.println("*** you clicked settings");
+                return true;
+
+
+            case R.id.about:
+                System.out.println("*** you clicked about");
+                openAbout();
+                return true;
         }
+
 
         return super.onOptionsItemSelected(item);
     }

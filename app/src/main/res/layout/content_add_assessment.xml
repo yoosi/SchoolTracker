@@ -65,83 +65,54 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal">
+            android:layout_height="match_parent">
 
             <TextView
-                android:id="@+id/textView12"
+                android:id="@+id/textViewDueDateLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Due Date: " />
 
-            <EditText
-                android:id="@+id/editTextDueDateYear"
+            <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:ems="10"
-                android:hint="YYYY"
-                android:inputType="date" />
+                android:id="@+id/buttonDueDate"
+                android:text="PICK"/>
 
-            <EditText
-                android:id="@+id/editTextDueDateMonth"
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:ems="10"
-                android:hint="MM"
-                android:inputType="date" />
+                android:text=""
+                android:id="@+id/textViewDueDate"/>
 
-            <EditText
-                android:id="@+id/editTextDueDateDay"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:ems="10"
-                android:hint="DD"
-                android:inputType="date" />
 
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal">
+            android:layout_height="match_parent">
 
             <TextView
-                android:id="@+id/textView13"
+                android:id="@+id/textViewGoalDateLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Goal Date: " />
 
-            <EditText
-                android:id="@+id/editTextGoalDateYear"
+            <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:ems="10"
-                android:hint="YYYY"
-                android:inputType="date" />
+                android:id="@+id/buttonGoalDate"
+                android:text="PICK"/>
 
-            <EditText
-                android:id="@+id/editTextGoalDateMonth"
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:ems="10"
-                android:hint="MM"
-                android:inputType="date" />
+                android:text=""
+                android:id="@+id/textViewGoalDate"/>
 
-            <EditText
-                android:id="@+id/editTextGoalDateDay"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:ems="10"
-                android:hint="DD"
-                android:inputType="date" />
 
         </LinearLayout>
+
 
         <LinearLayout
             android:layout_width="match_parent"

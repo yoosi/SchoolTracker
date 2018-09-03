@@ -207,6 +207,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     }
 
+
     public void deleteAllMentors() {
         SQLiteDatabase db = this.getWritableDatabase();
         db.execSQL("delete from " + TABLE_MENTOR);
@@ -368,7 +369,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return assessment_id;
     }
 
-    public long updateAssessment(Assessment assessment, int id) {
+    public long updateAssessment(int id, Assessment assessment) {
         deleteAssessment(id);
         Log.d("updateAssessment", "assessment removed at id: " + id);
 
