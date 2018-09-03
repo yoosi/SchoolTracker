@@ -71,8 +71,6 @@ public class ViewAssessmentsActivity extends AppCompatActivity {
         });
 
 
-
-
         super.onResume();
     }
 

@@ -24,7 +24,7 @@ public class ViewMentorsActivity extends AppCompatActivity {
     public static String MENTOR_ID = "MENTOR_ID";
 
 
-    public void openAddMentor(){
+    public void openAddMentor() {
         Intent intent = new Intent(this, AddMentorActivity.class);
         startActivity(intent);
     }
@@ -74,7 +74,7 @@ public class ViewMentorsActivity extends AppCompatActivity {
         super.onResume();
     }
 
-    private List<Mentor> getMentors(){
+    private List<Mentor> getMentors() {
         db = new DatabaseHelper(getApplicationContext());
         return db.getAllMentors();
     }

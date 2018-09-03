@@ -14,11 +14,6 @@ import java.util.Locale;
 public class Tools {
 
     @RequiresApi(api = Build.VERSION_CODES.O)
-    public static String buildDateString(int year, int month, int day) {
-        LocalDate localDate = LocalDate.of(year, month, day);
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        return localDate.format(formatter);
-    }
 
     public static String getYear(String date) {
         String year = date.substring(0, Math.min(date.length(), 4));
@@ -35,13 +30,11 @@ public class Tools {
         return day;
     }
 
-    public Calendar getCalFromString(String date) throws ParseException {
-        Calendar cal = Calendar.getInstance();
-        //        SimpleDateFormat sdf = new SimpleDateFormat("EEE MMM dd HH:mm:ss z yyyy", Locale.ENGLISH);
+    public Calendar getCalendar(String date) throws ParseException {
+        Calendar calendar = Calendar.getInstance();
         SimpleDateFormat sdf = new SimpleDateFormat("MMM dd, yyyy", Locale.ENGLISH);
-        //        cal.setTime(sdf.parse("Mon Mar 14 16:02:37 GMT 2011"));// all done
-        cal.setTime(sdf.parse(date));
-        return cal;
+        calendar.setTime(sdf.parse(date));
+        return calendar;
     }
 
 }

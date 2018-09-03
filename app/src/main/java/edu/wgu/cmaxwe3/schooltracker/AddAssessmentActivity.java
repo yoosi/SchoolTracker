@@ -137,14 +137,7 @@ public class AddAssessmentActivity extends AppCompatActivity implements DatePick
         c.set(Calendar.MONTH, month);
         c.set(Calendar.DAY_OF_MONTH, dayOfMonth);
 
-
-        System.out.println("*** YEAR:  " + year);
-        System.out.println("*** MONTH: " + month);
-        System.out.println("*** DAY:   " + dayOfMonth);
-
         String currentDateStringPretty = DateFormat.getDateInstance().format(c.getTime());
-
-
 
         if (pickingDueDate) {
             TextView textView = findViewById(R.id.textViewDueDate);

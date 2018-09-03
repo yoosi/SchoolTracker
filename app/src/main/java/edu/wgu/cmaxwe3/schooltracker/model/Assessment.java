@@ -91,29 +91,6 @@ public class Assessment {
     public String getDueDate() {
         return dueDate;
     }
-    public String getDueDateYear(){
-        return Tools.getYear(dueDate);
-    }
-
-    public String getDueDateMonth(){
-        return Tools.getMonth(dueDate);
-    }
-
-    public String getDueDateDay(){
-        return Tools.getDay(dueDate);
-    }
-
-    public String getGoalDateYear(){
-        return Tools.getYear(goalDate);
-    }
-
-    public String getGoalDateMonth(){
-        return Tools.getMonth(goalDate);
-    }
-
-    public String getGoalDateDay(){
-        return Tools.getDay(goalDate);
-    }
 
     public void setDueDate(String dueDate) {
         this.dueDate = dueDate;

@@ -184,7 +184,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     }
 
-    public long updateMentor(int id, Mentor mentor){
+    public long updateMentor(int id, Mentor mentor) {
 
 
         deleteMentor(id);
@@ -269,7 +269,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getReadableDatabase();
 
         String selectQuery = "SELECT  * FROM " + TABLE_ASSESSMENT + " WHERE "
-                + KEY_ASSESSMENT_ID+ " = " + assessment_id;
+                + KEY_ASSESSMENT_ID + " = " + assessment_id;
 
         Log.e(LOG, selectQuery);
 
@@ -279,8 +279,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             c.moveToFirst();
 
         String[] columnNames = c.getColumnNames();
-        for (String columnName: columnNames
-             ) {
+        for (String columnName : columnNames
+                ) {
             System.out.println("*** COLUMN NAME: " + columnName);
         }
 
@@ -298,7 +298,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
 
     }
-
 
 
 //    public Assessment getAssessment(long assessment_id) {
