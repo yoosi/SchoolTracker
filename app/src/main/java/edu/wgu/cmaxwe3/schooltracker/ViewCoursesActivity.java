@@ -52,7 +52,8 @@ public class ViewCoursesActivity extends AppCompatActivity {
         final List<Course> courses = getCourses();
         ArrayAdapter<Course> adapter = new ArrayAdapter<Course>(this,
                 android.R.layout.simple_list_item_1, android.R.id.text1, courses);
-        ListView lv = findViewById(R.id.listView);
+
+        ListView lv = findViewById(R.id.listViewCourses);
         lv.setAdapter(adapter);
 
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {

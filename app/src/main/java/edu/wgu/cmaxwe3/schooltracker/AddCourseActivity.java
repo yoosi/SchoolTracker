@@ -22,6 +22,7 @@ import java.util.Calendar;
 import java.util.List;
 
 import edu.wgu.cmaxwe3.schooltracker.helper.DatabaseHelper;
+import edu.wgu.cmaxwe3.schooltracker.model.Assessment;
 import edu.wgu.cmaxwe3.schooltracker.model.Course;
 import edu.wgu.cmaxwe3.schooltracker.model.Mentor;
 
@@ -91,6 +92,7 @@ public class AddCourseActivity extends AppCompatActivity implements DatePickerDi
         });
 
 
+        // save button
         Button saveButton = findViewById(R.id.buttonSave);
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -103,9 +105,9 @@ public class AddCourseActivity extends AppCompatActivity implements DatePickerDi
             }
         });
 
-
-        Button pickDueDateButton = findViewById(R.id.buttonStartDate);
-        pickDueDateButton.setOnClickListener(new View.OnClickListener() {
+        // due date button
+        Button pickStartDateButton = findViewById(R.id.buttonStartDate);
+        pickStartDateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 DialogFragment datePicker = new DatePickerFragment();
@@ -116,8 +118,10 @@ public class AddCourseActivity extends AppCompatActivity implements DatePickerDi
             }
         });
 
-        Button pickGoalDateButton = findViewById(R.id.buttonEndDate);
-        pickGoalDateButton.setOnClickListener(new View.OnClickListener() {
+
+        // end date button
+        Button pickEndDateButton = findViewById(R.id.buttonEndDate);
+        pickEndDateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 DialogFragment datePicker = new DatePickerFragment();
@@ -143,22 +147,36 @@ public class AddCourseActivity extends AppCompatActivity implements DatePickerDi
 
     @Override
     protected void onResume() {
-        List<Mentor> mentors = getMentors();
 
+        // populate list view of mentors
+        List<Mentor> mentors = getMentors();
         ArrayAdapter<Mentor> adapter = new ArrayAdapter<Mentor>(this,
                 android.R.layout.simple_list_item_checked, android.R.id.text1, mentors);
-
         ListView lv = findViewById(R.id.listViewMentors);
-
         lv.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
         lv.setAdapter(adapter);
+
+        // populate list view of assessments
+        List<Assessment> assessments = getAssessments();
+        ArrayAdapter<Assessment> adapterAssessments = new ArrayAdapter<Assessment>(this,
+                android.R.layout.simple_list_item_checked, android.R.id.text1, assessments);
+        ListView lv2 = findViewById(R.id.listViewAssessments);
+        lv2.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
+        lv2.setAdapter(adapterAssessments);
+
 
         super.onResume();
     }
 
+
     private List<Mentor> getMentors() {
         db = new DatabaseHelper(getApplicationContext());
         return db.getAllMentors();
+    }
+
+    private List<Assessment> getAssessments(){
+        db = new DatabaseHelper(getApplicationContext());
+        return db.getAllAssessments();
     }
 
 

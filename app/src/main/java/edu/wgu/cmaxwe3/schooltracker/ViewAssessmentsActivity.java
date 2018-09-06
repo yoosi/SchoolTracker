@@ -48,8 +48,6 @@ public class ViewAssessmentsActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         final List<Assessment> assessments = getAssessments();
-        System.out.println("*** ASSESSMENTS LENGTH: " + assessments.size());
-
         ArrayAdapter<Assessment> adapter = new ArrayAdapter<Assessment>(this,
                 android.R.layout.simple_list_item_1, android.R.id.text1, assessments);
 

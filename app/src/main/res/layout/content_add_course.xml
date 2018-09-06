@@ -193,8 +193,24 @@
             <ListView
                 android:id="@+id/listViewMentors"
                 android:layout_width="match_parent"
-                android:layout_height="50sp"
-                />
+                android:layout_height="250sp"
+                >
+
+            </ListView>
+
+            <TextView
+                android:id="@+id/textView3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="select assessments below. you may have to scroll." />
+
+            <ListView
+                android:id="@+id/listViewAssessments"
+                android:layout_width="match_parent"
+                android:layout_height="250sp"
+                >
+
+            </ListView>
 
             <Button
                 android:id="@+id/buttonSave"

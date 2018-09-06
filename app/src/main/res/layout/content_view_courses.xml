@@ -19,7 +19,7 @@
             android:text="Tip: Tap a course to modify or delete it. Tap the add icon in the top right to add a new course." />
 
         <ListView
-            android:id="@+id/listView"
+            android:id="@+id/listViewCourses"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             tools:layout_editor_absoluteX="8dp"

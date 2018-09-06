@@ -467,14 +467,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             do {
                 Course course = new Course();
                 course.setId(c.getInt(c.getColumnIndex(KEY_COURSE_ID)));
-                course.setTitle(c.getString(c.getColumnIndex(KEY_COURSE_ID)));
-                course.setStatus(c.getString(c.getColumnIndex(KEY_COURSE_ID)));
-                course.setStartDate(c.getString(c.getColumnIndex(KEY_COURSE_ID)));
-                course.setStartAlert(c.getInt(c.getColumnIndex(KEY_COURSE_ID)));
-                course.setEndDate(c.getString(c.getColumnIndex(KEY_COURSE_ID)));
-                course.setEndAlert(c.getInt(c.getColumnIndex(KEY_COURSE_ID)));
-                course.setNotes(c.getString(c.getColumnIndex(KEY_COURSE_ID)));
-                course.setTermId(c.getInt(c.getColumnIndex(KEY_COURSE_ID)));
+                course.setTitle(c.getString(c.getColumnIndex(KEY_COURSE_TITLE)));
+                course.setStatus(c.getString(c.getColumnIndex(KEY_COURSE_STATUS)));
+                course.setStartDate(c.getString(c.getColumnIndex(KEY_COURSE_START_DATE)));
+                course.setStartAlert(c.getInt(c.getColumnIndex(KEY_COURSE_START_DATE_ALERT)));
+                course.setEndDate(c.getString(c.getColumnIndex(KEY_COURSE_END_DATE)));
+                course.setEndAlert(c.getInt(c.getColumnIndex(KEY_COURSE_END_DATE_ALERT)));
+                course.setNotes(c.getString(c.getColumnIndex(KEY_COURSE_NOTES)));
+                course.setTermId(c.getInt(c.getColumnIndex(KEY_COURSE_TERM_ID)));
 
                 // adding course to list
                 courses.add(course);
