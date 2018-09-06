@@ -133,6 +133,7 @@ public class MainActivity extends AppCompatActivity {
 
         db = new DatabaseHelper(getApplicationContext());
         db.deleteAllAssessments();
+        db.deleteAllCourses();
 
     }
 

@@ -1,6 +1,7 @@
 package edu.wgu.cmaxwe3.schooltracker;
 
 import android.app.DatePickerDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -11,8 +12,10 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.ToggleButton;
 
 import java.text.DateFormat;
 import java.util.Calendar;
@@ -22,7 +25,7 @@ import edu.wgu.cmaxwe3.schooltracker.helper.DatabaseHelper;
 import edu.wgu.cmaxwe3.schooltracker.model.Course;
 import edu.wgu.cmaxwe3.schooltracker.model.Mentor;
 
-public class AddTermActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
+public class AddCourseActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
     private DatabaseHelper db;
 
     private String startDate;
@@ -31,14 +34,45 @@ public class AddTermActivity extends AppCompatActivity implements DatePickerDial
 
 
 
+
+    private Course getCourse() {
+        EditText titleInput = findViewById(R.id.editTextTitle);
+        EditText statusInput = findViewById(R.id.editTextStatus);
+        TextView startDateInput = findViewById(R.id.textViewStartDate);
+        ToggleButton startDateAlertInput = findViewById(R.id.toggleButtonStartDateAlert);
+        TextView endDateInput = findViewById(R.id.textViewEndDate);
+        ToggleButton endDateAlertInput = findViewById(R.id.toggleButtonEndDateAlert);
+        EditText notesInput = findViewById(R.id.editTextNotes);
+
+
+        Course course = new Course();
+        course.setTitle(titleInput.getText().toString());
+        course.setStatus(statusInput.getText().toString());
+        course.setStartDate(startDateInput.getText().toString());
+        if (startDateAlertInput.isChecked()) {
+            course.setStartAlert(1);
+        } else {
+            course.setStartAlert(0);
+        }
+        course.setEndDate(endDateInput.getText().toString());
+        if (endDateAlertInput.isChecked()) {
+            course.setEndAlert(1);
+        } else {
+            course.setEndAlert(0);
+        }
+        course.setNotes(notesInput.getText().toString());
+        return course;
+    }
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_term);
-        Toolbar toolbar = findViewById(R.id.toolbar);
+        setContentView(R.layout.activity_add_course);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = findViewById(R.id.fab);
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -48,9 +82,26 @@ public class AddTermActivity extends AppCompatActivity implements DatePickerDial
         });
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        Button shareNotesButton = findViewById(R.id.buttonShareNotes);
+        shareNotesButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                shareNotes();
+            }
+        });
 
 
-        //////////
+        Button saveButton = findViewById(R.id.buttonSave);
+        saveButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                db = new DatabaseHelper(getApplicationContext());
+                Course newCourse = getCourse();
+                //insert course
+                long course_id = db.createCourse(newCourse);
+                finish();
+            }
+        });
 
 
         Button pickDueDateButton = findViewById(R.id.buttonStartDate);
@@ -77,35 +128,37 @@ public class AddTermActivity extends AppCompatActivity implements DatePickerDial
             }
         });
 
-
-        ///////////
     }
 
 
+    private void shareNotes() {
+        EditText notesInput = findViewById(R.id.editTextNotes);
+        String notes = notesInput.getText().toString();
+        Intent sendIntent = new Intent();
+        sendIntent.setAction(Intent.ACTION_SEND);
+        sendIntent.putExtra(Intent.EXTRA_TEXT, notes);
+        sendIntent.setType("text/plain");
+        startActivity(sendIntent);
+    }
+
     @Override
     protected void onResume() {
+        List<Mentor> mentors = getMentors();
 
-        List<Course> courses = getCourses();
+        ArrayAdapter<Mentor> adapter = new ArrayAdapter<Mentor>(this,
+                android.R.layout.simple_list_item_checked, android.R.id.text1, mentors);
 
-        ArrayAdapter<Course> adapter = new ArrayAdapter<Course>(this,
-                android.R.layout.simple_list_item_checked, android.R.id.text1, courses);
-
-
-
-//        CheckedTextView ctv = findViewById(R.id.checkedTextViewCourses);
-
-        ListView lv = findViewById(R.id.listViewCourses);
+        ListView lv = findViewById(R.id.listViewMentors);
 
         lv.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
         lv.setAdapter(adapter);
 
-
         super.onResume();
     }
 
-    private List<Course> getCourses() {
+    private List<Mentor> getMentors() {
         db = new DatabaseHelper(getApplicationContext());
-        return db.getAllCourses();
+        return db.getAllMentors();
     }
 
 
@@ -128,4 +181,5 @@ public class AddTermActivity extends AppCompatActivity implements DatePickerDial
             endDate = currentDateStringPretty;
         }
     }
+
 }

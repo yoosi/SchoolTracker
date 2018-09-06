@@ -25,7 +25,7 @@ import edu.wgu.cmaxwe3.schooltracker.helper.DatabaseHelper;
 import edu.wgu.cmaxwe3.schooltracker.model.Assessment;
 
 
-public class AddAssessmentActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener{
+public class AddAssessmentActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
     private DatabaseHelper db;
 
     private String dueDate;
@@ -108,8 +108,6 @@ public class AddAssessmentActivity extends AppCompatActivity implements DatePick
         });
 
 
-
-
         Button saveButton = findViewById(R.id.buttonSave);
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -147,9 +145,7 @@ public class AddAssessmentActivity extends AppCompatActivity implements DatePick
             TextView textView = findViewById(R.id.textViewGoalDate);
             textView.setText(currentDateStringPretty);
             goalDate = currentDateStringPretty;
-    }
-
-
+        }
 
 
     }

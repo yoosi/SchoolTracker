@@ -51,8 +51,6 @@ public class AddMentorActivity extends AppCompatActivity {
                 Mentor newMentor = getMentor();
                 //insert mentor
                 long mentor_id = db.createMentor(newMentor);
-//                Snackbar.make(view, "Mentor created with name: " + newMentor.getName(), Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
                 finish();
             }
         });

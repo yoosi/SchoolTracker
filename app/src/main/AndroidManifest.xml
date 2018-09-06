@@ -108,6 +108,24 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="edu.wgu.cmaxwe3.schooltracker.ViewAssessmentsActivity" />
         </activity>
+        <activity
+            android:name=".AddCourseActivity"
+            android:label="@string/title_activity_add_course"
+            android:parentActivityName=".ViewCoursesActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="edu.wgu.cmaxwe3.schooltracker.ViewCoursesActivity" />
+        </activity>
+        <activity
+            android:name=".EditCourseActivity"
+            android:label="@string/title_activity_edit_course"
+            android:parentActivityName=".ViewCoursesActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="edu.wgu.cmaxwe3.schooltracker.ViewCoursesActivity" />
+        </activity>
     </application>
 
 </manifest>
