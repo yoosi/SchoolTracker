@@ -124,11 +124,26 @@ public class AddCourseActivity extends AppCompatActivity implements DatePickerDi
                     System.out.println("MENTOR ID: " + mentor.getId());
                     mentor.setCourseId((int) course_id);
                     System.out.println("MENTOR COURSE ID SET: " + mentor.getCourseId());
-                    System.out.println("GONNA DELETE THE MENTOR AT: " + mentor.getId());
                     db.updateMentor(mentor.getId(), mentor);
                 }
 
 
+
+                List<Assessment> assessments = db.getAllAssessments();
+                ListView listViewAssessments = findViewById(R.id.listViewAssessments);
+
+                List<Assessment> selectedAssessments = new ArrayList<>();
+                int len2 = listViewAssessments.getCount();
+                SparseBooleanArray checked2 = listViewAssessments.getCheckedItemPositions();
+                for (int i = 0; i < len; i++)
+                    if (checked.get(i)) {
+                    Assessment assessment = assessments.get(i);
+                    selectedAssessments.add(assessment);
+                    }
+                for (Assessment assessment: selectedAssessments){
+                    assessment.setCourseId((int) course_id);
+                    db.updateAssessment(assessment.getId(), assessment);
+                }
 
                     //todo PUT YOUR CODE THAT UPDATES THE MENTORS AND ASSESSMENTS TO POINT TO THIS COURSE ID HERE
 

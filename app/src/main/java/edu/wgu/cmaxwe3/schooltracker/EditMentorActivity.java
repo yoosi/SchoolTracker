@@ -83,12 +83,9 @@ public class EditMentorActivity extends AppCompatActivity {
 
         TextView textViewMentorCourseID = findViewById(R.id.textViewMentorCourseID);
 
-//        if(mentor.getCourseId() == null) {
-//            textViewMentorCourseID.setText(mentor.getCourseId());
-//        }
 
-        System.out.println("Mentor course ID is: " + mentor.getCourseId());
-        textViewMentorCourseID.setText(null);
+
+        textViewMentorCourseID.setText("Course ID: " + mentor.getCourseId());
 
 
     }

@@ -168,6 +168,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         values.put(KEY_MENTOR_NAME, mentor.getName());
         values.put(KEY_MENTOR_EMAIL, mentor.getEmail());
         values.put(KEY_MENTOR_PHONE, mentor.getPhone());
+        values.put(KEY_MENTOR_COURSE_ID, mentor.getCourseId());
 
         // insert row
         long mentor_id = db.insert(TABLE_MENTOR, null, values);
@@ -253,7 +254,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public List<Mentor> getAllUnassignedMentors() {
         List<Mentor> mentors = new ArrayList<Mentor>();
         String selectQuery = "SELECT  * FROM " + TABLE_MENTOR + " WHERE " + KEY_MENTOR_COURSE_ID
-                + " is null or " + KEY_MENTOR_COURSE_ID + " = ''";
+                + " is null or " + KEY_MENTOR_COURSE_ID + " = ''"
+                + " or " + KEY_MENTOR_COURSE_ID +" is 0";
 
         Log.e(LOG, selectQuery);
 
@@ -282,7 +284,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public List<Mentor> getAllAvailableMentorsForCourse(long course_id) {
         List<Mentor> mentors = new ArrayList<Mentor>();
         String selectQuery = "SELECT  * FROM " + TABLE_MENTOR + " WHERE " + KEY_MENTOR_COURSE_ID
-                + " is null or " + KEY_MENTOR_COURSE_ID + " = " + course_id;
+                + " is null or " + KEY_MENTOR_COURSE_ID + " = " + course_id
+                + " or " + KEY_MENTOR_COURSE_ID +" =  0";
 
         Log.e(LOG, selectQuery);
 
@@ -328,6 +331,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         mentor.setName(c.getString(c.getColumnIndex(KEY_MENTOR_NAME)));
         mentor.setPhone(c.getString(c.getColumnIndex(KEY_MENTOR_PHONE)));
         mentor.setEmail(c.getString(c.getColumnIndex(KEY_MENTOR_EMAIL)));
+        mentor.setCourseId(c.getInt(c.getColumnIndex(KEY_MENTOR_COURSE_ID)));
 
         return mentor;
     }
@@ -513,6 +517,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void deleteCourse(long id) {
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(TABLE_COURSE, KEY_ASSESSMENT_ID + " = ?",
+                new String[]{String.valueOf(id)});
+        db.delete(TABLE_MENTOR, KEY_COURSE_ID + " = ?", //todo decide if this is the best way to handle this
                 new String[]{String.valueOf(id)});
     }
 
