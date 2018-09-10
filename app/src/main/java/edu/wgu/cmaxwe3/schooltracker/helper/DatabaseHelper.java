@@ -184,6 +184,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     }
 
+
+    public void deleteMentor(int id) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(TABLE_MENTOR, KEY_MENTOR_ID + " = ?",
+                new String[]{String.valueOf(id)});
+
+    }
+
     public long updateMentor(int id, Mentor mentor) {
 
 
@@ -197,6 +205,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         values.put(KEY_MENTOR_NAME, mentor.getName());
         values.put(KEY_MENTOR_EMAIL, mentor.getEmail());
         values.put(KEY_MENTOR_PHONE, mentor.getPhone());
+        values.put(KEY_MENTOR_COURSE_ID, mentor.getCourseId());
 
         // insert row
         long mentor_id = db.insert(TABLE_MENTOR, null, values);
@@ -240,6 +249,65 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         return mentors;
     }
+
+    public List<Mentor> getAllUnassignedMentors() {
+        List<Mentor> mentors = new ArrayList<Mentor>();
+        String selectQuery = "SELECT  * FROM " + TABLE_MENTOR + " WHERE " + KEY_MENTOR_COURSE_ID
+                + " is null or " + KEY_MENTOR_COURSE_ID + " = ''";
+
+        Log.e(LOG, selectQuery);
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor c = db.rawQuery(selectQuery, null);
+
+        // looping through all rows and adding to list
+        if (c.moveToFirst()) {
+            do {
+                Mentor mentor = new Mentor();
+                mentor.setId(c.getInt((c.getColumnIndex(KEY_MENTOR_ID))));
+                mentor.setName((c.getString(c.getColumnIndex(KEY_MENTOR_NAME))));
+                mentor.setPhone(c.getString(c.getColumnIndex(KEY_MENTOR_PHONE)));
+                mentor.setEmail(c.getString(c.getColumnIndex(KEY_MENTOR_EMAIL)));
+                mentor.setCourseId(c.getInt(c.getColumnIndex(KEY_MENTOR_COURSE_ID)));
+
+
+                // adding to mentors list
+                mentors.add(mentor);
+            } while (c.moveToNext());
+        }
+
+        return mentors;
+    }
+
+    public List<Mentor> getAllAvailableMentorsForCourse(long course_id) {
+        List<Mentor> mentors = new ArrayList<Mentor>();
+        String selectQuery = "SELECT  * FROM " + TABLE_MENTOR + " WHERE " + KEY_MENTOR_COURSE_ID
+                + " is null or " + KEY_MENTOR_COURSE_ID + " = " + course_id;
+
+        Log.e(LOG, selectQuery);
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor c = db.rawQuery(selectQuery, null);
+
+        // looping through all rows and adding to list
+        if (c.moveToFirst()) {
+            do {
+                Mentor mentor = new Mentor();
+                mentor.setId(c.getInt((c.getColumnIndex(KEY_MENTOR_ID))));
+                mentor.setName((c.getString(c.getColumnIndex(KEY_MENTOR_NAME))));
+                mentor.setPhone(c.getString(c.getColumnIndex(KEY_MENTOR_PHONE)));
+                mentor.setEmail(c.getString(c.getColumnIndex(KEY_MENTOR_EMAIL)));
+                mentor.setCourseId(c.getInt(c.getColumnIndex(KEY_MENTOR_COURSE_ID)));
+
+
+                // adding to mentors list
+                mentors.add(mentor);
+            } while (c.moveToNext());
+        }
+
+        return mentors;
+    }
+
 
     public Mentor getMentor(long mentor_id) {
         SQLiteDatabase db = this.getReadableDatabase();

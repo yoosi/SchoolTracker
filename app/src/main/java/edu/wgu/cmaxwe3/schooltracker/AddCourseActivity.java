@@ -8,6 +8,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.SparseBooleanArray;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -18,6 +19,7 @@ import android.widget.TextView;
 import android.widget.ToggleButton;
 
 import java.text.DateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
@@ -101,6 +103,37 @@ public class AddCourseActivity extends AppCompatActivity implements DatePickerDi
                 Course newCourse = getCourse();
                 //insert course
                 long course_id = db.createCourse(newCourse);
+
+
+                /// testing stuff with listview selections
+                List<Mentor> mentors = db.getAllUnassignedMentors();
+                ListView listViewMentorsTesting = findViewById(R.id.listViewMentors);
+
+
+                List<Mentor> selectedMentors = new ArrayList<>();
+                int len = listViewMentorsTesting.getCount();
+                SparseBooleanArray checked = listViewMentorsTesting.getCheckedItemPositions();
+                for (int i = 0; i < len; i++)
+                    if (checked.get(i)) {
+                        Mentor mentor = mentors.get(i);
+                        /* do whatever you want with the checked item */
+                        selectedMentors.add(mentor);
+                    }
+                for (Mentor mentor: selectedMentors) {
+                    System.out.println("MENTOR CHECKED: " + mentor.getName());
+                    System.out.println("MENTOR ID: " + mentor.getId());
+                    mentor.setCourseId((int) course_id);
+                    System.out.println("MENTOR COURSE ID SET: " + mentor.getCourseId());
+                    System.out.println("GONNA DELETE THE MENTOR AT: " + mentor.getId());
+                    db.updateMentor(mentor.getId(), mentor);
+                }
+
+
+
+                    //todo PUT YOUR CODE THAT UPDATES THE MENTORS AND ASSESSMENTS TO POINT TO THIS COURSE ID HERE
+
+                    //todo pass selectedMentors to another
+
                 finish();
             }
         });
@@ -171,7 +204,7 @@ public class AddCourseActivity extends AppCompatActivity implements DatePickerDi
 
     private List<Mentor> getMentors() {
         db = new DatabaseHelper(getApplicationContext());
-        return db.getAllMentors();
+        return db.getAllUnassignedMentors();
     }
 
     private List<Assessment> getAssessments(){
