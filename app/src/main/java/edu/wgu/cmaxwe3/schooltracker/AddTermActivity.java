@@ -90,8 +90,6 @@ public class AddTermActivity extends AppCompatActivity implements DatePickerDial
         ArrayAdapter<Course> adapter = new ArrayAdapter<Course>(this,
                 android.R.layout.simple_list_item_checked, android.R.id.text1, courses);
 
-
-
 //        CheckedTextView ctv = findViewById(R.id.checkedTextViewCourses);
 
         ListView lv = findViewById(R.id.listViewCourses);

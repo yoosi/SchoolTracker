@@ -255,7 +255,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         List<Mentor> mentors = new ArrayList<Mentor>();
         String selectQuery = "SELECT  * FROM " + TABLE_MENTOR + " WHERE " + KEY_MENTOR_COURSE_ID
                 + " is null or " + KEY_MENTOR_COURSE_ID + " = ''"
-                + " or " + KEY_MENTOR_COURSE_ID +" is 0";
+                + " or " + KEY_MENTOR_COURSE_ID + " is 0";
 
         Log.e(LOG, selectQuery);
 
@@ -285,7 +285,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         List<Mentor> mentors = new ArrayList<Mentor>();
         String selectQuery = "SELECT  * FROM " + TABLE_MENTOR + " WHERE " + KEY_MENTOR_COURSE_ID
                 + " is null or " + KEY_MENTOR_COURSE_ID + " = " + course_id
-                + " or " + KEY_MENTOR_COURSE_ID +" =  0";
+                + " or " + KEY_MENTOR_COURSE_ID + " =  0";
 
         Log.e(LOG, selectQuery);
 
@@ -351,8 +351,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             c.moveToFirst();
 
         String[] columnNames = c.getColumnNames();
-        for (String columnName : columnNames
-                ) {
+        for (String columnName : columnNames) {
             System.out.println("*** COLUMN NAME: " + columnName);
         }
 
@@ -488,8 +487,51 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             } while (c.moveToNext());
         }
 
+        System.out.println("******** from within getAllAssessments assessments size is: " + assessments.size());
+
         return assessments;
     }
+
+
+    public List<Assessment> getAllUnassignedAssessments() {
+        List<Assessment> assessments = new ArrayList<Assessment>();
+        String selectQuery = "SELECT * FROM " + TABLE_ASSESSMENT + " WHERE " + KEY_MENTOR_COURSE_ID
+                + " is null or " + KEY_MENTOR_COURSE_ID + " = ''"
+                + " or " + KEY_MENTOR_COURSE_ID + " is 0";
+
+
+        Log.e(LOG, selectQuery);
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor c = db.rawQuery(selectQuery, null);
+
+        // looping through all rows and adding to list
+        if (c.moveToFirst()) {
+            do {
+                Assessment assessment = new Assessment();
+                assessment.setId(c.getInt((c.getColumnIndex(KEY_ASSESSMENT_ID))));
+                assessment.setType((c.getString(c.getColumnIndex(KEY_ASSESSMENT_TYPE))));
+                assessment.setTitle(c.getString(c.getColumnIndex(KEY_ASSESSMENT_TITLE)));
+                assessment.setDueDate(c.getString(c.getColumnIndex(KEY_ASSESSMENT_DUE_DATE)));
+                assessment.setGoalDate(c.getString(c.getColumnIndex(KEY_ASSESSMENT_COURSE_ID)));
+                assessment.setGoalDateAlert(c.getInt(c.getColumnIndex(KEY_ASSESSMENT_COURSE_ID)));
+                assessment.setCourseId(c.getInt(c.getColumnIndex(KEY_ASSESSMENT_COURSE_ID)));
+
+                // adding to mentors list
+                assessments.add(assessment);
+            } while (c.moveToNext());
+        }
+
+        System.out.println("******** from within getAllAssessments assessments size is: " + assessments.size());
+
+        return assessments;
+    }
+
+
+
+
+
+
 
 
     public long createCourse(Course course) {

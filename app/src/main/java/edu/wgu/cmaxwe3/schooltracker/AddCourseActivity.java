@@ -36,8 +36,6 @@ public class AddCourseActivity extends AppCompatActivity implements DatePickerDi
     private boolean pickingStartDate;
 
 
-
-
     private Course getCourse() {
         EditText titleInput = findViewById(R.id.editTextTitle);
         EditText statusInput = findViewById(R.id.editTextStatus);
@@ -105,7 +103,7 @@ public class AddCourseActivity extends AppCompatActivity implements DatePickerDi
                 long course_id = db.createCourse(newCourse);
 
 
-                /// testing stuff with listview selections
+                /// handle mentor selections
                 List<Mentor> mentors = db.getAllUnassignedMentors();
                 ListView listViewMentorsTesting = findViewById(R.id.listViewMentors);
 
@@ -119,7 +117,7 @@ public class AddCourseActivity extends AppCompatActivity implements DatePickerDi
                         /* do whatever you want with the checked item */
                         selectedMentors.add(mentor);
                     }
-                for (Mentor mentor: selectedMentors) {
+                for (Mentor mentor : selectedMentors) {
                     System.out.println("MENTOR CHECKED: " + mentor.getName());
                     System.out.println("MENTOR ID: " + mentor.getId());
                     mentor.setCourseId((int) course_id);
@@ -128,26 +126,29 @@ public class AddCourseActivity extends AppCompatActivity implements DatePickerDi
                 }
 
 
+                // handle assessment selections
+                List<Assessment> assessments = db.getAllUnassignedAssessments();
 
-                List<Assessment> assessments = db.getAllAssessments();
+                System.out.println("********** assessments length: " + assessments.size());
+
                 ListView listViewAssessments = findViewById(R.id.listViewAssessments);
 
                 List<Assessment> selectedAssessments = new ArrayList<>();
                 int len2 = listViewAssessments.getCount();
                 SparseBooleanArray checked2 = listViewAssessments.getCheckedItemPositions();
-                for (int i = 0; i < len; i++)
+                for (int i = 0; i < len2; i++)
                     if (checked.get(i)) {
-                    Assessment assessment = assessments.get(i);
-                    selectedAssessments.add(assessment);
+                        Assessment assessment = assessments.get(i);
+                        selectedAssessments.add(assessment);
                     }
-                for (Assessment assessment: selectedAssessments){
+                for (Assessment assessment : selectedAssessments) {
                     assessment.setCourseId((int) course_id);
                     db.updateAssessment(assessment.getId(), assessment);
                 }
 
-                    //todo PUT YOUR CODE THAT UPDATES THE MENTORS AND ASSESSMENTS TO POINT TO THIS COURSE ID HERE
+                //todo PUT YOUR CODE THAT UPDATES THE MENTORS AND ASSESSMENTS TO POINT TO THIS COURSE ID HERE
 
-                    //todo pass selectedMentors to another
+                //todo pass selectedMentors to another
 
                 finish();
             }
@@ -198,6 +199,7 @@ public class AddCourseActivity extends AppCompatActivity implements DatePickerDi
 
         // populate list view of mentors
         List<Mentor> mentors = getMentors();
+        System.out.println("******* mentors size is: " + mentors.size());
         ArrayAdapter<Mentor> adapter = new ArrayAdapter<Mentor>(this,
                 android.R.layout.simple_list_item_checked, android.R.id.text1, mentors);
         ListView lv = findViewById(R.id.listViewMentors);
@@ -206,6 +208,7 @@ public class AddCourseActivity extends AppCompatActivity implements DatePickerDi
 
         // populate list view of assessments
         List<Assessment> assessments = getAssessments();
+        System.out.println("******* assessments size is: " + assessments.size());
         ArrayAdapter<Assessment> adapterAssessments = new ArrayAdapter<Assessment>(this,
                 android.R.layout.simple_list_item_checked, android.R.id.text1, assessments);
         ListView lv2 = findViewById(R.id.listViewAssessments);
@@ -222,9 +225,9 @@ public class AddCourseActivity extends AppCompatActivity implements DatePickerDi
         return db.getAllUnassignedMentors();
     }
 
-    private List<Assessment> getAssessments(){
+    private List<Assessment> getAssessments() {
         db = new DatabaseHelper(getApplicationContext());
-        return db.getAllAssessments();
+        return db.getAllUnassignedAssessments();
     }
 
 
