@@ -85,14 +85,23 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="" />
+
+
         </LinearLayout>
 
-
+        <TextView
+            android:id="@+id/textViewCoursesInfo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="select courses below. you may have to scroll." />
 
         <ListView
             android:id="@+id/listViewCourses"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="250sp"
+            >
+
+        </ListView>
 
     </LinearLayout>
 

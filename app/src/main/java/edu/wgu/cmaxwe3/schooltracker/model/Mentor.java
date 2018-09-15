@@ -6,34 +6,27 @@ public class Mentor {
     private String name;
     private String phone;
     private String email;
-    private int courseId;
+//    private int courseId;
 
     public Mentor() {
     }
 
     // construct w/ all parameters
-    public Mentor(int id, String name, String phone, String email, int courseId) {
+    public Mentor(int id, String name, String phone, String email) {
         this.id = id;
         this.name = name;
         this.phone = phone;
         this.email = email;
-        this.courseId = courseId;
+//        this.courseId = courseId;
     }
 
     // construct w/ all parameters except ID
-    public Mentor(String name, String phone, String email, int courseId) {
-        this.name = name;
-        this.phone = phone;
-        this.email = email;
-        this.courseId = courseId;
-    }
-
-    // construct w/ all parameters except ID and courseID
     public Mentor(String name, String phone, String email) {
         this.name = name;
         this.phone = phone;
         this.email = email;
     }
+
 
     public String toString() {
         return this.name;
@@ -73,12 +66,5 @@ public class Mentor {
         this.email = email;
     }
 
-    public int getCourseId() {
-        return courseId;
-    }
-
-    public void setCourseId(int courseId) {
-        this.courseId = courseId;
-    }
 
 }

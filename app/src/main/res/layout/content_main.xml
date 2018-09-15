@@ -20,40 +20,39 @@
         android:textSize="18pt" />
 
 
-        <Button
-            android:id="@+id/buttonViewMentors"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:text="VIEW MENTORS" />
+    <Button
+        android:id="@+id/buttonViewTerms"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:text="VIEW TERMS" />
 
 
-        <Button
-            android:id="@+id/buttonViewAssessments"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:text="VIEW ASSESSMENTS" />
+    <Button
+        android:id="@+id/buttonViewCourses"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:text="VIEW COURSES" />
 
 
-        <Button
-            android:id="@+id/buttonViewCourses"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:text="VIEW COURSES" />
+    <Button
+        android:id="@+id/buttonViewAssessments"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:text="VIEW ASSESSMENTS" />
 
 
-        <Button
-            android:id="@+id/buttonViewTerms"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:text="VIEW TERMS" />
+    <Button
+        android:id="@+id/buttonViewMentors"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:text="VIEW MENTORS" />
 
 
-        <Button
-            android:id="@+id/buttonViewAbout"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:text="VIEW ABOUT" />
-
+    <Button
+        android:id="@+id/buttonViewAbout"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:text="VIEW ABOUT" />
 
 
     <TextView

@@ -15,6 +15,9 @@ public class Course {
     private int termId;
 
 
+    private int mentorId;
+
+
     public Course() {
 
     }
@@ -139,6 +142,15 @@ public class Course {
 
     public void setTermId(int termId) {
         this.termId = termId;
+    }
+
+
+    public int getMentorId() {
+        return mentorId;
+    }
+
+    public void setMentorId(int mentorId) {
+        this.mentorId = mentorId;
     }
 
 

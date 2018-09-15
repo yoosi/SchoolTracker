@@ -103,7 +103,7 @@ public class AddTermActivity extends AppCompatActivity implements DatePickerDial
 
     private List<Course> getCourses() {
         db = new DatabaseHelper(getApplicationContext());
-        return db.getAllCourses();
+        return db.getAllUnassignedCourses();
     }
 
 

@@ -62,7 +62,7 @@ public class ViewCoursesActivity extends AppCompatActivity {
                 Intent intent = new Intent(ViewCoursesActivity.this, EditCourseActivity.class);
 
                 Course course = courses.get(position);
-                System.out.println("*** PUTTING MENTOR ID: " + course.getId());
+                System.out.println("*** PUTTING COURSE ID: " + course.getId());
                 intent.putExtra(COURSE_ID, String.valueOf(course.getId()));
                 startActivity(intent);
             }

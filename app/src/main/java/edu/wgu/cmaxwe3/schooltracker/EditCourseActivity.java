@@ -9,6 +9,8 @@ import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.SparseBooleanArray;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -30,29 +32,13 @@ import edu.wgu.cmaxwe3.schooltracker.model.Mentor;
 
 public class EditCourseActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
 
-//    @Override
-//    protected void onCreate(Bundle savedInstanceState) {
-//        super.onCreate(savedInstanceState);
-//        setContentView(R.layout.activity_edit_course);
-//        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-//        setSupportActionBar(toolbar);
-//
-//        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-//        fab.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
-//            }
-//        });
-//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-//    }
-
     private DatabaseHelper db;
 
     private String startDate;
     private String endDate;
     private boolean pickingStartDate;
+
+    String courseID;
 
 
     private Course getCourse() {
@@ -91,6 +77,47 @@ public class EditCourseActivity extends AppCompatActivity implements DatePickerD
         setContentView(R.layout.activity_add_course);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        courseID = getIntent().getStringExtra(ViewCoursesActivity.COURSE_ID);
+
+        EditText titleInput = findViewById(R.id.editTextTitle);
+        EditText statusInput = findViewById(R.id.editTextStatus);
+        TextView startDateInput = findViewById(R.id.textViewStartDate);
+        ToggleButton startAlertInput = findViewById(R.id.toggleButtonStartDateAlert);
+        TextView endDateInput = findViewById(R.id.textViewEndDate);
+        ToggleButton endAlertInput = findViewById(R.id.toggleButtonEndDateAlert);
+        EditText notesInput = findViewById(R.id.editTextNotes);
+        ListView mentorsInput = findViewById(R.id.listViewMentors);
+        ListView assessmentsInput = findViewById(R.id.listViewAssessments);
+
+        System.out.println("**** COURSE ID: " + courseID);
+
+        db = new DatabaseHelper(getApplicationContext());
+        Course course = db.getCourse(Integer.valueOf(courseID));
+
+        titleInput.setText(course.getTitle());
+        statusInput.setText(course.getStatus());
+        startDateInput.setText(course.getStartDate());
+
+        if (course.getStartAlert() == 1) {
+            startAlertInput.setChecked(true);
+        } else {
+            startAlertInput.setChecked(false);
+        }
+
+        endDateInput.setText(course.getEndDate());
+
+        if (course.getEndAlert() == 1) {
+            endAlertInput.setChecked(true);
+        } else {
+            endAlertInput.setChecked(false);
+        }
+
+        notesInput.setText(course.getNotes());
+
+        //todo add assessments and mentors to the lists
+
+
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -139,8 +166,7 @@ public class EditCourseActivity extends AppCompatActivity implements DatePickerD
                 for (Mentor mentor : selectedMentors) {
                     System.out.println("MENTOR CHECKED: " + mentor.getName());
                     System.out.println("MENTOR ID: " + mentor.getId());
-                    mentor.setCourseId((int) course_id);
-                    System.out.println("MENTOR COURSE ID SET: " + mentor.getCourseId());
+//                    mentor.setCourseId((int) course_id);
                     db.updateMentor(mentor.getId(), mentor);
                 }
 
@@ -222,8 +248,12 @@ public class EditCourseActivity extends AppCompatActivity implements DatePickerD
         ArrayAdapter<Mentor> adapter = new ArrayAdapter<Mentor>(this,
                 android.R.layout.simple_list_item_checked, android.R.id.text1, mentors);
         ListView lv = findViewById(R.id.listViewMentors);
-        lv.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
+        lv.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE); // todo change this from multi to single
         lv.setAdapter(adapter);
+
+
+        // todo make mentor checked if course id is the same as courseID
+        // just kidding that is changing
 
         // populate list view of assessments
         List<Assessment> assessments = getAssessments();
@@ -235,18 +265,24 @@ public class EditCourseActivity extends AppCompatActivity implements DatePickerD
         lv2.setAdapter(adapterAssessments);
 
 
+        //todo remove this test code
+//        lv2.setItemChecked(1, true);
+
+
+
+
         super.onResume();
     }
 
 
     private List<Mentor> getMentors() {
         db = new DatabaseHelper(getApplicationContext());
-        return db.getAllUnassignedMentors();
+        return db.getAllAvailableMentorsForCourse(Integer.valueOf(courseID));
     }
 
     private List<Assessment> getAssessments() {
         db = new DatabaseHelper(getApplicationContext());
-        return db.getAllUnassignedAssessments();
+        return db.getAllAvailableAssessmentsForCourse(Integer.valueOf(courseID));
     }
 
 
@@ -268,6 +304,36 @@ public class EditCourseActivity extends AppCompatActivity implements DatePickerD
             textView.setText(currentDateStringPretty);
             endDate = currentDateStringPretty;
         }
+    }
+
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_edit_mentor, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        switch (id) {
+
+            case R.id.delete:
+                System.out.println("*** YOU CLICKED DELETE");
+                db = new DatabaseHelper(getApplicationContext());
+                db.deleteCourse(Integer.valueOf(courseID));
+                finish();
+                return true;
+        }
+
+
+        return super.onOptionsItemSelected(item);
     }
 
 }

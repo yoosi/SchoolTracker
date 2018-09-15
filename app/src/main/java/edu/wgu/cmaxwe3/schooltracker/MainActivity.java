@@ -29,6 +29,14 @@ public class MainActivity extends AppCompatActivity {
     DatabaseHelper db;
 
 
+    private void nukeEverything(){
+        db = new DatabaseHelper(getApplicationContext());
+        db.deleteAllAssessments();
+        db.deleteAllCourses();
+        db.deleteAllMentors();
+        db.deleteAllTerms();
+    }
+
     public void openAbout() {
         Intent intent = new Intent(this, AboutActivity.class);
         startActivity(intent);
@@ -58,8 +66,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-        db = new DatabaseHelper(getApplicationContext());
-//        db.deleteAllAssessments();
+//        nukeEverything();
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
@@ -149,15 +156,15 @@ public class MainActivity extends AppCompatActivity {
         m.setEmail("j.hendrix@school.edu");
         m.setPhone("2065551234");
 
-        Mentor m2 = new Mentor("Jim Halpert", "206-555-4321", "j.halpert@dundermifflin.com", 0);
-        Mentor m3 = new Mentor("Pam Beasley", "206-555-6789", "p.beasley@dundermifflin.com");
+//        Mentor m2 = new Mentor("Jim Halpert", "206-555-4321", "j.halpert@dundermifflin.com", 0);
+//        Mentor m3 = new Mentor("Pam Beasley", "206-555-6789", "p.beasley@dundermifflin.com");
 
         //insert mentor
         long mentor_id = db.createMentor(m);
-        long mentor_id2 = db.createMentor(m3);
+//        long mentor_id2 = db.createMentor(m3);
 
         Log.d("Mentor Count", String.valueOf(mentor_id));
-        Log.d("Mentor Count", String.valueOf(mentor_id2));
+//        Log.d("Mentor Count", String.valueOf(mentor_id2));
 
 
         // get mentors from db and print
