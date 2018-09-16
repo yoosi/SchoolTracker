@@ -31,9 +31,15 @@ import edu.wgu.cmaxwe3.schooltracker.model.Mentor;
 public class AddCourseActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
     private DatabaseHelper db;
 
+    private ArrayList<String> assessmentIDs;
+
+
     private String startDate;
     private String endDate;
     private boolean pickingStartDate;
+    public static String MENTOR_ID = "MENTOR_ID";
+    public static String ASSESSMENT_IDS = "ASSESSMENT_IDS";
+    private int mentorId;
 
 
     private Course getCourse() {
@@ -62,6 +68,7 @@ public class AddCourseActivity extends AppCompatActivity implements DatePickerDi
             course.setEndAlert(0);
         }
         course.setNotes(notesInput.getText().toString());
+        course.setMentorId(mentorId);
         return course;
     }
 
@@ -92,6 +99,25 @@ public class AddCourseActivity extends AppCompatActivity implements DatePickerDi
         });
 
 
+        // select mentors button
+        Button selectMentorButton = findViewById(R.id.buttonPickMentor);
+        selectMentorButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                openSelectCourseMentorForResult();
+            }
+        });
+
+
+        Button selectAssignmentsButton = findViewById(R.id.buttonPickAssignments);
+        selectAssignmentsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                openSelectCourseAssignmentsForResult();
+            }
+        });
+
+
         // save button
         Button saveButton = findViewById(R.id.buttonSave);
         saveButton.setOnClickListener(new View.OnClickListener() {
@@ -103,52 +129,40 @@ public class AddCourseActivity extends AppCompatActivity implements DatePickerDi
                 long course_id = db.createCourse(newCourse);
 
 
-                /// handle mentor selections
-                List<Mentor> mentors = db.getAllUnassignedMentors();
-                ListView listViewMentorsTesting = findViewById(R.id.listViewMentors);
-
-
-                List<Mentor> selectedMentors = new ArrayList<>();
-                int len = listViewMentorsTesting.getCount();
-                SparseBooleanArray checked = listViewMentorsTesting.getCheckedItemPositions();
-                for (int i = 0; i < len; i++)
-                    if (checked.get(i)) {
-                        Mentor mentor = mentors.get(i);
-                        /* do whatever you want with the checked item */
-                        selectedMentors.add(mentor);
-                    }
-                for (Mentor mentor : selectedMentors) {
-                    System.out.println("MENTOR CHECKED: " + mentor.getName());
-                    System.out.println("MENTOR ID: " + mentor.getId());
-                    mentor.setCourseId((int) course_id);
-                    System.out.println("MENTOR COURSE ID SET: " + mentor.getCourseId());
-                    db.updateMentor(mentor.getId(), mentor);
-                }
-
 
                 // handle assessment selections
-                List<Assessment> assessments = db.getAllUnassignedAssessments();
-
-                System.out.println("********** assessments length: " + assessments.size());
-
-                ListView listViewAssessments = findViewById(R.id.listViewAssessments);
-
-                List<Assessment> selectedAssessments = new ArrayList<>();
-                int len2 = listViewAssessments.getCount();
-                SparseBooleanArray checked2 = listViewAssessments.getCheckedItemPositions();
-                for (int i = 0; i < len2; i++)
-                    if (checked.get(i)) {
-                        Assessment assessment = assessments.get(i);
-                        selectedAssessments.add(assessment);
-                    }
-                for (Assessment assessment : selectedAssessments) {
-                    assessment.setCourseId((int) course_id);
-                    db.updateAssessment(assessment.getId(), assessment);
-                }
+//                List<Assessment> assessments = db.getAllUnassignedAssessments();
+//
+//                System.out.println("********** assessments length: " + assessments.size());
+//
+//                ListView listViewAssessments = findViewById(R.id.listViewAssessments);
+//
+//
+//                int len2 = listViewAssessments.getCount();
+//                SparseBooleanArray checked2 = listViewAssessments.getCheckedItemPositions();
+//                for (int i = 0; i < len2; i++)
+//                    if (checked2.get(i)) {
+//                        Assessment assessment = assessments.get(i);
+//                        selectedAssessments.add(assessment);
+//                    }
+//                for (Assessment assessment : selectedAssessments) {
+//                    assessment.setCourseId((int) course_id);
+//                    db.updateAssessment(assessment.getId(), assessment);
+//                }
+//
+//                SparseBooleanArray allAssessments = listViewAssessments.getItemAtPosition()
 
                 //todo PUT YOUR CODE THAT UPDATES THE MENTORS AND ASSESSMENTS TO POINT TO THIS COURSE ID HERE
 
                 //todo pass selectedMentors to another
+
+
+                // update assessments
+                Integer i = (int) (long) course_id;
+                for (String assessmentID : assessmentIDs) {
+                    db = new DatabaseHelper(getApplicationContext());
+                    long l = db.updateAssessmentCourseId(Integer.valueOf(assessmentID), i);
+                }
 
                 finish();
             }
@@ -197,23 +211,23 @@ public class AddCourseActivity extends AppCompatActivity implements DatePickerDi
     @Override
     protected void onResume() {
 
-        // populate list view of mentors
-        List<Mentor> mentors = getMentors();
-        System.out.println("******* mentors size is: " + mentors.size());
-        ArrayAdapter<Mentor> adapter = new ArrayAdapter<Mentor>(this,
-                android.R.layout.simple_list_item_checked, android.R.id.text1, mentors);
-        ListView lv = findViewById(R.id.listViewMentors);
-        lv.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
-        lv.setAdapter(adapter);
-
-        // populate list view of assessments
-        List<Assessment> assessments = getAssessments();
-        System.out.println("******* assessments size is: " + assessments.size());
-        ArrayAdapter<Assessment> adapterAssessments = new ArrayAdapter<Assessment>(this,
-                android.R.layout.simple_list_item_checked, android.R.id.text1, assessments);
-        ListView lv2 = findViewById(R.id.listViewAssessments);
-        lv2.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
-        lv2.setAdapter(adapterAssessments);
+//        // populate list view of mentors
+//        List<Mentor> mentors = getMentors();
+//        System.out.println("******* mentors size is: " + mentors.size());
+//        ArrayAdapter<Mentor> adapter = new ArrayAdapter<Mentor>(this,
+//                android.R.layout.simple_list_item_checked, android.R.id.text1, mentors);
+//        ListView lv = findViewById(R.id.listViewMentors);
+//        lv.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
+//        lv.setAdapter(adapter);
+//
+//        // populate list view of assessments
+//        List<Assessment> assessments = getAssessments();
+//        System.out.println("******* assessments size is: " + assessments.size());
+//        ArrayAdapter<Assessment> adapterAssessments = new ArrayAdapter<Assessment>(this,
+//                android.R.layout.simple_list_item_checked, android.R.id.text1, assessments);
+//        ListView lv2 = findViewById(R.id.listViewAssessments);
+//        lv2.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
+//        lv2.setAdapter(adapterAssessments);
 
 
         super.onResume();
@@ -230,6 +244,16 @@ public class AddCourseActivity extends AppCompatActivity implements DatePickerDi
         return db.getAllUnassignedAssessments();
     }
 
+
+    public void openSelectCourseMentorForResult() {
+        Intent intent = new Intent(this, SelectCourseMentorActivity.class);
+        startActivityForResult(intent, 1);
+    }
+
+    public void openSelectCourseAssignmentsForResult() {
+        Intent intent = new Intent(this, SelectCourseAssessmentsActivity.class);
+        startActivityForResult(intent, 2);
+    }
 
     @Override
     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
@@ -251,4 +275,44 @@ public class AddCourseActivity extends AppCompatActivity implements DatePickerDi
         }
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 1) {
+            if (resultCode == RESULT_OK) {
+                String mentorId = data.getStringExtra(MENTOR_ID);
+                applyMentorChoice(Integer.valueOf(mentorId));
+            }
+        }
+
+        if (requestCode == 2) {
+            if (resultCode == RESULT_OK) {
+                assessmentIDs = data.getStringArrayListExtra(ASSESSMENT_IDS);
+                populateAssessmentsList(assessmentIDs);
+            }
+        }
+    }
+
+
+    private void populateAssessmentsList(ArrayList<String> assessmentIDs) {
+        db = new DatabaseHelper(getApplicationContext());
+        List<Assessment> assessments = new ArrayList<Assessment>();
+        for (String assessmentID : assessmentIDs) {
+            Assessment assessment = db.getAssessment(Integer.valueOf(assessmentID));
+            assessments.add(assessment);
+        }
+
+        ArrayAdapter<Assessment> adapterAssessments = new ArrayAdapter<Assessment>(this,
+                android.R.layout.simple_list_item_1, android.R.id.text1, assessments);
+        ListView lv = findViewById(R.id.listViewAssessments);
+        lv.setAdapter(adapterAssessments);
+    }
+
+    private void applyMentorChoice(int newMentorId) {
+        db = new DatabaseHelper(getApplicationContext());
+        mentorId = newMentorId;
+        TextView mentorTextView = findViewById(R.id.textViewMentor);
+        Mentor mentor = db.getMentor(newMentorId);
+        mentorTextView.setText(mentor.getName());
+    }
 }

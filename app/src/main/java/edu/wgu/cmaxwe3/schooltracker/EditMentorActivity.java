@@ -85,7 +85,7 @@ public class EditMentorActivity extends AppCompatActivity {
 
 
 
-        textViewMentorCourseID.setText("Course ID: " + mentor.getCourseId());
+//        textViewMentorCourseID.setText("Course ID: " + mentor.getCourseId());
 
 
     }

@@ -13,4 +13,7 @@
     <string name="title_activity_edit_assessment">Edit Assessment</string>
     <string name="title_activity_add_course">Add Course</string>
     <string name="title_activity_edit_course">Edit Course</string>
+    <string name="title_activity_select_course_mentor">Select Mentor</string>
+    <string name="title_activity_select_course_assignments">SelectCourseAssignments</string>
+    <string name="title_activity_select_term_courses">Select Courses</string>
 </resources>

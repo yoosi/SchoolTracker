@@ -184,32 +184,46 @@
                     android:inputType="textMultiLine" />
             </LinearLayout>
 
-            <TextView
-                android:id="@+id/textView2"
+            <Button
+                android:id="@+id/buttonPickMentor"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="select mentors below. you may have to scroll." />
+                android:text="PICK MENTOR" />
 
-            <ListView
-                android:id="@+id/listViewMentors"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="250sp"
-                >
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
 
-            </ListView>
+                <TextView
+                    android:id="@+id/textView13"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="MENTOR: " />
 
-            <TextView
-                android:id="@+id/textView3"
+                <TextView
+                    android:id="@+id/textViewMentor"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/buttonPickAssignments"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="select assessments below. you may have to scroll." />
+                android:text="PICK ASSIGNMENTS" />
 
+            <TextView
+                android:id="@+id/textViewCourseAssignementsLabel"
+                android:text="ASSESSMENTS"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
             <ListView
                 android:id="@+id/listViewAssessments"
                 android:layout_width="match_parent"
-                android:layout_height="250sp"
-                >
-
+                android:layout_height="wrap_content">
             </ListView>
 
             <Button

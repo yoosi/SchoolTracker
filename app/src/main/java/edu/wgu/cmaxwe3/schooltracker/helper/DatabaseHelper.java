@@ -43,7 +43,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     // Assessment table - column names
 
     // Assessment table - column names
-    public static final String KEY_ASSESSMENT_ID = "id";
+    public static final String KEY_ASSESSMENT_ID = "assessment_id";
     public static final String KEY_ASSESSMENT_TYPE = "type";
     public static final String KEY_ASSESSMENT_TITLE = "title";
     public static final String KEY_ASSESSMENT_DUE_DATE = "due_date";
@@ -52,7 +52,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String KEY_ASSESSMENT_COURSE_ID = "course_id";
 
     // course table - column names
-    public static final String KEY_COURSE_ID = "id";
+    public static final String KEY_COURSE_ID = "course_id";
     public static final String KEY_COURSE_TITLE = "title";
     public static final String KEY_COURSE_STATUS = "status";
     public static final String KEY_COURSE_START_DATE = "start_date";
@@ -79,7 +79,23 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     // SQL to create tables
 
+
     // STEP 1
+    private static final String CREATE_TABLE_MENTOR =
+            "CREATE TABLE " + TABLE_MENTOR + " (" +
+//                    KEY_MENTOR_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                    KEY_MENTOR_ID + " INTEGER PRIMARY KEY, " +
+                    KEY_MENTOR_NAME + " TEXT, " +
+                    KEY_MENTOR_PHONE + " TEXT, " +
+                    KEY_MENTOR_EMAIL + " TEXT" +
+//                    KEY_MENTOR_EMAIL + " TEXT," +
+//                    KEY_MENTOR_COURSE_ID + " INTEGER, " +
+//                    "FOREIGN KEY (" + KEY_MENTOR_COURSE_ID + ") REFERENCES "
+//                    + TABLE_COURSE + "(" + KEY_COURSE_ID + ")" +
+                    ")";
+
+
+    // STEP 2
     private static final String CREATE_TABLE_TERM =
             "CREATE TABLE " + TABLE_TERM + " (" +
 //                    KEY_TERM_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
@@ -101,9 +117,16 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     KEY_COURSE_END_DATE + " DATETIME, " +
                     KEY_COURSE_END_DATE_ALERT + " INTEGER, " +
                     KEY_COURSE_NOTES + " TEXT, " +
+
+                    KEY_COURSE_MENTOR_ID + " INTEGER, " +
+
+
                     KEY_COURSE_TERM_ID + " INTEGER, " +
+                    "FOREIGN KEY (" + KEY_COURSE_MENTOR_ID + " ) REFERENCES "
+                    + TABLE_MENTOR + "(" + KEY_MENTOR_ID + "), " +
                     "FOREIGN KEY (" + KEY_COURSE_TERM_ID + " ) REFERENCES "
                     + TABLE_TERM + "(" + KEY_TERM_ID + ")" +
+
                     ")";
 
     // STEP 3
@@ -121,18 +144,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     + TABLE_COURSE + "(" + KEY_COURSE_ID + ")" +
                     ")";
 
-    // STEP 4
-    private static final String CREATE_TABLE_MENTOR =
-            "CREATE TABLE " + TABLE_MENTOR + " (" +
-//                    KEY_MENTOR_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                    KEY_MENTOR_ID + " INTEGER PRIMARY KEY, " +
-                    KEY_MENTOR_NAME + " TEXT, " +
-                    KEY_MENTOR_PHONE + " TEXT, " +
-                    KEY_MENTOR_EMAIL + " TEXT, " +
-                    KEY_MENTOR_COURSE_ID + " INTEGER, " +
-                    "FOREIGN KEY (" + KEY_MENTOR_COURSE_ID + ") REFERENCES "
-                    + TABLE_COURSE + "(" + KEY_COURSE_ID + ")" +
-                    ")";
+
+
 
 
     // constructor
@@ -444,6 +457,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         Log.d("updateAssessment", "assessment added at id: " + assessmentId);
 
         return assessmentId;
+    }
+
+    public long updateAssessmentCourseId(int assessmentId, int courseId){
+        Assessment assessment = getAssessment(assessmentId);
+        assessment.setCourseId(courseId);
+
+        return updateAssessment(assessmentId, assessment);
     }
 
 

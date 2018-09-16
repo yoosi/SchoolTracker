@@ -182,7 +182,7 @@ public class EditCourseActivity extends AppCompatActivity implements DatePickerD
                 int len2 = listViewAssessments.getCount();
                 SparseBooleanArray checked2 = listViewAssessments.getCheckedItemPositions();
                 for (int i = 0; i < len2; i++)
-                    if (checked.get(i)) {
+                    if (checked2.get(i)) {
                         Assessment assessment = assessments.get(i);
                         selectedAssessments.add(assessment);
                     }

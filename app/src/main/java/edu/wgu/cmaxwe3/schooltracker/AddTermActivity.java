@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -21,6 +22,7 @@ import java.util.List;
 import edu.wgu.cmaxwe3.schooltracker.helper.DatabaseHelper;
 import edu.wgu.cmaxwe3.schooltracker.model.Course;
 import edu.wgu.cmaxwe3.schooltracker.model.Mentor;
+import edu.wgu.cmaxwe3.schooltracker.model.Term;
 
 public class AddTermActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
     private DatabaseHelper db;
@@ -38,14 +40,6 @@ public class AddTermActivity extends AppCompatActivity implements DatePickerDial
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 
@@ -65,8 +59,9 @@ public class AddTermActivity extends AppCompatActivity implements DatePickerDial
             }
         });
 
-        Button pickGoalDateButton = findViewById(R.id.buttonEndDate);
-        pickGoalDateButton.setOnClickListener(new View.OnClickListener() {
+        // pick end date button
+        Button pickEndDateButton = findViewById(R.id.buttonEndDate);
+        pickEndDateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 DialogFragment datePicker = new DatePickerFragment();
@@ -78,24 +73,65 @@ public class AddTermActivity extends AppCompatActivity implements DatePickerDial
         });
 
 
+        // save button
+        Button saveButton = findViewById(R.id.buttonSave);
+        saveButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Term term = getTerm();
+                db = new DatabaseHelper(getApplicationContext());
+                db.createTerm(term);
+                finish();
+            }
+        });
+
+
+
+
+
+        Button pickCoursesButton = findViewById(R.id.buttonPickCourses);
+        pickCoursesButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                DialogFragment datePicker = new DatePickerFragment();
+                pickingStartDate = false;
+                datePicker.show(getSupportFragmentManager(), "date picker");
+
+
+            }
+        });
+
         ///////////
+    }
+
+
+    private Term getTerm(){
+        EditText titleInput = findViewById(R.id.editTextTermTitle);
+        TextView startDateInput = findViewById(R.id.textViewStartDate);
+        TextView endDateInput = findViewById(R.id.textViewEndDate);
+
+
+        Term term = new Term();
+        term.setTitle(titleInput.getText().toString());
+        term.setStartDate(startDateInput.getText().toString());
+        term.setEndDate(endDateInput.getText().toString());
+
+        return term;
+
     }
 
 
     @Override
     protected void onResume() {
 
-        List<Course> courses = getCourses();
-
-        ArrayAdapter<Course> adapter = new ArrayAdapter<Course>(this,
-                android.R.layout.simple_list_item_checked, android.R.id.text1, courses);
-
-//        CheckedTextView ctv = findViewById(R.id.checkedTextViewCourses);
-
-        ListView lv = findViewById(R.id.listViewCourses);
-
-        lv.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
-        lv.setAdapter(adapter);
+//        List<Course> courses = getCourses();
+//
+//        ArrayAdapter<Course> adapter = new ArrayAdapter<Course>(this,
+//                android.R.layout.simple_list_item_checked, android.R.id.text1, courses);
+//        ListView lv = findViewById(R.id.listViewCourses);
+//
+//        lv.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
+//        lv.setAdapter(adapter);
 
 
         super.onResume();

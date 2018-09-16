@@ -3,7 +3,7 @@
     package="edu.wgu.cmaxwe3.schooltracker">
 
     <application
-        android:allowBackup="true"
+        android:allowBackup="false"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
@@ -35,7 +35,7 @@
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="edu.wgu.cmaxwe3.schooltracker.MainActivity" />
+                android:value="edu.wgu.cmaxwe3.schooltracker.ViewMentorsActivity" />
         </activity>
         <activity
             android:name=".ViewMentorsActivity"
@@ -125,6 +125,33 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="edu.wgu.cmaxwe3.schooltracker.ViewCoursesActivity" />
+        </activity>
+        <activity
+            android:name=".SelectCourseMentorActivity"
+            android:label="@string/title_activity_select_course_mentor"
+            android:parentActivityName=".AddCourseActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="edu.wgu.cmaxwe3.schooltracker.AddCourseActivity" />
+        </activity>
+        <activity
+            android:name=".SelectCourseAssessmentsActivity"
+            android:label="@string/title_activity_select_course_assignments"
+            android:parentActivityName=".AddCourseActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="edu.wgu.cmaxwe3.schooltracker.AddCourseActivity" />
+        </activity>
+        <activity
+            android:name=".SelectTermCoursesActivity"
+            android:label="@string/title_activity_select_term_courses"
+            android:parentActivityName=".AddTermActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="edu.wgu.cmaxwe3.schooltracker.AddTermActivity" />
         </activity>
     </application>
 
