@@ -8,6 +8,8 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -22,12 +24,10 @@ import java.util.Calendar;
 import java.util.List;
 
 import edu.wgu.cmaxwe3.schooltracker.helper.DatabaseHelper;
-import edu.wgu.cmaxwe3.schooltracker.model.Assessment;
 import edu.wgu.cmaxwe3.schooltracker.model.Course;
-import edu.wgu.cmaxwe3.schooltracker.model.Mentor;
 import edu.wgu.cmaxwe3.schooltracker.model.Term;
 
-public class AddTermActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
+public class EditTermActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener{
     private DatabaseHelper db;
 
     public static String COURSE_IDS = "COURSE_IDS";
@@ -35,6 +35,7 @@ public class AddTermActivity extends AppCompatActivity implements DatePickerDial
     private String startDate;
     private String endDate;
     private boolean pickingStartDate;
+    private String termID;
 
     private ArrayList<String> courseIDs;
 
@@ -45,6 +46,8 @@ public class AddTermActivity extends AppCompatActivity implements DatePickerDial
         setContentView(R.layout.activity_add_term);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        termID = getIntent().getStringExtra(ViewTermsActivity.TERM_ID);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
@@ -86,13 +89,13 @@ public class AddTermActivity extends AppCompatActivity implements DatePickerDial
             public void onClick(View view) {
                 Term term = getTerm();
                 db = new DatabaseHelper(getApplicationContext());
-                long term_id = db.createTerm(term);
 
-                Integer i = (int) (long) term_id;
 
-                if (courseIDs != null) {
+                if(courseIDs != null) {
+
                     for (String courseID : courseIDs) {
-                        long l = db.updateCourseTermID(Integer.valueOf(courseID), i);
+                        long l = db.updateCourseTermID(Integer.valueOf(courseID),
+                                Integer.valueOf(termID));
                     }
                 }
 
@@ -108,13 +111,41 @@ public class AddTermActivity extends AppCompatActivity implements DatePickerDial
         pickCoursesButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(AddTermActivity.this, SelectTermCoursesActivity.class);
+                Intent intent = new Intent(EditTermActivity.this, SelectTermCoursesActivity.class);
                 startActivityForResult(intent, 1);
 
             }
         });
 
         ///////////
+
+
+//         populate courses list
+        db = new DatabaseHelper(getApplicationContext());
+        List<Course> courses = db.getTermCourses(Integer.valueOf(termID));
+
+        ArrayAdapter<Course> adapterCourses = new ArrayAdapter<Course>(this,
+                android.R.layout.simple_list_item_1, android.R.id.text1, courses);
+        ListView lv = findViewById(R.id.listViewCourses);
+        lv.setAdapter(adapterCourses);
+
+        Term term = db.getTerm(Integer.valueOf(termID));
+        System.out.println("*** ID OF TERM CLICKED IS: " + termID);
+        loadTerm(term);
+
+
+
+
+    }
+
+    private void loadTerm(Term term){
+        TextView titleInput = findViewById(R.id.editTextTermTitle);
+        TextView startDateInput = findViewById(R.id.textViewStartDate);
+        TextView endDateInput = findViewById(R.id.textViewEndDate);
+
+        titleInput.setText(term.getTitle());
+        startDateInput.setText(term.getStartDate());
+        endDateInput.setText(term.getEndDate());
     }
 
 
@@ -190,5 +221,34 @@ public class AddTermActivity extends AppCompatActivity implements DatePickerDial
             textView.setText(currentDateStringPretty);
             endDate = currentDateStringPretty;
         }
+    }
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_edit_mentor, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        switch (id) {
+
+            case R.id.delete:
+                System.out.println("*** YOU CLICKED DELETE");
+                db = new DatabaseHelper(getApplicationContext());
+                db.deleteTerm(Integer.valueOf(termID));
+                finish();
+                return true;
+        }
+
+
+        return super.onOptionsItemSelected(item);
     }
 }

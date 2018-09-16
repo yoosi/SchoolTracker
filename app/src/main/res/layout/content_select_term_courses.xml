@@ -8,4 +8,30 @@
     tools:context=".SelectTermCoursesActivity"
     tools:showIn="@layout/activity_select_term_courses">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <Button
+            android:id="@+id/buttonDone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="DONE" />
+
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="select courses below. you may have to scroll." />
+
+        <ListView
+            android:id="@+id/listViewCourses"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        </ListView>
+
+    </LinearLayout>
+
 </android.support.constraint.ConstraintLayout>

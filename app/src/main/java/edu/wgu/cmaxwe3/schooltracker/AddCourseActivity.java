@@ -80,14 +80,7 @@ public class AddCourseActivity extends AppCompatActivity implements DatePickerDi
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         Button shareNotesButton = findViewById(R.id.buttonShareNotes);
@@ -97,6 +90,8 @@ public class AddCourseActivity extends AppCompatActivity implements DatePickerDi
                 shareNotes();
             }
         });
+
+        System.out.println("**** ADD COURSE ON CREATE RUN");
 
 
         // select mentors button
@@ -109,8 +104,8 @@ public class AddCourseActivity extends AppCompatActivity implements DatePickerDi
         });
 
 
-        Button selectAssignmentsButton = findViewById(R.id.buttonPickAssignments);
-        selectAssignmentsButton.setOnClickListener(new View.OnClickListener() {
+        Button selectAssessmentsButton = findViewById(R.id.buttonPickAssessments);
+        selectAssessmentsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 openSelectCourseAssignmentsForResult();
@@ -158,12 +153,16 @@ public class AddCourseActivity extends AppCompatActivity implements DatePickerDi
 
 
                 // update assessments
-                Integer i = (int) (long) course_id;
-                for (String assessmentID : assessmentIDs) {
-                    db = new DatabaseHelper(getApplicationContext());
-                    long l = db.updateAssessmentCourseId(Integer.valueOf(assessmentID), i);
-                }
 
+
+                if (assessmentIDs != null) {
+                    Integer i = (int) (long) course_id;
+                    for (String assessmentID : assessmentIDs) {
+                        long l = db.updateAssessmentCourseId(Integer.valueOf(assessmentID), i);
+                    }
+                } else {
+                    System.out.println("assessmentIDs is NULL");
+                }
                 finish();
             }
         });
@@ -210,26 +209,6 @@ public class AddCourseActivity extends AppCompatActivity implements DatePickerDi
 
     @Override
     protected void onResume() {
-
-//        // populate list view of mentors
-//        List<Mentor> mentors = getMentors();
-//        System.out.println("******* mentors size is: " + mentors.size());
-//        ArrayAdapter<Mentor> adapter = new ArrayAdapter<Mentor>(this,
-//                android.R.layout.simple_list_item_checked, android.R.id.text1, mentors);
-//        ListView lv = findViewById(R.id.listViewMentors);
-//        lv.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
-//        lv.setAdapter(adapter);
-//
-//        // populate list view of assessments
-//        List<Assessment> assessments = getAssessments();
-//        System.out.println("******* assessments size is: " + assessments.size());
-//        ArrayAdapter<Assessment> adapterAssessments = new ArrayAdapter<Assessment>(this,
-//                android.R.layout.simple_list_item_checked, android.R.id.text1, assessments);
-//        ListView lv2 = findViewById(R.id.listViewAssessments);
-//        lv2.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
-//        lv2.setAdapter(adapterAssessments);
-
-
         super.onResume();
     }
 

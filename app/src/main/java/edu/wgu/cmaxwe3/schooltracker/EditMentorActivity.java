@@ -12,13 +12,16 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import java.util.List;
+
 import edu.wgu.cmaxwe3.schooltracker.helper.DatabaseHelper;
+import edu.wgu.cmaxwe3.schooltracker.model.Course;
 import edu.wgu.cmaxwe3.schooltracker.model.Mentor;
 
 public class EditMentorActivity extends AppCompatActivity {
 
-    DatabaseHelper db;
-    String mentorID;
+    private DatabaseHelper db;
+    private String mentorID;
 
 
     private Mentor getMentor() {
@@ -56,14 +59,7 @@ public class EditMentorActivity extends AppCompatActivity {
         emailInput.setText(mentor.getEmail());
 
 
-        FloatingActionButton fab = findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 
@@ -109,15 +105,28 @@ public class EditMentorActivity extends AppCompatActivity {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
+        db = new DatabaseHelper(getApplicationContext());
 
         switch (id) {
 
             case R.id.delete:
                 System.out.println("*** YOU CLICKED DELETE");
                 db = new DatabaseHelper(getApplicationContext());
+                List<Course> coursesWithThisMentor = db.getCoursesForMentor(Integer.valueOf(mentorID));
+
+                // set the mentorid of all courses with this mentor to 0
+                if(coursesWithThisMentor.size() > 0){
+                    for (Course course: coursesWithThisMentor) {
+                        db.updateCourseMentorID(course.getId(), 0);
+                    }
+                }
+                else{
+                        System.out.println("CANNOT DELETE MENTOR WHILE COURSES ARE ASSIGNED TO IT");
+                    }
+
                 db.deleteMentor(Integer.valueOf(mentorID));
                 finish();
-                return true;
+                 return true;
         }
 
 

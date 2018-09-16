@@ -153,6 +153,15 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="edu.wgu.cmaxwe3.schooltracker.AddTermActivity" />
         </activity>
+        <activity
+            android:name=".EditTermActivity"
+            android:label="@string/title_activity_edit_term"
+            android:parentActivityName=".ViewTermsActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="edu.wgu.cmaxwe3.schooltracker.ViewTermsActivity" />
+        </activity>
     </application>
 
 </manifest>

@@ -127,7 +127,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="TextView" />
+                    android:text="" />
             </LinearLayout>
 
             <LinearLayout
@@ -209,13 +209,13 @@
             </LinearLayout>
 
             <Button
-                android:id="@+id/buttonPickAssignments"
+                android:id="@+id/buttonPickAssessments"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="PICK ASSIGNMENTS" />
+                android:text="PICK ASSESSMENTS" />
 
             <TextView
-                android:id="@+id/textViewCourseAssignementsLabel"
+                android:id="@+id/textViewCourseAssessmentsLabel"
                 android:text="ASSESSMENTS"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

@@ -7,6 +7,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
@@ -19,6 +20,7 @@ import edu.wgu.cmaxwe3.schooltracker.model.Term;
 public class ViewTermsActivity extends AppCompatActivity {
 
     DatabaseHelper db;
+    public static String TERM_ID = "TERM_ID";
 
     public void openAddTerm() {
         Intent intent = new Intent(this, AddTermActivity.class);
@@ -45,14 +47,29 @@ public class ViewTermsActivity extends AppCompatActivity {
 
     @Override
     protected void onResume() {
-        List<Term> terms = getTerms();
 
+        // populate listView
+        final List<Term> terms = getTerms();
         ArrayAdapter<Term> adapter = new ArrayAdapter<Term>(this,
                 android.R.layout.simple_list_item_1, android.R.id.text1, terms);
 
 
         ListView lv = findViewById(R.id.listView);
         lv.setAdapter(adapter);
+
+        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+                Intent intent = new Intent(ViewTermsActivity.this, EditTermActivity.class);
+
+                Term term = terms.get(position);
+                System.out.println("*** PUTTING TERM ID: " + term.getId());
+                intent.putExtra(TERM_ID, String.valueOf(term.getId()));
+                startActivity(intent);
+            }
+        });
+
+
         super.onResume();
     }
 

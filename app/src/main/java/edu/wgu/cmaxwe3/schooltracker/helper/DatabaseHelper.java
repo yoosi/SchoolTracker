@@ -64,14 +64,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String KEY_COURSE_MENTOR_ID = "mentor_id";
 
     // Mentor table - column names
-    public static final String KEY_MENTOR_ID = "id";
+    public static final String KEY_MENTOR_ID = "mentor_id";
     public static final String KEY_MENTOR_NAME = "name";
     public static final String KEY_MENTOR_PHONE = "phone";
     public static final String KEY_MENTOR_EMAIL = "email";
     public static final String KEY_MENTOR_COURSE_ID = "course_id";
 
     // Term table - column names
-    public static final String KEY_TERM_ID = "id";
+    public static final String KEY_TERM_ID = "term_id";
     public static final String KEY_TERM_TITLE = "title";
     public static final String KEY_TERM_START_DATE = "start_date";
     public static final String KEY_TERM_END_DATE = "end_date";
@@ -88,10 +88,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     KEY_MENTOR_NAME + " TEXT, " +
                     KEY_MENTOR_PHONE + " TEXT, " +
                     KEY_MENTOR_EMAIL + " TEXT" +
-//                    KEY_MENTOR_EMAIL + " TEXT," +
-//                    KEY_MENTOR_COURSE_ID + " INTEGER, " +
-//                    "FOREIGN KEY (" + KEY_MENTOR_COURSE_ID + ") REFERENCES "
-//                    + TABLE_COURSE + "(" + KEY_COURSE_ID + ")" +
                     ")";
 
 
@@ -345,6 +341,28 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         return mentor;
     }
+    public Mentor getMentor(int mentor_id) {
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        String selectQuery = "SELECT  * FROM " + TABLE_MENTOR + " WHERE "
+                + KEY_MENTOR_ID + " = " + mentor_id;
+
+        Log.e(LOG, selectQuery);
+
+        Cursor c = db.rawQuery(selectQuery, null);
+
+        if (c != null)
+            c.moveToFirst();
+
+        Mentor mentor = new Mentor();
+
+        mentor.setId(c.getInt(c.getColumnIndex(KEY_MENTOR_ID)));
+        mentor.setName(c.getString(c.getColumnIndex(KEY_MENTOR_NAME)));
+        mentor.setPhone(c.getString(c.getColumnIndex(KEY_MENTOR_PHONE)));
+        mentor.setEmail(c.getString(c.getColumnIndex(KEY_MENTOR_EMAIL)));
+
+        return mentor;
+    }
 
 
     public Assessment getAssessment(long assessment_id) {
@@ -459,6 +477,16 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return assessmentId;
     }
 
+    public long updateCourse(int id, Course course) {
+        deleteCourse(id);
+        Log.d("updateCourse", "course removed at id: " + id);
+
+        long courseId = createCourse(course, id);
+        Log.d("updateCourse", "course added at id: " + courseId);
+
+        return courseId;
+    }
+
     public long updateAssessmentCourseId(int assessmentId, int courseId){
         Assessment assessment = getAssessment(assessmentId);
         assessment.setCourseId(courseId);
@@ -466,6 +494,19 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return updateAssessment(assessmentId, assessment);
     }
 
+    public long updateCourseTermID(int courseId, int termId){
+        Course course = getCourse(courseId);
+        course.setTermId(termId);
+
+        return updateCourse(courseId, course);
+    }
+
+    public long updateCourseMentorID(int course_id, int mentor_id){
+        Course course = getCourse(course_id);
+        course.setMentorId(mentor_id);
+
+        return updateCourse(course_id, course);
+    }
 
     public void deleteAssessment(long id) {
         SQLiteDatabase db = this.getWritableDatabase();
@@ -481,6 +522,38 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public List<Assessment> getAllAssessments() {
         List<Assessment> assessments = new ArrayList<Assessment>();
         String selectQuery = "SELECT * FROM " + TABLE_ASSESSMENT;
+
+        Log.e(LOG, selectQuery);
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor c = db.rawQuery(selectQuery, null);
+
+        // looping through all rows and adding to list
+        if (c.moveToFirst()) {
+            do {
+                Assessment assessment = new Assessment();
+                assessment.setId(c.getInt((c.getColumnIndex(KEY_ASSESSMENT_ID))));
+                assessment.setType((c.getString(c.getColumnIndex(KEY_ASSESSMENT_TYPE))));
+                assessment.setTitle(c.getString(c.getColumnIndex(KEY_ASSESSMENT_TITLE)));
+                assessment.setDueDate(c.getString(c.getColumnIndex(KEY_ASSESSMENT_DUE_DATE)));
+                assessment.setGoalDate(c.getString(c.getColumnIndex(KEY_ASSESSMENT_COURSE_ID)));
+                assessment.setGoalDateAlert(c.getInt(c.getColumnIndex(KEY_ASSESSMENT_COURSE_ID)));
+                assessment.setCourseId(c.getInt(c.getColumnIndex(KEY_ASSESSMENT_COURSE_ID)));
+
+                // adding to mentors list
+                assessments.add(assessment);
+            } while (c.moveToNext());
+        }
+
+        System.out.println("******** from within getAllAssessments assessments size is: " + assessments.size());
+
+        return assessments;
+    }
+
+    public List<Assessment> getCourseAssessments(int courseId) {
+        List<Assessment> assessments = new ArrayList<Assessment>();
+        String selectQuery = "SELECT * FROM " + TABLE_ASSESSMENT + " WHERE " + KEY_ASSESSMENT_COURSE_ID
+                + " = " + courseId;
 
         Log.e(LOG, selectQuery);
 
@@ -606,11 +679,33 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return mentor_id;
     }
 
+    public long createCourse(Course course, int id) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(KEY_COURSE_ID, id);
+        values.put(KEY_COURSE_TITLE, course.getTitle());
+        values.put(KEY_COURSE_STATUS, course.getStatus());
+        values.put(KEY_COURSE_START_DATE, course.getStartDate());
+        values.put(KEY_COURSE_START_DATE_ALERT, course.getStartAlert());
+        values.put(KEY_COURSE_END_DATE, course.getEndDate());
+        values.put(KEY_COURSE_END_DATE_ALERT, course.getEndAlert());
+        values.put(KEY_COURSE_NOTES, course.getNotes());
+        values.put(KEY_COURSE_TERM_ID, course.getTermId());
+        values.put(KEY_COURSE_MENTOR_ID, course.getMentorId());
+
+
+        // insert row
+        long mentor_id = db.insert(TABLE_COURSE, null, values);
+
+        Log.d("createCourse", "course added at id: " + mentor_id);
+
+        return mentor_id;
+    }
+
     public void deleteCourse(long id) {
         SQLiteDatabase db = this.getWritableDatabase();
-        db.delete(TABLE_COURSE, KEY_ASSESSMENT_ID + " = ?",
-                new String[]{String.valueOf(id)});
-        db.delete(TABLE_MENTOR, KEY_COURSE_ID + " = ?", //todo decide if this is the best way to handle this
+        db.delete(TABLE_COURSE, KEY_COURSE_ID + " = ?",
                 new String[]{String.valueOf(id)});
     }
 
@@ -653,6 +748,72 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public List<Course> getAllCourses() {
         List<Course> courses = new ArrayList<Course>();
         String selectQuery = "SELECT * FROM " + TABLE_COURSE;
+
+        Log.e(LOG, selectQuery);
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor c = db.rawQuery(selectQuery, null);
+
+        // looping through all rows and adding to list
+        if (c.moveToFirst()) {
+            do {
+                Course course = new Course();
+                course.setId(c.getInt(c.getColumnIndex(KEY_COURSE_ID)));
+                course.setTitle(c.getString(c.getColumnIndex(KEY_COURSE_TITLE)));
+                course.setStatus(c.getString(c.getColumnIndex(KEY_COURSE_STATUS)));
+                course.setStartDate(c.getString(c.getColumnIndex(KEY_COURSE_START_DATE)));
+                course.setStartAlert(c.getInt(c.getColumnIndex(KEY_COURSE_START_DATE_ALERT)));
+                course.setEndDate(c.getString(c.getColumnIndex(KEY_COURSE_END_DATE)));
+                course.setEndAlert(c.getInt(c.getColumnIndex(KEY_COURSE_END_DATE_ALERT)));
+                course.setNotes(c.getString(c.getColumnIndex(KEY_COURSE_NOTES)));
+                course.setTermId(c.getInt(c.getColumnIndex(KEY_COURSE_TERM_ID)));
+                course.setMentorId(c.getInt(c.getColumnIndex(KEY_COURSE_MENTOR_ID)));
+
+                // adding course to list
+                courses.add(course);
+            } while (c.moveToNext());
+        }
+
+        return courses;
+    }
+
+    public List<Course> getCoursesForMentor(int mentor_id) {
+        List<Course> courses = new ArrayList<Course>();
+        String selectQuery = "SELECT * FROM " + TABLE_COURSE
+                + " WHERE " + KEY_COURSE_MENTOR_ID + " = " + mentor_id;
+
+        Log.e(LOG, selectQuery);
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor c = db.rawQuery(selectQuery, null);
+
+        // looping through all rows and adding to list
+        if (c.moveToFirst()) {
+            do {
+                Course course = new Course();
+                course.setId(c.getInt(c.getColumnIndex(KEY_COURSE_ID)));
+                course.setTitle(c.getString(c.getColumnIndex(KEY_COURSE_TITLE)));
+                course.setStatus(c.getString(c.getColumnIndex(KEY_COURSE_STATUS)));
+                course.setStartDate(c.getString(c.getColumnIndex(KEY_COURSE_START_DATE)));
+                course.setStartAlert(c.getInt(c.getColumnIndex(KEY_COURSE_START_DATE_ALERT)));
+                course.setEndDate(c.getString(c.getColumnIndex(KEY_COURSE_END_DATE)));
+                course.setEndAlert(c.getInt(c.getColumnIndex(KEY_COURSE_END_DATE_ALERT)));
+                course.setNotes(c.getString(c.getColumnIndex(KEY_COURSE_NOTES)));
+                course.setTermId(c.getInt(c.getColumnIndex(KEY_COURSE_TERM_ID)));
+                course.setMentorId(c.getInt(c.getColumnIndex(KEY_COURSE_MENTOR_ID)));
+
+                // adding course to list
+                courses.add(course);
+            } while (c.moveToNext());
+        }
+
+        return courses;
+    }
+
+    public List<Course> getTermCourses(int term_id) {
+        List<Course> courses = new ArrayList<Course>();
+        String selectQuery = "SELECT * FROM " + TABLE_COURSE + " WHERE " +
+                KEY_COURSE_TERM_ID + " = " + term_id;
 
         Log.e(LOG, selectQuery);
 
@@ -737,7 +898,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public void deleteTerm(long id) {
         SQLiteDatabase db = this.getWritableDatabase();
-        db.delete(TABLE_TERM, KEY_ASSESSMENT_ID + " = ?",
+        db.delete(TABLE_TERM, KEY_TERM_ID + " = ?",
                 new String[]{String.valueOf(id)});
     }
 
@@ -772,6 +933,28 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return terms;
     }
 
+
+    public Term getTerm(long term_id) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String selectQuery = "SELECT  * FROM " + TABLE_TERM + " WHERE "
+                + KEY_TERM_ID + " = " + term_id;
+
+        Log.e(LOG, selectQuery);
+
+        Cursor c = db.rawQuery(selectQuery, null);
+
+        if (c != null)
+            c.moveToFirst();
+
+        Term term = new Term();
+
+        term.setId(c.getInt(c.getColumnIndex(KEY_TERM_ID)));
+        term.setTitle(c.getString(c.getColumnIndex(KEY_TERM_TITLE)));
+        term.setStartDate(c.getString(c.getColumnIndex(KEY_TERM_START_DATE)));
+        term.setEndDate(c.getString(c.getColumnIndex(KEY_TERM_END_DATE)));
+
+        return term;
+    }
 
     // closing database
     public void closeDB() {

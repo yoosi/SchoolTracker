@@ -34,11 +34,18 @@ public class EditCourseActivity extends AppCompatActivity implements DatePickerD
 
     private DatabaseHelper db;
 
+    private ArrayList<String> assessmentIDs;
+    public static String COURSE_ID = "COURSE_ID";
+
+    private String courseId;
+
+
     private String startDate;
     private String endDate;
     private boolean pickingStartDate;
-
-    String courseID;
+    public static String MENTOR_ID = "MENTOR_ID";
+    public static String ASSESSMENT_IDS = "ASSESSMENT_IDS";
+    private int mentorId;
 
 
     private Course getCourse() {
@@ -67,8 +74,58 @@ public class EditCourseActivity extends AppCompatActivity implements DatePickerD
             course.setEndAlert(0);
         }
         course.setNotes(notesInput.getText().toString());
+        course.setMentorId(mentorId);
         return course;
     }
+
+
+    private void loadCourse(Course course) {
+        EditText titleInput = findViewById(R.id.editTextTitle);
+        EditText statusInput = findViewById(R.id.editTextStatus);
+        TextView startDateInput = findViewById(R.id.textViewStartDate);
+        ToggleButton startDateAlertInput = findViewById(R.id.toggleButtonStartDateAlert);
+        TextView endDateInput = findViewById(R.id.textViewEndDate);
+        ToggleButton endDateAlertInput = findViewById(R.id.toggleButtonEndDateAlert);
+        EditText notesInput = findViewById(R.id.editTextNotes);
+        TextView mentorInput = findViewById(R.id.textViewMentor);
+
+        titleInput.setText(course.getTitle());
+        statusInput.setText(course.getStatus());
+        startDateInput.setText(course.getStartDate());
+        if (course.getStartAlert() == 1) {
+            startDateAlertInput.setChecked(true);
+        } else {
+            startDateAlertInput.setChecked(false);
+        }
+        endDateInput.setText(course.getEndDate());
+        if (course.getEndAlert() == 1){
+            endDateAlertInput.setChecked(true);
+        } else {
+            endDateAlertInput.setChecked(false);
+        }
+        notesInput.setText(course.getNotes());
+        mentorId = course.getMentorId();
+
+        db = new DatabaseHelper(getApplicationContext());
+
+        if (mentorId != 0) {
+            Mentor mentor = db.getMentor(mentorId);
+            mentorInput.setText(mentor.getName());
+        }
+
+
+        db = new DatabaseHelper(getApplicationContext());
+        List<Assessment> assessments = db.getCourseAssessments(Integer.valueOf(courseId));
+        ArrayAdapter<Assessment> adapterAssessments = new ArrayAdapter<Assessment>(this,
+                android.R.layout.simple_list_item_1, android.R.id.text1, assessments);
+        ListView lv = findViewById(R.id.listViewAssessments);
+        lv.setAdapter(adapterAssessments);
+
+
+
+
+    }
+
 
 
     @Override
@@ -78,62 +135,43 @@ public class EditCourseActivity extends AppCompatActivity implements DatePickerD
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        courseID = getIntent().getStringExtra(ViewCoursesActivity.COURSE_ID);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        EditText titleInput = findViewById(R.id.editTextTitle);
-        EditText statusInput = findViewById(R.id.editTextStatus);
-        TextView startDateInput = findViewById(R.id.textViewStartDate);
-        ToggleButton startAlertInput = findViewById(R.id.toggleButtonStartDateAlert);
-        TextView endDateInput = findViewById(R.id.textViewEndDate);
-        ToggleButton endAlertInput = findViewById(R.id.toggleButtonEndDateAlert);
-        EditText notesInput = findViewById(R.id.editTextNotes);
-        ListView mentorsInput = findViewById(R.id.listViewMentors);
-        ListView assessmentsInput = findViewById(R.id.listViewAssessments);
+        courseId = getIntent().getStringExtra(ViewCoursesActivity.COURSE_ID);
 
-        System.out.println("**** COURSE ID: " + courseID);
+        System.out.println("**** COURSE ID: " + courseId);
+
+        System.out.println("**** EDIT COURSE ON CREATE RUN");
 
         db = new DatabaseHelper(getApplicationContext());
-        Course course = db.getCourse(Integer.valueOf(courseID));
+        Course course = db.getCourse(Integer.valueOf(courseId));
 
-        titleInput.setText(course.getTitle());
-        statusInput.setText(course.getStatus());
-        startDateInput.setText(course.getStartDate());
-
-        if (course.getStartAlert() == 1) {
-            startAlertInput.setChecked(true);
-        } else {
-            startAlertInput.setChecked(false);
-        }
-
-        endDateInput.setText(course.getEndDate());
-
-        if (course.getEndAlert() == 1) {
-            endAlertInput.setChecked(true);
-        } else {
-            endAlertInput.setChecked(false);
-        }
-
-        notesInput.setText(course.getNotes());
-
-        //todo add assessments and mentors to the lists
-
-
-
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        loadCourse(course);
 
         Button shareNotesButton = findViewById(R.id.buttonShareNotes);
         shareNotesButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 shareNotes();
+            }
+        });
+
+
+        // select mentors button
+        Button selectMentorButton = findViewById(R.id.buttonPickMentor);
+        selectMentorButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                openSelectCourseMentorForResult();
+            }
+        });
+
+
+        Button selectAssessmentsButton = findViewById(R.id.buttonPickAssessments);
+        selectAssessmentsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                openSelectCourseAssessnmentsForResult();
             }
         });
 
@@ -145,56 +183,36 @@ public class EditCourseActivity extends AppCompatActivity implements DatePickerD
             public void onClick(View view) {
                 db = new DatabaseHelper(getApplicationContext());
                 Course newCourse = getCourse();
+
+
                 //insert course
-                long course_id = db.createCourse(newCourse);
 
+                long course_id = db.updateCourse(Integer.valueOf(courseId), newCourse);
 
-                /// handle mentor selections
-                List<Mentor> mentors = db.getAllUnassignedMentors();
-                ListView listViewMentorsTesting = findViewById(R.id.listViewMentors);
-
-
-                List<Mentor> selectedMentors = new ArrayList<>();
-                int len = listViewMentorsTesting.getCount();
-                SparseBooleanArray checked = listViewMentorsTesting.getCheckedItemPositions();
-                for (int i = 0; i < len; i++)
-                    if (checked.get(i)) {
-                        Mentor mentor = mentors.get(i);
-                        /* do whatever you want with the checked item */
-                        selectedMentors.add(mentor);
-                    }
-                for (Mentor mentor : selectedMentors) {
-                    System.out.println("MENTOR CHECKED: " + mentor.getName());
-                    System.out.println("MENTOR ID: " + mentor.getId());
-//                    mentor.setCourseId((int) course_id);
-                    db.updateMentor(mentor.getId(), mentor);
-                }
-
-
-                // handle assessment selections
-                List<Assessment> assessments = db.getAllUnassignedAssessments();
-
-                System.out.println("********** assessments length: " + assessments.size());
-
-                ListView listViewAssessments = findViewById(R.id.listViewAssessments);
-
-                List<Assessment> selectedAssessments = new ArrayList<>();
-                int len2 = listViewAssessments.getCount();
-                SparseBooleanArray checked2 = listViewAssessments.getCheckedItemPositions();
-                for (int i = 0; i < len2; i++)
-                    if (checked2.get(i)) {
-                        Assessment assessment = assessments.get(i);
-                        selectedAssessments.add(assessment);
-                    }
-                for (Assessment assessment : selectedAssessments) {
-                    assessment.setCourseId((int) course_id);
-                    db.updateAssessment(assessment.getId(), assessment);
-                }
 
                 //todo PUT YOUR CODE THAT UPDATES THE MENTORS AND ASSESSMENTS TO POINT TO THIS COURSE ID HERE
 
                 //todo pass selectedMentors to another
 
+
+                // update assessments
+
+
+                if (assessmentIDs != null) {
+                    // first clear all assessments from the course
+                    List<Assessment> previouslyAssignedAssessments = db.getCourseAssessments(Integer.valueOf(courseId));
+                    for (Assessment assessment: previouslyAssignedAssessments) {
+                        db.updateAssessmentCourseId(assessment.getId(), 0);
+                    }
+
+                    // then re-add only the ones that are selected
+                    Integer i = (int) (long) course_id;
+                    for (String assessmentID : assessmentIDs) {
+                        long l = db.updateAssessmentCourseId(Integer.valueOf(assessmentID), i);
+                    }
+                } else {
+                    System.out.println("assessmentIDs is NULL");
+                }
                 finish();
             }
         });
@@ -241,50 +259,30 @@ public class EditCourseActivity extends AppCompatActivity implements DatePickerD
 
     @Override
     protected void onResume() {
-
-        // populate list view of mentors
-        List<Mentor> mentors = getMentors();
-        System.out.println("******* mentors size is: " + mentors.size());
-        ArrayAdapter<Mentor> adapter = new ArrayAdapter<Mentor>(this,
-                android.R.layout.simple_list_item_checked, android.R.id.text1, mentors);
-        ListView lv = findViewById(R.id.listViewMentors);
-        lv.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE); // todo change this from multi to single
-        lv.setAdapter(adapter);
-
-
-        // todo make mentor checked if course id is the same as courseID
-        // just kidding that is changing
-
-        // populate list view of assessments
-        List<Assessment> assessments = getAssessments();
-        System.out.println("******* assessments size is: " + assessments.size());
-        ArrayAdapter<Assessment> adapterAssessments = new ArrayAdapter<Assessment>(this,
-                android.R.layout.simple_list_item_checked, android.R.id.text1, assessments);
-        ListView lv2 = findViewById(R.id.listViewAssessments);
-        lv2.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
-        lv2.setAdapter(adapterAssessments);
-
-
-        //todo remove this test code
-//        lv2.setItemChecked(1, true);
-
-
-
-
         super.onResume();
     }
 
 
     private List<Mentor> getMentors() {
         db = new DatabaseHelper(getApplicationContext());
-        return db.getAllAvailableMentorsForCourse(Integer.valueOf(courseID));
+        return db.getAllUnassignedMentors();
     }
 
     private List<Assessment> getAssessments() {
         db = new DatabaseHelper(getApplicationContext());
-        return db.getAllAvailableAssessmentsForCourse(Integer.valueOf(courseID));
+        return db.getAllUnassignedAssessments();
     }
 
+
+    public void openSelectCourseMentorForResult() {
+        Intent intent = new Intent(this, SelectCourseMentorActivity.class);
+        startActivityForResult(intent, 1);
+    }
+
+    public void openSelectCourseAssessnmentsForResult() {
+        Intent intent = new Intent(this, SelectCourseAssessmentsActivity.class);
+        startActivityForResult(intent, 2);
+    }
 
     @Override
     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
@@ -306,6 +304,46 @@ public class EditCourseActivity extends AppCompatActivity implements DatePickerD
         }
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 1) {
+            if (resultCode == RESULT_OK) {
+                String mentorId = data.getStringExtra(MENTOR_ID);
+                applyMentorChoice(Integer.valueOf(mentorId));
+            }
+        }
+
+        if (requestCode == 2) {
+            if (resultCode == RESULT_OK) {
+                assessmentIDs = data.getStringArrayListExtra(ASSESSMENT_IDS);
+                populateAssessmentsList(assessmentIDs);
+            }
+        }
+    }
+
+
+    private void populateAssessmentsList(ArrayList<String> assessmentIDs) {
+        db = new DatabaseHelper(getApplicationContext());
+        List<Assessment> assessments = new ArrayList<Assessment>();
+        for (String assessmentID : assessmentIDs) {
+            Assessment assessment = db.getAssessment(Integer.valueOf(assessmentID));
+            assessments.add(assessment);
+        }
+
+        ArrayAdapter<Assessment> adapterAssessments = new ArrayAdapter<Assessment>(this,
+                android.R.layout.simple_list_item_1, android.R.id.text1, assessments);
+        ListView lv = findViewById(R.id.listViewAssessments);
+        lv.setAdapter(adapterAssessments);
+    }
+
+    private void applyMentorChoice(int newMentorId) {
+        db = new DatabaseHelper(getApplicationContext());
+        mentorId = newMentorId;
+        TextView mentorTextView = findViewById(R.id.textViewMentor);
+        Mentor mentor = db.getMentor(newMentorId);
+        mentorTextView.setText(mentor.getName());
+    }
 
 
     @Override
@@ -327,7 +365,7 @@ public class EditCourseActivity extends AppCompatActivity implements DatePickerD
             case R.id.delete:
                 System.out.println("*** YOU CLICKED DELETE");
                 db = new DatabaseHelper(getApplicationContext());
-                db.deleteCourse(Integer.valueOf(courseID));
+                db.deleteCourse(Integer.valueOf(courseId));
                 finish();
                 return true;
         }
