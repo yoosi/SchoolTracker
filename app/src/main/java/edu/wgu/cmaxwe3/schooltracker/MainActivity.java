@@ -30,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
     DatabaseHelper db;
 
 
-    private void nukeEverything(){
+    private void nukeEverything() {
         db = new DatabaseHelper(getApplicationContext());
         db.deleteAllAssessments();
         db.deleteAllCourses();
@@ -78,7 +78,7 @@ public class MainActivity extends AppCompatActivity {
         mentors.add(mentor3);
         mentors.add(mentor4);
 
-        for (Mentor mentor: mentors) {
+        for (Mentor mentor : mentors) {
             db.createMentor(mentor);
         }
 
@@ -93,7 +93,7 @@ public class MainActivity extends AppCompatActivity {
         terms.add(term3);
         terms.add(term4);
 
-        for (Term term: terms) {
+        for (Term term : terms) {
             db.createTerm(term);
         }
 
@@ -112,7 +112,7 @@ public class MainActivity extends AppCompatActivity {
         courses.add(course3);
         courses.add(course4);
 
-        for (Course course: courses) {
+        for (Course course : courses) {
             db.createCourse(course);
         }
 
@@ -128,7 +128,7 @@ public class MainActivity extends AppCompatActivity {
         assessments.add(assessment4);
 
 
-        for (Assessment assessment: assessments) {
+        for (Assessment assessment : assessments) {
             db.createAssessment(assessment);
         }
 
@@ -145,8 +145,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-
 
 
         // button view mentors
@@ -232,16 +230,12 @@ public class MainActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         switch (id) {
-        case R.id.action_settings:
-        System.out.println("*** you clicked settings");
-        return true;
 
-
-        case R.id.about:
-        System.out.println("*** you clicked about");
-        openAbout();
-        return true;
-    }
+            case R.id.about:
+                System.out.println("*** you clicked about");
+                openAbout();
+                return true;
+        }
 
 
         return super.onOptionsItemSelected(item);
