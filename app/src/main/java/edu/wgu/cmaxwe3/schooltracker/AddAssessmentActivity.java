@@ -112,15 +112,37 @@ public class AddAssessmentActivity extends AppCompatActivity implements DatePick
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                db = new DatabaseHelper(getApplicationContext());
-                Assessment newAssessment = getAssessment();
-                // insert assessment
-                long assessment_id = db.createAssessment(newAssessment);
-                System.out.println("**** ASSESSMENT CREATED at ID: " + assessment_id);
-                System.out.println("**** ASSESSMENT TYPE: " + newAssessment.getType());
-                System.out.println("**** ASSESSMENT ALERT: " + newAssessment.getGoalDateAlert());
-                System.out.println("**** ASSESSMENT DUE DATE: " + newAssessment.getGoalDate());
-                finish();
+
+                StringBuilder warning = new StringBuilder();
+
+                if (getAssessmentTitle().length() == 0) {
+                    warning.append("[Title] ");
+                }
+
+                if (dueDate == null) {
+                    warning.append("[Due Date] ");
+                }
+
+                if (goalDate == null) {
+                    warning.append("[Goal Date] ");
+                }
+
+
+                if (warning.toString().length() == 0) {
+
+
+                    db = new DatabaseHelper(getApplicationContext());
+                    Assessment newAssessment = getAssessment();
+                    // insert assessment
+                    long assessment_id = db.createAssessment(newAssessment);
+                    finish();
+
+                } else {
+                    Snackbar.make(view, "To save, you must provide values for the following fields:" + warning.toString(), Snackbar.LENGTH_LONG)
+                            .setAction("Action", null).show();
+                }
+
+
             }
         });
 

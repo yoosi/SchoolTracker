@@ -37,7 +37,7 @@ public class Course {
 
     }
 
-    // construct with all parameters except id
+    // construct with all parameters except id and mentor id
     public Course(String title, String status, String startDate, int startAlert,
                   String endDate, int endAlert, String notes, int termId) {
         this.setTitle(title);
@@ -49,6 +49,20 @@ public class Course {
         this.setNotes(notes);
         this.setTermId(termId);
 
+    }
+
+    // construct with all parameters except id
+    public Course(String title, String status, String startDate, int startAlert,
+                  String endDate, int endAlert, String notes, int termId, int mentorId) {
+        this.setTitle(title);
+        this.setStatus(status);
+        this.setStartDate(startDate);
+        this.setStartAlert(startAlert);
+        this.setEndDate(endDate);
+        this.setEndAlert(endAlert);
+        this.setNotes(notes);
+        this.setTermId(termId);
+        this.setMentorId(mentorId);
     }
 
 

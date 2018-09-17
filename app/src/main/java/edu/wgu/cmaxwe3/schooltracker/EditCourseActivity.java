@@ -98,7 +98,7 @@ public class EditCourseActivity extends AppCompatActivity implements DatePickerD
             startDateAlertInput.setChecked(false);
         }
         endDateInput.setText(course.getEndDate());
-        if (course.getEndAlert() == 1){
+        if (course.getEndAlert() == 1) {
             endDateAlertInput.setChecked(true);
         } else {
             endDateAlertInput.setChecked(false);
@@ -122,10 +122,7 @@ public class EditCourseActivity extends AppCompatActivity implements DatePickerD
         lv.setAdapter(adapterAssessments);
 
 
-
-
     }
-
 
 
     @Override
@@ -181,39 +178,60 @@ public class EditCourseActivity extends AppCompatActivity implements DatePickerD
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                db = new DatabaseHelper(getApplicationContext());
-                Course newCourse = getCourse();
+
+                StringBuilder warning = new StringBuilder();
+                EditText titleInput = findViewById(R.id.editTextTitle);
+                EditText statusInput = findViewById(R.id.editTextStatus);
 
 
-                //insert course
-
-                long course_id = db.updateCourse(Integer.valueOf(courseId), newCourse);
-
-
-                //todo PUT YOUR CODE THAT UPDATES THE MENTORS AND ASSESSMENTS TO POINT TO THIS COURSE ID HERE
-
-                //todo pass selectedMentors to another
-
-
-                // update assessments
-
-
-                if (assessmentIDs != null) {
-                    // first clear all assessments from the course
-                    List<Assessment> previouslyAssignedAssessments = db.getCourseAssessments(Integer.valueOf(courseId));
-                    for (Assessment assessment: previouslyAssignedAssessments) {
-                        db.updateAssessmentCourseId(assessment.getId(), 0);
-                    }
-
-                    // then re-add only the ones that are selected
-                    Integer i = (int) (long) course_id;
-                    for (String assessmentID : assessmentIDs) {
-                        long l = db.updateAssessmentCourseId(Integer.valueOf(assessmentID), i);
-                    }
-                } else {
-                    System.out.println("assessmentIDs is NULL");
+                if (titleInput.getText().toString().length() == 0) {
+                    warning.append("[Title] ");
                 }
-                finish();
+                if (statusInput.getText().toString().length() == 0) {
+                    warning.append("[Status] ");
+                }
+
+
+                if (warning.toString().length() == 0) {
+
+
+                    db = new DatabaseHelper(getApplicationContext());
+                    Course newCourse = getCourse();
+
+
+                    //insert course
+
+                    long course_id = db.updateCourse(Integer.valueOf(courseId), newCourse);
+
+
+                    //todo PUT YOUR CODE THAT UPDATES THE MENTORS AND ASSESSMENTS TO POINT TO THIS COURSE ID HERE
+
+                    //todo pass selectedMentors to another
+
+
+                    // update assessments
+
+
+                    if (assessmentIDs != null) {
+                        // first clear all assessments from the course
+                        List<Assessment> previouslyAssignedAssessments = db.getCourseAssessments(Integer.valueOf(courseId));
+                        for (Assessment assessment : previouslyAssignedAssessments) {
+                            db.updateAssessmentCourseId(assessment.getId(), 0);
+                        }
+
+                        // then re-add only the ones that are selected
+                        Integer i = (int) (long) course_id;
+                        for (String assessmentID : assessmentIDs) {
+                            long l = db.updateAssessmentCourseId(Integer.valueOf(assessmentID), i);
+                        }
+                    } else {
+                        System.out.println("assessmentIDs is NULL");
+                    }
+                    finish();
+                } else {
+                    Snackbar.make(view, "To save, you must provide values for the following fields:" + warning.toString(), Snackbar.LENGTH_LONG)
+                            .setAction("Action", null).show();
+                }
             }
         });
 

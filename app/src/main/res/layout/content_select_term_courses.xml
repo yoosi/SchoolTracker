@@ -23,7 +23,7 @@
             android:id="@+id/textView3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="select courses below. you may have to scroll." />
+            android:text="Please select courses for this term below. You may need to scroll. If you select a course that is in another term it will move to this term." />
 
         <ListView
             android:id="@+id/listViewCourses"

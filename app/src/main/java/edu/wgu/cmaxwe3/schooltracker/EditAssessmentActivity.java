@@ -138,11 +138,28 @@ public class EditAssessmentActivity extends AppCompatActivity implements DatePic
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                db = new DatabaseHelper(getApplicationContext());
-                Assessment newAssessment = getAssessment();
-                // insert assessment
-                long assessment_id = db.updateAssessment(Integer.valueOf(assessmentID), newAssessment);
-                finish();
+
+                StringBuilder warning = new StringBuilder();
+
+                if(getAssessmentTitle().length() == 0){
+                    warning.append("[Title] ");
+                }
+
+
+
+                if (warning.toString().length() == 0) {
+
+
+                    db = new DatabaseHelper(getApplicationContext());
+                    Assessment newAssessment = getAssessment();
+                    // insert assessment
+                    long assessment_id = db.updateAssessment(Integer.valueOf(assessmentID), newAssessment);
+                    finish();
+
+                } else {
+                    Snackbar.make(view, "To save, you must provide values for the following fields:" + warning.toString(), Snackbar.LENGTH_LONG)
+                            .setAction("Action", null).show();
+                }
             }
         });
 

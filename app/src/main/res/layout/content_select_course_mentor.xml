@@ -18,7 +18,7 @@
             android:id="@+id/textView2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="select mentors below. you may have to scroll." />
+            android:text="Please select a mentor below. You may need to scroll. Mentors can be assigned to more than one course at a time." />
 
         <ListView
             android:id="@+id/listViewMentors"

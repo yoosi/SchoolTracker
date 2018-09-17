@@ -27,7 +27,7 @@ import edu.wgu.cmaxwe3.schooltracker.helper.DatabaseHelper;
 import edu.wgu.cmaxwe3.schooltracker.model.Course;
 import edu.wgu.cmaxwe3.schooltracker.model.Term;
 
-public class EditTermActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener{
+public class EditTermActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
     private DatabaseHelper db;
 
     public static String COURSE_IDS = "COURSE_IDS";
@@ -50,7 +50,6 @@ public class EditTermActivity extends AppCompatActivity implements DatePickerDia
         termID = getIntent().getStringExtra(ViewTermsActivity.TERM_ID);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
 
 
         //////////
@@ -87,24 +86,38 @@ public class EditTermActivity extends AppCompatActivity implements DatePickerDia
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Term term = getTerm();
-                db = new DatabaseHelper(getApplicationContext());
+                EditText titleInput = findViewById(R.id.editTextTermTitle);
+                String title = titleInput.getText().toString();
 
+                StringBuilder warning = new StringBuilder();
 
-                if(courseIDs != null) {
-
-                    for (String courseID : courseIDs) {
-                        long l = db.updateCourseTermID(Integer.valueOf(courseID),
-                                Integer.valueOf(termID));
-                    }
+                if (title.length() == 0) {
+                    warning.append("[Title] ");
                 }
 
-                finish();
+                if (warning.toString().length() == 0) {
+
+
+                    Term term = getTerm();
+                    db = new DatabaseHelper(getApplicationContext());
+
+
+                    if (courseIDs != null) {
+
+                        for (String courseID : courseIDs) {
+                            long l = db.updateCourseTermID(Integer.valueOf(courseID),
+                                    Integer.valueOf(termID));
+                        }
+                    }
+
+                    finish();
+
+                } else {
+                    Snackbar.make(view, "To save, you must provide values for the following fields:" + warning.toString(), Snackbar.LENGTH_LONG)
+                            .setAction("Action", null).show();
+                }
             }
         });
-
-
-
 
 
         Button pickCoursesButton = findViewById(R.id.buttonPickCourses);
@@ -134,11 +147,9 @@ public class EditTermActivity extends AppCompatActivity implements DatePickerDia
         loadTerm(term);
 
 
-
-
     }
 
-    private void loadTerm(Term term){
+    private void loadTerm(Term term) {
         TextView titleInput = findViewById(R.id.editTextTermTitle);
         TextView startDateInput = findViewById(R.id.textViewStartDate);
         TextView endDateInput = findViewById(R.id.textViewEndDate);
@@ -175,7 +186,7 @@ public class EditTermActivity extends AppCompatActivity implements DatePickerDia
         lv.setAdapter(adapterCourses);
     }
 
-    private Term getTerm(){
+    private Term getTerm() {
         EditText titleInput = findViewById(R.id.editTextTermTitle);
         TextView startDateInput = findViewById(R.id.textViewStartDate);
         TextView endDateInput = findViewById(R.id.textViewEndDate);
@@ -200,7 +211,6 @@ public class EditTermActivity extends AppCompatActivity implements DatePickerDia
         db = new DatabaseHelper(getApplicationContext());
         return db.getAllUnassignedCourses();
     }
-
 
 
     @Override

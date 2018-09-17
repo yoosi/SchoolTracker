@@ -118,14 +118,36 @@ public class AddCourseActivity extends AppCompatActivity implements DatePickerDi
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                db = new DatabaseHelper(getApplicationContext());
-                Course newCourse = getCourse();
-                //insert course
-                long course_id = db.createCourse(newCourse);
+
+                StringBuilder warning = new StringBuilder();
+                EditText titleInput = findViewById(R.id.editTextTitle);
+                EditText statusInput = findViewById(R.id.editTextStatus);
+                TextView startDateInput = findViewById(R.id.textViewStartDate);
+                TextView endDateInput = findViewById(R.id.textViewEndDate);
+
+                if (titleInput.getText().toString().length() == 0) {
+                    warning.append("[Title] ");
+                }
+                if (statusInput.getText().toString().length() == 0) {
+                    warning.append("[Status] ");
+                }
+                if (startDate == null) {
+                    warning.append("[Start Date] ");
+                }
+                if (endDate == null) {
+                    warning.append("[End Date] ");
+                }
 
 
+                if (warning.toString().length() == 0) {
 
-                // handle assessment selections
+                    db = new DatabaseHelper(getApplicationContext());
+                    Course newCourse = getCourse();
+                    //insert course
+                    long course_id = db.createCourse(newCourse);
+
+
+                    // handle assessment selections
 //                List<Assessment> assessments = db.getAllUnassignedAssessments();
 //
 //                System.out.println("********** assessments length: " + assessments.size());
@@ -147,23 +169,28 @@ public class AddCourseActivity extends AppCompatActivity implements DatePickerDi
 //
 //                SparseBooleanArray allAssessments = listViewAssessments.getItemAtPosition()
 
-                //todo PUT YOUR CODE THAT UPDATES THE MENTORS AND ASSESSMENTS TO POINT TO THIS COURSE ID HERE
+                    //todo PUT YOUR CODE THAT UPDATES THE MENTORS AND ASSESSMENTS TO POINT TO THIS COURSE ID HERE
 
-                //todo pass selectedMentors to another
-
-
-                // update assessments
+                    //todo pass selectedMentors to another
 
 
-                if (assessmentIDs != null) {
-                    Integer i = (int) (long) course_id;
-                    for (String assessmentID : assessmentIDs) {
-                        long l = db.updateAssessmentCourseId(Integer.valueOf(assessmentID), i);
+                    // update assessments
+
+
+                    if (assessmentIDs != null) {
+                        Integer i = (int) (long) course_id;
+                        for (String assessmentID : assessmentIDs) {
+                            long l = db.updateAssessmentCourseId(Integer.valueOf(assessmentID), i);
+                        }
+                    } else {
+                        System.out.println("assessmentIDs is NULL");
                     }
+                    finish();
+
                 } else {
-                    System.out.println("assessmentIDs is NULL");
+                    Snackbar.make(view, "To save, you must provide values for the following fields:" + warning.toString(), Snackbar.LENGTH_LONG)
+                            .setAction("Action", null).show();
                 }
-                finish();
             }
         });
 

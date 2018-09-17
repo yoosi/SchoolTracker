@@ -15,6 +15,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import edu.wgu.cmaxwe3.schooltracker.helper.DatabaseHelper;
@@ -62,6 +63,78 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    private void generateSampleData() {
+        db = new DatabaseHelper(getApplicationContext());
+
+
+        Mentor mentor1 = new Mentor("Jim Halpert", "206-555-1234", "j.halpert@dundermifflin.co");
+        Mentor mentor2 = new Mentor("Pam Beasley", "206-555-1212", "p.beasley@dundermifflin.co");
+        Mentor mentor3 = new Mentor("Michael Scott", "206-555-9876", "m.scott@dundermifflin.co");
+        Mentor mentor4 = new Mentor("Dwight Schrute", "206-555-4567", "d.schrute@dundermifflin.co");
+
+        List<Mentor> mentors = new ArrayList<>();
+        mentors.add(mentor1);
+        mentors.add(mentor2);
+        mentors.add(mentor3);
+        mentors.add(mentor4);
+
+        for (Mentor mentor: mentors) {
+            db.createMentor(mentor);
+        }
+
+        Term term1 = new Term("First Term", "Jan 1, 2018", "Jun 30, 2018");
+        Term term2 = new Term("Second Term", "Jul 1, 2018", "Dec 31, 2018");
+        Term term3 = new Term("Third Term", "Jan 1, 2019", "Jun 30, 2019");
+        Term term4 = new Term("Second Term", "Jul 1, 2019", "Dec 31, 2019");
+
+        List<Term> terms = new ArrayList<>();
+        terms.add(term1);
+        terms.add(term2);
+        terms.add(term3);
+        terms.add(term4);
+
+        for (Term term: terms) {
+            db.createTerm(term);
+        }
+
+
+//    public Course(String title, String status, String startDate, int startAlert,
+//        String endDate, int endAlert, String notes, int termId) {
+
+        Course course1 = new Course("Intro to IT", "completed", "Jan 1, 2018", 0, "Feb 25, 2018", 0, "This class was very fun", 1, 1);
+        Course course2 = new Course("Intro to Programming", "completed", "Jul 1, 2018", 0, "Aug 16, 2018", 0, "I learned a lot in this class", 2, 2);
+        Course course3 = new Course("Intro to Data Mgmt", "completed", "Feb 1, 2019", 0, "Mar 9, 2019", 0, "lots of database stuff in this class\n this part is on an new line", 3);
+        Course course4 = new Course("Android App Dev", "in progress", "Jul 1, 2019", 1, "Dec 31, 2019", 0, "remember to coment your code!", 4);
+
+        List<Course> courses = new ArrayList<>();
+        courses.add(course1);
+        courses.add(course2);
+        courses.add(course3);
+        courses.add(course4);
+
+        for (Course course: courses) {
+            db.createCourse(course);
+        }
+
+        Assessment assessment1 = new Assessment("OBJECTIVE", "Intro to IT Midterm", "Feb 1, 2018", "Jan 25, 2018", 0, 1);
+        Assessment assessment2 = new Assessment("PERFORMANCE", "Make Inventory App", "Jul 25, 2018", "Jul 20, 2018", 0, 2);
+        Assessment assessment3 = new Assessment("OBJECTIVE", "Data Midterm Exam", "Feb 19, 2019", "Feb 15, 2019", 0, 3);
+        Assessment assessment4 = new Assessment("PERFORMANCE", "Code Android App", "Sep 30, 2019", "Sep 15, 2019", 1, 4);
+
+        List<Assessment> assessments = new ArrayList<>();
+        assessments.add(assessment1);
+        assessments.add(assessment2);
+        assessments.add(assessment3);
+        assessments.add(assessment4);
+
+
+        for (Assessment assessment: assessments) {
+            db.createAssessment(assessment);
+        }
+
+    }
+
+
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,19 +146,7 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        // button
-        FloatingActionButton fab = findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-                System.out.println("YOU PUSHED THE BUTTON");
 
-                db.deleteAllAssessments();
-
-            }
-        });
 
 
         // button view mentors
@@ -128,106 +189,33 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        // button view about
-        Button buttonViewAbout = findViewById(R.id.buttonViewAbout);
-        buttonViewAbout.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
+        // button generate sample data
+        Button buttonGenerateSampleData = findViewById(R.id.buttonGenerateSampleData);
+        buttonGenerateSampleData.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+
                 // Do something in response to button click
-                System.out.println("pressed the view about");
-                openAbout();
+                Snackbar.make(view, "All Data Deleted", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
+
+                generateSampleData();
+            }
+
+        });
+
+        // button delete all data
+        Button buttonNuke = findViewById(R.id.buttonNuke);
+        buttonNuke.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+                // Do something in response to button click
+                Snackbar.make(view, "All Data Deleted", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
+                nukeEverything();
             }
         });
 
     }
 
-
-    private void printSomething() {
-        System.out.println("the button was pressed");
-    }
-
-
-//    private void testStuff() {
-//
-//        db = new DatabaseHelper(getApplicationContext());
-//
-//        // create mentor
-////        Mentor m = new Mentor();
-////        m.setName("Jimi Hendrix");
-////        m.setEmail("j.hendrix@school.edu");
-////        m.setPhone("2065551234");
-//
-//        Mentor m2 = new Mentor("Jim Halpert", "206-555-4321", "j.halpert@dundermifflin.com", 0);
-////        Mentor m3 = new Mentor("Pam Beasley", "206-555-6789", "p.beasley@dundermifflin.com");
-//
-//        //insert mentor
-//        long mentor_id = db.createMentor(m);
-////        long mentor_id2 = db.createMentor(m3);
-//
-//        Log.d("Mentor Count", String.valueOf(mentor_id));
-////        Log.d("Mentor Count", String.valueOf(mentor_id2));
-//
-//
-//        // get mentors from db and print
-//        List<Mentor> mentors = db.getAllMentors();
-//        for (Mentor mentor : mentors) {
-//            System.out.println("Mentor ID: " + mentor.getId());
-//            System.out.println("Mentor name: " + mentor.getName());
-//        }
-//
-//        // create assessment
-//        Assessment a1 = new Assessment("type1", "midterm exam", "2018-09-01",
-//                "2018-09-02", 1);
-//
-//
-//        // insert assessment
-//        long assessment_id = db.createAssessment(a1);
-//        Log.d("Assessment Count", String.valueOf(assessment_id));
-//
-//        // remove assessment
-//
-//
-//        // get assessments from db and print
-//        List<Assessment> assessments = db.getAllAssessments();
-//        for (Assessment assessment : assessments) {
-//            System.out.println("Assessment ID: " + assessment.getId());
-//            System.out.println("Assessment title: " + assessment.getTitle());
-//        }
-//
-//        // create course
-//        Course c1 = new Course("intro to programming", "in progress", "2018-09-01", 1,
-//                "2018-10-31", 1, "fun class!");
-//
-//        // insert course
-//        long course_id = db.createCourse(c1);
-//        Log.d("Course Count", String.valueOf(course_id));
-//
-//
-//        // get all courses and print
-//        List<Course> courses = db.getAllCourses();
-//        for (Course course : courses) {
-//            System.out.println("Course ID: " + course.getId());
-//            System.out.println("Course title: " + course.getTitle());
-//        }
-//
-//        // create term
-//        Term t1 = new Term("possibly the first term", "2018-09-01",
-//                "2018-12-31");
-//
-//        // insert term
-//        long term_id = db.createTerm(t1);
-//        Log.d("Term Count", String.valueOf(term_id));
-//
-//        // delete a term
-////        db.deleteTerm(1);
-//
-//        // get terms from db and print
-//        List<Term> terms = db.getAllTerms();
-//        for (Term term : terms) {
-//            System.out.println("Term ID: " + term.getId());
-//            System.out.println("Term title: " + term.getTitle());
-//        }
-//
-//    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

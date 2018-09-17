@@ -49,7 +49,6 @@ public class AddTermActivity extends AppCompatActivity implements DatePickerDial
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 
-
         //////////
 
 
@@ -84,24 +83,48 @@ public class AddTermActivity extends AppCompatActivity implements DatePickerDial
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Term term = getTerm();
-                db = new DatabaseHelper(getApplicationContext());
-                long term_id = db.createTerm(term);
+                EditText titleInput = findViewById(R.id.editTextTermTitle);
+                String title = titleInput.getText().toString();
 
-                Integer i = (int) (long) term_id;
 
-                if (courseIDs != null) {
-                    for (String courseID : courseIDs) {
-                        long l = db.updateCourseTermID(Integer.valueOf(courseID), i);
-                    }
+                StringBuilder warning = new StringBuilder();
+
+                if (title.length() == 0) {
+                    warning.append("[Title] ");
                 }
 
-                finish();
+                if (startDate == null) {
+                    warning.append("[START DATE] ");
+                }
+
+                if (endDate == null) {
+                    warning.append("[END DATE] ");
+                }
+
+                if (warning.toString().length() == 0) {
+
+
+                    Term term = getTerm();
+                    db = new DatabaseHelper(getApplicationContext());
+                    long term_id = db.createTerm(term);
+
+                    Integer i = (int) (long) term_id;
+
+                    if (courseIDs != null) {
+                        for (String courseID : courseIDs) {
+                            long l = db.updateCourseTermID(Integer.valueOf(courseID), i);
+                        }
+                    }
+
+                    finish();
+
+
+                } else {
+                    Snackbar.make(view, "To save, you must provide values for the following fields:" + warning.toString(), Snackbar.LENGTH_LONG)
+                            .setAction("Action", null).show();
+                }
             }
         });
-
-
-
 
 
         Button pickCoursesButton = findViewById(R.id.buttonPickCourses);
@@ -144,7 +167,7 @@ public class AddTermActivity extends AppCompatActivity implements DatePickerDial
         lv.setAdapter(adapterCourses);
     }
 
-    private Term getTerm(){
+    private Term getTerm() {
         EditText titleInput = findViewById(R.id.editTextTermTitle);
         TextView startDateInput = findViewById(R.id.textViewStartDate);
         TextView endDateInput = findViewById(R.id.textViewEndDate);
@@ -169,7 +192,6 @@ public class AddTermActivity extends AppCompatActivity implements DatePickerDial
         db = new DatabaseHelper(getApplicationContext());
         return db.getAllUnassignedCourses();
     }
-
 
 
     @Override

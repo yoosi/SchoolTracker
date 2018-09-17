@@ -48,12 +48,25 @@
         android:text="VIEW MENTORS" />
 
 
+    <TextView
+        android:id="@+id/textView17"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAlignment="center"
+        android:text="TOOLS" />
+
     <Button
-        android:id="@+id/buttonViewAbout"
+        android:id="@+id/buttonGenerateSampleData"
         android:layout_width="match_parent"
         android:layout_height="48dp"
-        android:text="VIEW ABOUT" />
+        android:text="GENERATE SAMPLE DATA" />
 
+
+    <Button
+        android:id="@+id/buttonNuke"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="DELETE ALL DATA" />
 
     <TextView
         android:layout_width="wrap_content"

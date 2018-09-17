@@ -16,7 +16,7 @@
             android:id="@+id/textView4"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Tip: Tap a course to modify or delete it. Tap the add icon in the top right to add a new course." />
+            android:text="Tap a course to see its details. From the details screen you can modify the course or delete it. To add a new course, click the plus button in the bottom right corner." />
 
         <ListView
             android:id="@+id/listViewCourses"
