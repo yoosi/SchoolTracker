@@ -195,7 +195,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
 
                 // Do something in response to button click
-                Snackbar.make(view, "All Data Deleted", Snackbar.LENGTH_LONG)
+                Snackbar.make(view, "Sample Data Generated", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
 
                 generateSampleData();

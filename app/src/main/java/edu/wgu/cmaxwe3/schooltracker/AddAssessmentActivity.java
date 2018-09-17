@@ -116,15 +116,15 @@ public class AddAssessmentActivity extends AppCompatActivity implements DatePick
                 StringBuilder warning = new StringBuilder();
 
                 if (getAssessmentTitle().length() == 0) {
-                    warning.append("[Title] ");
+                    warning.append(" [Title]");
                 }
 
                 if (dueDate == null) {
-                    warning.append("[Due Date] ");
+                    warning.append(" [Due Date]");
                 }
 
                 if (goalDate == null) {
-                    warning.append("[Goal Date] ");
+                    warning.append(" [Goal Date]");
                 }
 
 

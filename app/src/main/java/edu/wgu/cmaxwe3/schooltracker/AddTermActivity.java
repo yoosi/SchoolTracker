@@ -90,15 +90,15 @@ public class AddTermActivity extends AppCompatActivity implements DatePickerDial
                 StringBuilder warning = new StringBuilder();
 
                 if (title.length() == 0) {
-                    warning.append("[Title] ");
+                    warning.append(" [Title]");
                 }
 
                 if (startDate == null) {
-                    warning.append("[START DATE] ");
+                    warning.append(" [Start Date]");
                 }
 
                 if (endDate == null) {
-                    warning.append("[END DATE] ");
+                    warning.append(" [End Date]");
                 }
 
                 if (warning.toString().length() == 0) {

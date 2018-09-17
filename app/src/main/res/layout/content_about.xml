@@ -15,10 +15,10 @@
         android:orientation="vertical">
 
         <TextView
+            android:id="@+id/textView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="unchanged"
-            android:id="@+id/textView"/>
+            android:text="This app was created for WGU course C196, Mobile Application Development by Carter Maxwell.\n" />
 
         <ListView
             android:layout_width="match_parent"

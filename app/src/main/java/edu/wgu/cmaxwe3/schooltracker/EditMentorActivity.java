@@ -59,7 +59,6 @@ public class EditMentorActivity extends AppCompatActivity {
         emailInput.setText(mentor.getEmail());
 
 
-
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 
@@ -68,20 +67,28 @@ public class EditMentorActivity extends AppCompatActivity {
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                db = new DatabaseHelper(getApplicationContext());
-                Mentor newMentor = getMentor();
-                System.out.println("*** MENTOR ID IS: " + mentorID);
-                //insert mentor
-                long mentor_id = db.updateMentor(Integer.valueOf(mentorID), newMentor);
-                finish();
+
+                StringBuilder warning = new StringBuilder();
+                EditText nameInput = findViewById(R.id.editTextName);
+                if (nameInput.getText().toString().length() == 0) {
+                    warning.append(" [Name]");
+                }
+
+                if (warning.toString().length() == 0) {
+
+
+                    db = new DatabaseHelper(getApplicationContext());
+                    Mentor newMentor = getMentor();
+                    System.out.println("*** MENTOR ID IS: " + mentorID);
+                    //insert mentor
+                    long mentor_id = db.updateMentor(Integer.valueOf(mentorID), newMentor);
+                    finish();
+                } else {
+                    Snackbar.make(view, "To save, you must provide values for the following fields:" + warning.toString(), Snackbar.LENGTH_LONG)
+                            .setAction("Action", null).show();
+                }
             }
         });
-
-        TextView textViewMentorCourseID = findViewById(R.id.textViewMentorCourseID);
-
-
-
-//        textViewMentorCourseID.setText("Course ID: " + mentor.getCourseId());
 
 
     }
@@ -115,18 +122,17 @@ public class EditMentorActivity extends AppCompatActivity {
                 List<Course> coursesWithThisMentor = db.getCoursesForMentor(Integer.valueOf(mentorID));
 
                 // set the mentorid of all courses with this mentor to 0
-                if(coursesWithThisMentor.size() > 0){
-                    for (Course course: coursesWithThisMentor) {
+                if (coursesWithThisMentor.size() > 0) {
+                    for (Course course : coursesWithThisMentor) {
                         db.updateCourseMentorID(course.getId(), 0);
                     }
+                } else {
+                    System.out.println("CANNOT DELETE MENTOR WHILE COURSES ARE ASSIGNED TO IT");
                 }
-                else{
-                        System.out.println("CANNOT DELETE MENTOR WHILE COURSES ARE ASSIGNED TO IT");
-                    }
 
                 db.deleteMentor(Integer.valueOf(mentorID));
                 finish();
-                 return true;
+                return true;
         }
 
 

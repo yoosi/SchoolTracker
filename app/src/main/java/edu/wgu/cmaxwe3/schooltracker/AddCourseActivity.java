@@ -126,16 +126,16 @@ public class AddCourseActivity extends AppCompatActivity implements DatePickerDi
                 TextView endDateInput = findViewById(R.id.textViewEndDate);
 
                 if (titleInput.getText().toString().length() == 0) {
-                    warning.append("[Title] ");
+                    warning.append(" [Title]");
                 }
                 if (statusInput.getText().toString().length() == 0) {
-                    warning.append("[Status] ");
+                    warning.append(" [Status]");
                 }
                 if (startDate == null) {
-                    warning.append("[Start Date] ");
+                    warning.append(" [Start Date]");
                 }
                 if (endDate == null) {
-                    warning.append("[End Date] ");
+                    warning.append(" [End Date]");
                 }
 
 

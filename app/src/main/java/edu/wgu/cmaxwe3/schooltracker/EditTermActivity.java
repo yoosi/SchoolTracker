@@ -92,7 +92,7 @@ public class EditTermActivity extends AppCompatActivity implements DatePickerDia
                 StringBuilder warning = new StringBuilder();
 
                 if (title.length() == 0) {
-                    warning.append("[Title] ");
+                    warning.append(" [Title]");
                 }
 
                 if (warning.toString().length() == 0) {

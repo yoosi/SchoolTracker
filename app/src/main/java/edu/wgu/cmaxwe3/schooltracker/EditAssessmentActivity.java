@@ -142,7 +142,7 @@ public class EditAssessmentActivity extends AppCompatActivity implements DatePic
                 StringBuilder warning = new StringBuilder();
 
                 if(getAssessmentTitle().length() == 0){
-                    warning.append("[Title] ");
+                    warning.append(" [Title]");
                 }
 
 
