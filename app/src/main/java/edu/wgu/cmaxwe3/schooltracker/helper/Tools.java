@@ -6,6 +6,7 @@ import android.support.annotation.RequiresApi;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.Date;
@@ -30,11 +31,35 @@ public class Tools {
         return day;
     }
 
-    public Calendar getCalendar(String date) throws ParseException {
+    public static Calendar getCalendar(String date) throws ParseException {
         Calendar calendar = Calendar.getInstance();
-        SimpleDateFormat sdf = new SimpleDateFormat("MMM dd, yyyy", Locale.ENGLISH);
+        SimpleDateFormat sdf;
+        sdf = new SimpleDateFormat("mmm dd, yyyy", Locale.ENGLISH);
+        sdf = new SimpleDateFormat("MMM dd, yyyy", Locale.ENGLISH);
         calendar.setTime(sdf.parse(date));
+
+        System.out.println("as epoch timestamp: " + String.valueOf(calendar.getTimeInMillis()));
+
+
         return calendar;
+
+    }
+
+    public static long getEpochMillis(Calendar calendar) {
+        return calendar.getTimeInMillis();
+    }
+
+//    @RequiresApi(api = Build.VERSION_CODES.O)
+    public static Boolean hasPassed(String date) throws ParseException {
+        long epoch = getEpochMillis(getCalendar(date));
+//        long now = ZonedDateTime.now().toInstant().toEpochMilli();
+        long now = System.currentTimeMillis();
+
+        System.out.println("DATE PROVIDED AS MILLIS IS: " + epoch);
+        System.out.println("NOW AS MILLIS IS:           " + now);
+
+        return (now > epoch);
+
     }
 
 }

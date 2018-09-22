@@ -83,17 +83,17 @@ public class AddAssessmentActivity extends AppCompatActivity implements DatePick
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 
-        Button pickDueDateButton = findViewById(R.id.buttonDueDate);
-        pickDueDateButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                DialogFragment datePicker = new DatePickerFragment();
-                pickingDueDate = true;
-                datePicker.show(getSupportFragmentManager(), "date picker");
-
-
-            }
-        });
+//        Button pickDueDateButton = findViewById(R.id.buttonDueDate);
+//        pickDueDateButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                DialogFragment datePicker = new DatePickerFragment();
+//                pickingDueDate = true;
+//                datePicker.show(getSupportFragmentManager(), "date picker");
+//
+//
+//            }
+//        });
 
         Button pickGoalDateButton = findViewById(R.id.buttonGoalDate);
         pickGoalDateButton.setOnClickListener(new View.OnClickListener() {
@@ -119,9 +119,9 @@ public class AddAssessmentActivity extends AppCompatActivity implements DatePick
                     warning.append(" [Title]");
                 }
 
-                if (dueDate == null) {
-                    warning.append(" [Due Date]");
-                }
+//                if (dueDate == null) {
+//                    warning.append(" [Due Date]");
+//                }
 
                 if (goalDate == null) {
                     warning.append(" [Goal Date]");
@@ -160,9 +160,9 @@ public class AddAssessmentActivity extends AppCompatActivity implements DatePick
         String currentDateStringPretty = DateFormat.getDateInstance().format(c.getTime());
 
         if (pickingDueDate) {
-            TextView textView = findViewById(R.id.textViewDueDate);
-            textView.setText(currentDateStringPretty);
-            dueDate = currentDateStringPretty;
+//            TextView textView = findViewById(R.id.textViewDueDate);
+//            textView.setText(currentDateStringPretty);
+//            dueDate = currentDateStringPretty;
         } else {
             TextView textView = findViewById(R.id.textViewGoalDate);
             textView.setText(currentDateStringPretty);

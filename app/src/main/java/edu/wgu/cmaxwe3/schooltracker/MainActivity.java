@@ -15,10 +15,16 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
 
+
+import java.util.Calendar;
+
+
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
 import edu.wgu.cmaxwe3.schooltracker.helper.DatabaseHelper;
+import edu.wgu.cmaxwe3.schooltracker.helper.Tools;
 import edu.wgu.cmaxwe3.schooltracker.model.Assessment;
 import edu.wgu.cmaxwe3.schooltracker.model.Course;
 import edu.wgu.cmaxwe3.schooltracker.model.Mentor;
@@ -85,7 +91,7 @@ public class MainActivity extends AppCompatActivity {
         Term term1 = new Term("First Term", "Jan 1, 2018", "Jun 30, 2018");
         Term term2 = new Term("Second Term", "Jul 1, 2018", "Dec 31, 2018");
         Term term3 = new Term("Third Term", "Jan 1, 2019", "Jun 30, 2019");
-        Term term4 = new Term("Second Term", "Jul 1, 2019", "Dec 31, 2019");
+        Term term4 = new Term("Fourth Term", "Jul 1, 2019", "Dec 31, 2019");
 
         List<Term> terms = new ArrayList<>();
         terms.add(term1);
@@ -212,6 +218,10 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+
+        Intent intent = new Intent(this, BackgroundAlertsService.class);
+        this.startService(intent);
+
     }
 
 
@@ -239,5 +249,18 @@ public class MainActivity extends AppCompatActivity {
 
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void startBackgroundAlertsService(View view) {
+        Intent intent = new Intent(this, BackgroundAlertsService.class);
+        // if i wanted to put an extra i'd do it here
+        // intent.putExtra();
+        startService(intent);
+    }
+    public void startBackgroundAlertsService() {
+        Intent intent = new Intent(this, BackgroundAlertsService.class);
+        // if i wanted to put an extra i'd do it here
+        // intent.putExtra();
+        startService(intent);
     }
 }

@@ -141,9 +141,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     ")";
 
 
-
-
-
     // constructor
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, VERSION);
@@ -230,7 +227,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         db.execSQL("delete from " + TABLE_MENTOR);
     }
-
 
 
     public List<Mentor> getAllMentors() {
@@ -341,6 +337,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         return mentor;
     }
+
     public Mentor getMentor(int mentor_id) {
         SQLiteDatabase db = this.getReadableDatabase();
 
@@ -487,21 +484,21 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return courseId;
     }
 
-    public long updateAssessmentCourseId(int assessmentId, int courseId){
+    public long updateAssessmentCourseId(int assessmentId, int courseId) {
         Assessment assessment = getAssessment(assessmentId);
         assessment.setCourseId(courseId);
 
         return updateAssessment(assessmentId, assessment);
     }
 
-    public long updateCourseTermID(int courseId, int termId){
+    public long updateCourseTermID(int courseId, int termId) {
         Course course = getCourse(courseId);
         course.setTermId(termId);
 
         return updateCourse(courseId, course);
     }
 
-    public long updateCourseMentorID(int course_id, int mentor_id){
+    public long updateCourseMentorID(int course_id, int mentor_id) {
         Course course = getCourse(course_id);
         course.setMentorId(mentor_id);
 
@@ -652,10 +649,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
 
-
-
-
-
     public long createCourse(Course course) {
         SQLiteDatabase db = this.getWritableDatabase();
 
@@ -715,11 +708,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
 
-
-
     public Course getCourse(long course_id) {
         SQLiteDatabase db = this.getReadableDatabase();
-                String selectQuery = "SELECT  * FROM " + TABLE_COURSE + " WHERE "
+        String selectQuery = "SELECT  * FROM " + TABLE_COURSE + " WHERE "
                 + KEY_COURSE_ID + " = " + course_id;
 
         Log.e(LOG, selectQuery);
@@ -843,7 +834,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return courses;
     }
 
-        public List<Course> getAllUnassignedCourses() {
+    public List<Course> getAllUnassignedCourses() {
         List<Course> courses = new ArrayList<Course>();
         String selectQuery = "SELECT * FROM " + TABLE_COURSE +
                 " WHERE " + KEY_COURSE_TERM_ID
@@ -877,7 +868,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         return courses;
     }
-
 
 
     public long createTerm(Term term) {

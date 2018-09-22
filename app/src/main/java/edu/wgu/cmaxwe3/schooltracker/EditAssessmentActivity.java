@@ -46,10 +46,10 @@ public class EditAssessmentActivity extends AppCompatActivity implements DatePic
         return titleInput.getText().toString();
     }
 
-    private String getDueDate() {
-        TextView dueDate = findViewById(R.id.textViewDueDate);
-        return dueDate.getText().toString();
-    }
+//    private String getDueDate() {
+//        TextView dueDate = findViewById(R.id.textViewDueDate);
+//        return dueDate.getText().toString();
+//    }
 
     private String getGoalDate() {
         TextView goalDate = findViewById(R.id.textViewGoalDate);
@@ -69,7 +69,8 @@ public class EditAssessmentActivity extends AppCompatActivity implements DatePic
     private Assessment getAssessment() {
 
         Assessment assessment = new Assessment(getAssessmentType(), getAssessmentTitle(),
-                getDueDate(), getGoalDate(), getGoalDateAlert());
+                "n/a", getGoalDate(), getGoalDateAlert());
+//                getDueDate(), getGoalDate(), getGoalDateAlert());
 
         return assessment;
     }
@@ -98,7 +99,7 @@ public class EditAssessmentActivity extends AppCompatActivity implements DatePic
         System.out.println(assessment.getTitle());
         Switch typeInput = findViewById(R.id.switchType);
         EditText titleInput = findViewById(R.id.editTextTitle);
-        TextView dueDate = findViewById(R.id.textViewDueDate);
+//        TextView dueDate = findViewById(R.id.textViewDueDate);
         TextView goalDate = findViewById(R.id.textViewGoalDate);
         ToggleButton toggleButtonGoalDateAlert = findViewById(R.id.toggleButtonGoalDateAlert);
 
@@ -116,7 +117,7 @@ public class EditAssessmentActivity extends AppCompatActivity implements DatePic
         titleInput.setText(assessment.getTitle());
 
         // due date
-        dueDate.setText(assessment.getDueDate());
+//        dueDate.setText(assessment.getDueDate());
 
         // goal date
         goalDate.setText(assessment.getGoalDate());
@@ -164,17 +165,17 @@ public class EditAssessmentActivity extends AppCompatActivity implements DatePic
         });
 
 
-        Button pickDueDateButton = findViewById(R.id.buttonDueDate);
-        pickDueDateButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                DialogFragment datePicker = new DatePickerFragment();
-                pickingDueDate = true;
-                datePicker.show(getSupportFragmentManager(), "date picker");
-
-
-            }
-        });
+//        Button pickDueDateButton = findViewById(R.id.buttonDueDate);
+//        pickDueDateButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                DialogFragment datePicker = new DatePickerFragment();
+//                pickingDueDate = true;
+//                datePicker.show(getSupportFragmentManager(), "date picker");
+//
+//
+//            }
+//        });
 
         Button pickGoalDateButton = findViewById(R.id.buttonGoalDate);
         pickGoalDateButton.setOnClickListener(new View.OnClickListener() {
@@ -228,9 +229,9 @@ public class EditAssessmentActivity extends AppCompatActivity implements DatePic
         String currentDateStringPretty = DateFormat.getDateInstance().format(c.getTime());
 
         if (pickingDueDate) {
-            TextView textView = findViewById(R.id.textViewDueDate);
-            textView.setText(currentDateStringPretty);
-            dueDate = currentDateStringPretty;
+//            TextView textView = findViewById(R.id.textViewDueDate);
+//            textView.setText(currentDateStringPretty);
+//            dueDate = currentDateStringPretty;
         } else {
             TextView textView = findViewById(R.id.textViewGoalDate);
             textView.setText(currentDateStringPretty);
