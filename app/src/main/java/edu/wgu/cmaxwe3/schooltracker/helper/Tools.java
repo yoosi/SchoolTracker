@@ -34,13 +34,8 @@ public class Tools {
     public static Calendar getCalendar(String date) throws ParseException {
         Calendar calendar = Calendar.getInstance();
         SimpleDateFormat sdf;
-        sdf = new SimpleDateFormat("mmm dd, yyyy", Locale.ENGLISH);
         sdf = new SimpleDateFormat("MMM dd, yyyy", Locale.ENGLISH);
         calendar.setTime(sdf.parse(date));
-
-        System.out.println("as epoch timestamp: " + String.valueOf(calendar.getTimeInMillis()));
-
-
         return calendar;
 
     }
@@ -49,14 +44,13 @@ public class Tools {
         return calendar.getTimeInMillis();
     }
 
-//    @RequiresApi(api = Build.VERSION_CODES.O)
+
     public static Boolean hasPassed(String date) throws ParseException {
         long epoch = getEpochMillis(getCalendar(date));
-//        long now = ZonedDateTime.now().toInstant().toEpochMilli();
         long now = System.currentTimeMillis();
-
-        System.out.println("DATE PROVIDED AS MILLIS IS: " + epoch);
-        System.out.println("NOW AS MILLIS IS:           " + now);
+//
+//        System.out.println("DATE PROVIDED AS MILLIS IS: " + epoch);
+//        System.out.println("NOW AS MILLIS IS:           " + now);
 
         return (now > epoch);
 

@@ -533,8 +533,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 assessment.setType((c.getString(c.getColumnIndex(KEY_ASSESSMENT_TYPE))));
                 assessment.setTitle(c.getString(c.getColumnIndex(KEY_ASSESSMENT_TITLE)));
                 assessment.setDueDate(c.getString(c.getColumnIndex(KEY_ASSESSMENT_DUE_DATE)));
-                assessment.setGoalDate(c.getString(c.getColumnIndex(KEY_ASSESSMENT_COURSE_ID)));
-                assessment.setGoalDateAlert(c.getInt(c.getColumnIndex(KEY_ASSESSMENT_COURSE_ID)));
+                assessment.setGoalDate(c.getString(c.getColumnIndex(KEY_ASSESSMENT_GOAL_DATE)));
+                assessment.setGoalDateAlert(c.getInt(c.getColumnIndex(KEY_ASSESSMENT_GOAL_DATE_ALERT)));
                 assessment.setCourseId(c.getInt(c.getColumnIndex(KEY_ASSESSMENT_COURSE_ID)));
 
                 // adding to mentors list
@@ -542,7 +542,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             } while (c.moveToNext());
         }
 
-        System.out.println("******** from within getAllAssessments assessments size is: " + assessments.size());
+//        System.out.println("******** from within getAllAssessments assessments size is: " + assessments.size());
 
         return assessments;
     }

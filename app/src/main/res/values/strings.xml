@@ -17,4 +17,10 @@
     <string name="title_activity_select_course_assignments">SelectCourseAssignments</string>
     <string name="title_activity_select_term_courses">Select Courses</string>
     <string name="title_activity_edit_term">Edit Term</string>
+    <string name="local_service_started">localserviceid12345</string>
+    <string name="local_service_stopped">Local Service Stopped</string>
+    <string name="local_service_label">Local Service</string>
+    <string name="channel_name">TrackerAlertsChannel</string>
+    <string name="channel_description">alerts from school tracker app</string>
+    <string name="channel_id">edu.wgu.cmaxwe3.schooltracker</string>
 </resources>

@@ -1,5 +1,7 @@
 package edu.wgu.cmaxwe3.schooltracker;
 
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -29,6 +31,8 @@ import edu.wgu.cmaxwe3.schooltracker.model.Assessment;
 import edu.wgu.cmaxwe3.schooltracker.model.Course;
 import edu.wgu.cmaxwe3.schooltracker.model.Mentor;
 import edu.wgu.cmaxwe3.schooltracker.model.Term;
+
+import static edu.wgu.cmaxwe3.schooltracker.R.string.channel_id;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -219,8 +223,20 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-        Intent intent = new Intent(this, BackgroundAlertsService.class);
+
+
+
+
+
+        createNotificationChannel();
+
+
+
+//        Intent intent = new Intent(this, BackgroundAlertsService.class);
+        Intent intent = new Intent(this, LocalService.class);
         this.startService(intent);
+
+        System.out.println("SERVICE STARTED AND RETURNED!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 
     }
 
@@ -262,5 +278,23 @@ public class MainActivity extends AppCompatActivity {
         // if i wanted to put an extra i'd do it here
         // intent.putExtra();
         startService(intent);
+    }
+
+    private void createNotificationChannel() {
+        // Create the NotificationChannel, but only on API 26+ because
+        // the NotificationChannel class is new and not in the support library
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            CharSequence name = getString(R.string.channel_name);
+            String description = getString(R.string.channel_description);
+            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+//                NotificationChannel channel = new NotificationChannel(CHANNEL_ID, name, importance);
+            NotificationChannel channel = new NotificationChannel(getString(R.string.channel_id), name, importance);
+            channel.setDescription(description);
+            // Register the channel with the system; you can't change the importance
+            // or other notification behaviors after this
+            NotificationManager notificationManager = getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
+
+        }
     }
 }
