@@ -35,7 +35,6 @@ public class EditCourseActivity extends AppCompatActivity implements DatePickerD
     private DatabaseHelper db;
 
     private ArrayList<String> assessmentIDs;
-    public static String COURSE_ID = "COURSE_ID";
 
     private String courseId;
 

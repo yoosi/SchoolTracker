@@ -1,27 +1,24 @@
 package edu.wgu.cmaxwe3.schooltracker;
 
 import android.app.IntentService;
-import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Build;
 import android.support.annotation.Nullable;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
 import android.util.Log;
 
-import java.text.ParseException;
 import java.util.List;
 
 import edu.wgu.cmaxwe3.schooltracker.helper.DatabaseHelper;
-import edu.wgu.cmaxwe3.schooltracker.helper.Tools;
 import edu.wgu.cmaxwe3.schooltracker.model.Assessment;
 import edu.wgu.cmaxwe3.schooltracker.model.Course;
 
 import static android.content.ContentValues.TAG;
 import static edu.wgu.cmaxwe3.schooltracker.ViewAssessmentsActivity.ASSESSMENT_ID;
+import static edu.wgu.cmaxwe3.schooltracker.ViewCoursesActivity.COURSE_ID;
 
 public class BackgroundAlertsService extends IntentService {
 
@@ -50,7 +47,6 @@ public class BackgroundAlertsService extends IntentService {
         super.onDestroy();
         Log.i(TAG, "onDestroy, Thread Name: " + Thread.currentThread().getName());
     }
-
 
 
     @Override
@@ -107,22 +103,87 @@ public class BackgroundAlertsService extends IntentService {
                 }
             }
 
+            // courses
+            // start date alerts
 
             List<Course> courses = db.getAllCourses();
             System.out.println("Courses size is: " + courses.size());
-            if (courses.size() > 0){
+            if (courses.size() > 0) {
                 for (Course course : courses) {
-                    if (course.getStartAlert() == 1){
+                    if (course.getStartAlert() == 1) {
                         System.out.println("COURSE ID: " + course.getId() + ", TITLE: " + course.getTitle());
 
+                        // Create an explicit intent for an Activity in your app
+                        Intent intent = new Intent(this, EditCourseActivity.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        intent.putExtra(COURSE_ID, String.valueOf(course.getId()));
+                        System.out.println("added course id of: " + String.valueOf(course.getId()));
+                        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
+                        // Display a notification
+                        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(BackgroundAlertsService.this, getString(R.string.channel_id))
+                                .setSmallIcon(R.drawable.wgu_logo)
+                                .setContentTitle("Course Start Alert")
+                                .setContentText(course.getTitle() + " starts " + course.getStartDate())
+                                .setStyle(new NotificationCompat.BigTextStyle()
+                                        .bigText(course.getTitle() + " starts " + course.getStartDate()))
+                                .setContentIntent(pendingIntent)
+                                .setPriority(NotificationCompat.PRIORITY_DEFAULT);
+
+                        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
+
+                        // notificationId is a unique int for each notification that you must define
+                        int notificationId = course.getId() + 2000;
+                        notificationManager.notify(notificationId, mBuilder.build());
+                        System.out.println("NOTIFICATION ID: " + notificationId);
+
+                    } else {
+                        // alert was not set to on so we disregard
                     }
                 }
             }
 
 
+            // end date alerts
+
+            System.out.println("Courses size is: " + courses.size());
+            if (courses.size() > 0) {
+                for (Course course : courses) {
+                    if (course.getEndAlert() == 1) {
+                        System.out.println("COURSE ID: " + course.getId() + ", TITLE: " + course.getTitle());
+
+                        // Create an explicit intent for an Activity in your app
+                        Intent intent = new Intent(this, EditCourseActivity.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        intent.putExtra(COURSE_ID, String.valueOf(course.getId()));
+                        System.out.println("added course id of: " + String.valueOf(course.getId()));
+                        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+                        // Display a notification
+                        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(BackgroundAlertsService.this, getString(R.string.channel_id))
+                                .setSmallIcon(R.drawable.wgu_logo)
+                                .setContentTitle("Course End Alert")
+                                .setContentText(course.getTitle() + " ends " + course.getEndDate())
+                                .setStyle(new NotificationCompat.BigTextStyle()
+                                        .bigText(course.getTitle() + " ends" + course.getEndDate()))
+                                .setContentIntent(pendingIntent)
+                                .setPriority(NotificationCompat.PRIORITY_DEFAULT);
+
+                        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
+
+                        // notificationId is a unique int for each notification that you must define
+                        int notificationId = course.getId() + 3000;
+                        notificationManager.notify(notificationId, mBuilder.build());
+                        System.out.println("NOTIFICATION ID: " + notificationId);
+
+                    } else {
+                        // alert was not set to on so we disregard
+                    }
+                }
+            }
 
 
+            // sleep for 10 seconds
             try {
                 Thread.sleep(10000);
             } catch (InterruptedException e) {

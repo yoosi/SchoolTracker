@@ -39,91 +39,17 @@ public class LocalService extends Service {
         }
     }
 
-//    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
-//    @Override
-//    public void onCreate() {
-//        System.out.println("!!!LOCAL SERVICE STARTED!!!");
-//
-////        mManager = (NotificationManager)getSystemService(NOTIFICATION_SERVICE);
-//        mManager = getManager();
-//
-//        db = new DatabaseHelper(getApplicationContext());
-//        List<Assessment> assessments = db.getAllAssessments();
-//        for (Assessment assessment: assessments) {
-//            showNotificationOld(assessment);
-//        }
-//
-//
-//        // Display a notification about us starting.  We put an icon in the status bar.
-//        showNotification();
-//    }
 
 
     @Override
-    public void onCreate(){
+    public void onCreate() {
 
         triggerBackgroundAlertsService();
     }
 
-    private void triggerBackgroundAlertsService(){
-//        Intent intent = new Intent(BackgroundAlertsService.this, BackgroundAlertsService.class);
+    private void triggerBackgroundAlertsService() {
         Intent intent = new Intent(this, BackgroundAlertsService.class);
         startService(intent);
-    }
-
-//    @Override
-    public void oldOnCreate() {
-
-
-        System.out.println("!!!LOCAL SERVICE STARTED!!!");
-        int counter = 1;
-
-//        while (true) {
-//            System.out.println("PASS: " + counter);
-//        mManager = (NotificationManager)getSystemService(NOTIFICATION_SERVICE);
-            mManager = getManager();
-
-            db = new DatabaseHelper(getApplicationContext());
-            List<Assessment> assessments = db.getAllAssessments();
-//
-            System.out.println("Assessments size is: " + assessments.size());
-//
-            if (assessments.size() > 0) {
-                for (Assessment assessment : assessments) {
-                    System.out.println("ASSESSMENT: " + assessment.getTitle());
-
-                    //            Assessment assessment = assessments.get(1);
-
-                    // Display a notification about us starting.  We put an icon in the status bar.
-                    NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(LocalService.this, getString(R.string.channel_id))
-                            .setSmallIcon(R.drawable.wgu_logo)
-                            .setContentTitle("Assessment Due Alert")
-                            .setContentText(assessment.getTitle() + " is due " + assessment.getGoalDate())
-                            .setStyle(new NotificationCompat.BigTextStyle()
-                                    .bigText(assessment.getTitle() + " is due " + assessment.getGoalDate()))
-                            .setPriority(NotificationCompat.PRIORITY_DEFAULT);
-
-                    NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
-
-                    // notificationId is a unique int for each notification that you must define
-                    //            int notificationId = (int) Math.random();
-                    int notificationId = assessment.getId() + 1000;
-                    notificationManager.notify(notificationId, mBuilder.build());
-                    System.out.println("NOTIFICATION ID: " + notificationId);
-
-
-                }
-
-            }
-
-//            try {
-//                Thread.sleep(10000);
-//            } catch (InterruptedException e) {
-//                e.printStackTrace();
-//            }
-
-//            counter++;
-//        }
     }
 
     @Override
@@ -178,7 +104,7 @@ public class LocalService extends Service {
         // Send the notification.
         mManager = getManager();
         mManager.notify(NOTIFICATION, notification);
-        System.out.println("###########################################################notification showed");
+        System.out.println("notification showed");
     }
 
     private void showNotificationOld(Assessment assessment) {
